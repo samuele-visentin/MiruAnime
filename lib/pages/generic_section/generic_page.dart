@@ -47,28 +47,30 @@ class _GenericPageState extends State<GenericPage> {
       animeList = value.list;
       return;
     });
-    //FIXME: when the conditions is true it will be triggered twice
-    _controller.addListener(() {
-      if(page >= maxPage) return;
-      if(_controller.position.maxScrollExtent - _controller.offset < 400) {
-        if(loading) return;
-        loading = true;
-        AnimeWorldScraper().getGenericPage('$url$page').then((value){
-          if (!mounted) return;
-          animeList.addAll(value);
-          setState(() {
-            ++page;
-          });
-          loading = false;
-        });
-      }
-    });
+    _controller.addListener(_listener);
   }
 
   @override
   void dispose(){
     _controller.dispose();
     super.dispose();
+  }
+
+  void _listener() {
+    if(page == maxPage) return;
+    if(_controller.position.maxScrollExtent <= _controller.position.pixels + 400) {
+      if (loading) return;
+      loading = true;
+      AnimeWorldScraper().getGenericPage('$url$page').then((value) async {
+        if (!mounted) return;
+        setState(() {
+          animeList.addAll(value);
+          ++page;
+        });
+        await Future.delayed(const Duration(milliseconds: 150)); //we wait so the build function can execute before the listener does another fetch
+        loading = false;
+      });
+    }
   }
 
   @override

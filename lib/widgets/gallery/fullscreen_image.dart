@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:miru_anime/constants/app_colors.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewImage extends StatelessWidget {
   final String url;
@@ -14,17 +12,7 @@ class ViewImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: () async {
-        if(await Permission.storage.request() == PermissionStatus.denied){
-          Fluttertoast.showToast(
-            msg: 'Permessi negati, download cancellato',
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: AppColors.grey,
-            textColor: Colors.black
-          );
-          return;
-        }
-        //TODO: download image
+        await launch(url);
       },
       child: PhotoView(
         imageProvider: (useCache ? CachedNetworkImageProvider(url) : NetworkImage(url)) as ImageProvider<Object>,

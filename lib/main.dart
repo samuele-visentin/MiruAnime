@@ -167,6 +167,7 @@ class MiruAnimeApp extends StatelessWidget {
               transitionsBuilder: transitionBuilder
             );
         }
+        return null;
       },
     );
   }

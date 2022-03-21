@@ -27,7 +27,7 @@ class AppDrawerMenu extends StatelessWidget {
                 name: 'Home',
                 route: HomePage.route,
                 currentRoute: route,
-                icon: FontAwesomeIcons.home,
+                icon: FontAwesomeIcons.house,
               ),
               _TileDrawer(
                 name: 'Nuove aggiunte',
@@ -49,7 +49,7 @@ class AppDrawerMenu extends StatelessWidget {
               ),
               _TileDrawer(
                 name: 'Generi',
-                icon: FontAwesomeIcons.stream,
+                icon: FontAwesomeIcons.barsStaggered,
                 currentRoute: route,
                 route: GenrePage.route,
               ),
@@ -61,13 +61,13 @@ class AppDrawerMenu extends StatelessWidget {
               ),
               _TileDrawer(
                 name: 'Ricerca avanzata',
-                icon: FontAwesomeIcons.searchPlus,
+                icon: FontAwesomeIcons.magnifyingGlassPlus,
                 currentRoute: route,
                 route: AdvanceSearch.route,
               ),
               _TileDrawer(
                 name: 'Casuale',
-                icon: FontAwesomeIcons.random,
+                icon: FontAwesomeIcons.shuffle,
                 currentRoute: route,
                 route: SpecificAnimePage.randomAnimeRoute,
               ),

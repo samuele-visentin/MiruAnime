@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:miru_anime/constants/app_colors.dart';
@@ -47,8 +46,9 @@ class _AppBottomBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
+            iconSize: 22,
             onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: const Icon(FontAwesomeIcons.bars, size: 22, color: AppColors.purple,),
+            icon: const Icon(FontAwesomeIcons.bars, color: AppColors.purple,),
             splashRadius: 25,
           ),
           GestureDetector(
@@ -74,7 +74,7 @@ class _AppBottomBar extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(right: 15, left: 15),
                     child: Icon(
-                      FontAwesomeIcons.search,
+                      FontAwesomeIcons.magnifyingGlass,
                       color: AppColors.purple,
                       size: 22,
                     ),

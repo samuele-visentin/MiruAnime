@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:miru_anime/backend/sites/animeworld/endpoints.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/specific_page.dart';
 import 'package:miru_anime/constants/app_colors.dart';

@@ -69,7 +69,7 @@ class _SearchPageState extends State<SearchPage> {
               child: Row(
                 children: [
                   const Icon(
-                    FontAwesomeIcons.search,
+                    FontAwesomeIcons.magnifyingGlass,
                     size: 19,
                     color: AppColors.purple,
                   ),

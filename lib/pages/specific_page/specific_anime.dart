@@ -30,7 +30,8 @@ import 'package:miru_anime/widgets/default_error_page.dart';
 import 'package:miru_anime/widgets/gallery/fullscreen_image.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_anime.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share/share.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SpecificAnimePage extends StatefulWidget {
@@ -198,22 +199,24 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.fastOutSlowIn,
                               child: IconButton(
-                                  splashRadius: 20,
-                                  onPressed: () => _manageStorage(data),
-                                  icon: Icon(
-                                    _isAdded
-                                        ? FontAwesomeIcons.minus
-                                        : FontAwesomeIcons.plus,
-                                    color: AppColors.purple,
-                                    size: 16,
-                                  ))),
+                                iconSize: 17,
+                                splashRadius: 20,
+                                onPressed: () => _manageStorage(data),
+                                icon: Icon(
+                                  _isAdded
+                                      ? FontAwesomeIcons.minus
+                                      : FontAwesomeIcons.plus,
+                                  color: AppColors.purple,
+                                  //size: 17,
+                                ))),
                         ),
                         IconButton(
                           splashRadius: 20,
+                          iconSize: 17,
                           icon: const Icon(
                             FontAwesomeIcons.share,
                             color: AppColors.purple,
-                            size: 16,
+                            //size: 17,
                           ),
                           onPressed: () {
                             Share.share(_url);
@@ -494,7 +497,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                                     padding: EdgeInsets.zero,
                                     onPressed: () => _removeEpisode(episode),
                                     icon:  const Icon(
-                                      FontAwesomeIcons.solidTimesCircle,
+                                      FontAwesomeIcons.solidCircleXmark,
                                       color: AppColors.purple,
                                       //size: 17,
                                     ),
@@ -590,6 +593,13 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
   
 
   Future<void> _downloadEpisode(final AnimeWorldEpisode episode, final AnimeWorldSpecificAnime anime) async {
+    if(await Permission.storage.request() == PermissionStatus.denied){
+      Fluttertoast.showToast(
+          msg: 'Permessi negati, download cancellato',
+          toastLength: Toast.LENGTH_LONG,
+      );
+      return;
+    }
     final url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
     if(url.urlVideo.contains('.m3u8')) {
       Fluttertoast.showToast(msg: 'Questo tipo di video non può essere scarcato');
