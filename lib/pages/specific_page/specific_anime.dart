@@ -116,8 +116,11 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
       final String id = data[0];
       final DownloadTaskStatus status = data[1];
       //final int progress = data[2];
+      final index = _task.indexWhere((element) => element.id == id);
+      if(index.isNegative) return;
+      if(!mounted) return;
       setState((){
-        _task[_task.indexWhere((element) => element.id == id)].status = status;
+        _task[index].status = status;
       });
     });
     FlutterDownloader.registerCallback(downloadCallback);

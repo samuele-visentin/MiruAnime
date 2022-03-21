@@ -64,7 +64,7 @@ class GenrePage extends StatelessWidget {
         Navigator.of(context).push(
           PageRouteBuilder(
             pageBuilder: (_,__,___) => GenericPage(
-              url: url + '?',
+              url: url + '?page=',
               name: genreTitle,
               route: ''
             )
