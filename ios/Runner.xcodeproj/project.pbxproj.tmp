@@ -47,6 +47,8 @@
 			<dict>
 				<key>ALWAYS_SEARCH_USER_PATHS</key>
 				<string>NO</string>
+				<key>ARCHS</key>
+				<string>arm64</string>
 				<key>CLANG_ANALYZER_NONNULL</key>
 				<string>YES</string>
 				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
@@ -122,7 +124,7 @@
 				<key>GCC_WARN_UNUSED_VARIABLE</key>
 				<string>YES</string>
 				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>9.0</string>
+				<string>11.0</string>
 				<key>MTL_ENABLE_DEBUG_INFO</key>
 				<string>NO</string>
 				<key>SDKROOT</key>
@@ -218,6 +220,32 @@
 			<string>3B3967151E833CAA004F5970</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
+		</dict>
+		<key>5A5BB72727E8CE74000B84DD</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>5A5BB72827E8CE74000B84DD</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>5A5BB72827E8CE74000B84DD</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.text-based-dylib-definition</string>
+			<key>name</key>
+			<string>libsqlite3.tbd</string>
+			<key>path</key>
+			<string>usr/lib/libsqlite3.tbd</string>
+			<key>sourceTree</key>
+			<string>SDKROOT</string>
 		</dict>
 		<key>74858FAD1ED2DC5600515810</key>
 		<dict>
@@ -354,6 +382,7 @@
 				<string>9740EEB11CF90186004384FC</string>
 				<string>97C146F01CF9000F007C117D</string>
 				<string>97C146EF1CF9000F007C117D</string>
+				<string>5A5BB72727E8CE74000B84DD</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -638,6 +667,8 @@
 			<dict>
 				<key>ALWAYS_SEARCH_USER_PATHS</key>
 				<string>NO</string>
+				<key>ARCHS</key>
+				<string>arm64</string>
 				<key>CLANG_ANALYZER_NONNULL</key>
 				<string>YES</string>
 				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
@@ -722,7 +753,7 @@
 				<key>GCC_WARN_UNUSED_VARIABLE</key>
 				<string>YES</string>
 				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>9.0</string>
+				<string>11.0</string>
 				<key>MTL_ENABLE_DEBUG_INFO</key>
 				<string>YES</string>
 				<key>ONLY_ACTIVE_ARCH</key>
@@ -743,6 +774,8 @@
 			<dict>
 				<key>ALWAYS_SEARCH_USER_PATHS</key>
 				<string>NO</string>
+				<key>ARCHS</key>
+				<string>arm64</string>
 				<key>CLANG_ANALYZER_NONNULL</key>
 				<string>YES</string>
 				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
@@ -818,7 +851,7 @@
 				<key>GCC_WARN_UNUSED_VARIABLE</key>
 				<string>YES</string>
 				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>9.0</string>
+				<string>11.0</string>
 				<key>MTL_ENABLE_DEBUG_INFO</key>
 				<string>NO</string>
 				<key>SDKROOT</key>
