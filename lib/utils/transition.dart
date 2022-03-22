@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+@pragma('vm:prefer-inline')
 AnimatedWidget transitionBuilder(
     final BuildContext context,
     final Animation<double> animation,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:miru_anime/constants/app_colors.dart';
 import 'package:miru_anime/widgets/shimmer_box.dart';
 
 class ShimmerAnimePage extends StatelessWidget {
@@ -11,14 +13,34 @@ class ShimmerAnimePage extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const ShimmerBox(height: 185, width: 135),
             Column(
-              children: const [
-                ShimmerBox(height: 20, width: 90),
-                ShimmerBox(height: 20, width: 90)
+              children: [
+                const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                SizedBox(
+                  width: 150,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: const SizedBox(
+                        width: 36,
+                        child: Icon(
+                          FontAwesomeIcons.circleXmark,
+                          size: 20,
+                          color: AppColors.purple,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                const ShimmerBox(height: 20, width: 90),
+                const ShimmerBox(height: 20, width: 90)
               ],
-            )
+            ),
           ],
         ),
         const Padding(padding: EdgeInsets.symmetric(vertical: 10)),

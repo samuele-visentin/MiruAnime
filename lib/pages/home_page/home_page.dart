@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                       Text('La tua connessione ad internet ha fallito, quindi probabilmente visualizzerai un messaggio di errore, controlla di essere connesso al '
                           'WiFi oppure di avere attivato la connessione dati. Dopo aver controllato puoi aggiornare la pagina home trascindo verso di te la pagina '
                           'finchè non comparirà un indicatore.',
-                        style: Theme.of(context).textTheme.bodyText1
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(color: Colors.black)
                       ),
                     ],
                   ),
@@ -272,7 +272,7 @@ class _HomePageState extends State<HomePage> {
           duration: const Duration(milliseconds: 500),
           curve: Curves.fastOutSlowIn,
         ),
-        behavior: HitTestBehavior.translucent,
+        behavior: HitTestBehavior.opaque,
         child: Container(
           padding: const EdgeInsets.all(8),
           decoration: !_isDisable ? BoxDecoration(

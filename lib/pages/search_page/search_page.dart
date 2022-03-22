@@ -143,6 +143,15 @@ class _SearchPageState extends State<SearchPage> {
                       },
                     ),
                   ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => Navigator.of(context).pop(),
+                    child: const Icon(
+                      FontAwesomeIcons.circleXmark,
+                      size: 20,
+                      color: AppColors.purple,
+                    ),
+                  ),
                 ],
               ),
             )

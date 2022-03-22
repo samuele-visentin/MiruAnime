@@ -59,5 +59,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>kTCCServiceMediaLibrary</key>
+    <string>media</string>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
+    <key>UIFileSharingEnabled</key>
+    <true/>
+    <key>FDMaximumConcurrentTasks</key>
+    <integer>5</integer>
 </dict>
 </plist>

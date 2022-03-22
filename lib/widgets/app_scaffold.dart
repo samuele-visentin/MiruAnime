@@ -12,12 +12,12 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        drawer: AppDrawerMenu(
-          route: route,
-        ),
-        body: Column(
+    return Scaffold(
+      drawer: AppDrawerMenu(
+        route: route,
+      ),
+      body: SafeArea(
+        child: Column(
           children: [
             Expanded(child: child),
             const Divider(

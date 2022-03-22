@@ -77,6 +77,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           .watch(triggerImmediately: true)
           .listen((event) {
         final anime = event.findUnique();
+        if(!mounted) return;
         if (anime != null) {
           setState(() {
             _isAdded = true;
@@ -95,6 +96,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         .location
         .replace(scheme: 'https')
         .toString();
+    if(!mounted) return;
     setState(() {
       _url = url;
     });
@@ -172,16 +174,22 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 4, left: 25),
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => Navigator.of(context).push(PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => ViewImage(url: data.image),
-                    transitionsBuilder: transitionBuilder)),
-                child: ThumbnailAnime(
-                  width: 145,
-                  height: 200,
-                  image: data.image,
-                ),
+              child: Stack(
+                alignment: Alignment.topLeft,
+                children: [
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => Navigator.of(context).push(PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => ViewImage(url: data.image),
+                        transitionsBuilder: transitionBuilder)),
+                    child: ThumbnailAnime(
+                      width: 145,
+                      height: 200,
+                      image: data.image,
+                    ),
+                  ),
+                  _badge(data.info.voto),
+                ],
               ),
             ),
             Expanded(
@@ -191,28 +199,22 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5),
-                          child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.fastOutSlowIn,
-                              child: IconButton(
-                                iconSize: 17,
-                                splashRadius: 20,
-                                onPressed: () => _manageStorage(data),
-                                icon: Icon(
-                                  _isAdded
-                                      ? FontAwesomeIcons.minus
-                                      : FontAwesomeIcons.plus,
-                                  color: AppColors.purple,
-                                  //size: 17,
-                                ))),
-                        ),
                         IconButton(
+                          iconSize: 18,
                           splashRadius: 20,
-                          iconSize: 17,
+                          onPressed: () => _manageStorage(data),
+                          icon: Icon(
+                            _isAdded
+                                ? FontAwesomeIcons.circleMinus
+                                : FontAwesomeIcons.circlePlus,
+                            color: AppColors.purple,
+                            //size: 17,
+                          )),
+                        IconButton(
+                          splashRadius: 18,
+                          iconSize: 18,
                           icon: const Icon(
                             FontAwesomeIcons.share,
                             color: AppColors.purple,
@@ -222,7 +224,17 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                             Share.share(_url);
                           },
                         ),
-                        _badge(data.info.voto),
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).pop(),
+                          child: const SizedBox(
+                            width: 36,
+                            child: Icon(
+                              FontAwesomeIcons.circleXmark,
+                              size: 20,
+                              color: AppColors.purple,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     Padding(
@@ -235,7 +247,9 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                             data.title,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.headline6!.copyWith(
+                              color: AppColors.white
+                            ),
                             maxLines: 7,
                           ),
                         ),
@@ -390,8 +404,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                 itemBuilder: (final context, final index) {
                   final episode = data[_currentServer].listEpisode[index];
                   return Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15, bottom: 12.0, top: 12.0),
+                    padding: const EdgeInsets.only(bottom: 12.0, top: 12.0),
                     child: Row(
                       children: [
                         Expanded(
@@ -429,7 +442,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                                   width: 27,
                                   height: 20,
                                   child: IconButton(
-                                    iconSize: 17,
+                                    iconSize: 18,
                                     splashRadius: 20,
                                     padding: EdgeInsets.zero,
                                     onPressed: () => _playEpisode(episode, anime),
@@ -460,7 +473,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                                 ),
                               ),
                               const SizedBox(
-                                width: 25,
+                                width: 20,
                               ),
                               Visibility(
                                 replacement: const SizedBox(
@@ -484,9 +497,12 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                                 ),
                               ),
                               const SizedBox(
-                                width: 25,
+                                width: 20,
                               ),
                               Visibility(
+                                replacement: const SizedBox(
+                                  width: 27,
+                                ),
                                 visible: _task.any((element) => element.name == episode.title),
                                 child: SizedBox(
                                   width: 27,
@@ -507,26 +523,19 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                               const SizedBox(
                                 width: 20,
                               ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    SizedBox(
-                                      width: 27,
-                                      height: 20,
-                                      child: IconButton(
-                                        iconSize: 17,
-                                        splashRadius: 20,
-                                        padding: EdgeInsets.zero,
-                                        onPressed: () => _openComment(anime, episode),
-                                        icon:  const Icon(
-                                          FontAwesomeIcons.solidComment,
-                                          color: AppColors.purple,
-                                          //size: 17,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                              SizedBox(
+                                width: 27,
+                                height: 20,
+                                child: IconButton(
+                                  iconSize: 17,
+                                  splashRadius: 20,
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () => _openComment(anime, episode),
+                                  icon:  const Icon(
+                                    FontAwesomeIcons.solidComment,
+                                    color: AppColors.purple,
+                                    //size: 17,
+                                  ),
                                 ),
                               ),
                             ],
@@ -602,25 +611,37 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     }
     final url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
     if(url.urlVideo.contains('.m3u8')) {
-      Fluttertoast.showToast(msg: 'Questo tipo di video non può essere scarcato');
+      Fluttertoast.showToast(
+        msg: 'Questo tipo di video non può essere scarcato',
+        toastLength: Toast.LENGTH_LONG
+      );
       return;
     }
-    Directory saveDir;
     if(!Platform.isIOS) {
-      saveDir = (await getExternalStorageDirectories(type: StorageDirectory.downloads))!.first;
+      final saveDir = (await getExternalStorageDirectories(type: StorageDirectory.downloads))!.first;
+      final id = await FlutterDownloader.enqueue(
+          url: url.urlVideo,
+          savedDir: saveDir.path,
+          saveInPublicStorage: true,
+          headers: url.headers,
+          fileName: anime.title + ' episodio ' + episode.title + '.mp4'
+      );
+      setState(() {
+        _task.add(AppDownloadTask(episode.title, DownloadTaskStatus.enqueued, id!));
+      });
     } else {
-      saveDir = await getApplicationDocumentsDirectory();
+      final saveDir = await getApplicationDocumentsDirectory();
+      final id = await FlutterDownloader.enqueue(
+          url: url.urlVideo,
+          savedDir: saveDir.path,
+          saveInPublicStorage: false,
+          headers: url.headers,
+          fileName: anime.title + ' episodio ' + episode.title + '.mp4'
+      );
+      setState(() {
+        _task.add(AppDownloadTask(episode.title, DownloadTaskStatus.enqueued, id!));
+      });
     }
-    final id = await FlutterDownloader.enqueue(
-      url: url.urlVideo,
-      savedDir: saveDir.path,
-      saveInPublicStorage: true,
-      headers: url.headers,
-      fileName: anime.title + ' episodio ' + episode.title + '.mp4'
-    );
-    setState(() {
-      _task.add(AppDownloadTask(episode.title, DownloadTaskStatus.enqueued, id!));
-    });
   }
 
   void _removeEpisode(final AnimeWorldEpisode episode) {
@@ -729,8 +750,8 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     return Container(
       height: 30,
       width: 50,
-      decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(colors: [
             AppColors.darkBlue,
             AppColors.darkPurple,
             AppColors.purple,
@@ -739,7 +760,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             0.65,
             1
           ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-          borderRadius: BorderRadius.circular(8.0)),
+          borderRadius: BorderRadius.only(bottomRight: Radius.circular(8))),
       child: Center(
           child: Text(
         rating,

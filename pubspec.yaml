@@ -67,7 +67,7 @@ dev_dependencies:
 flutter_icons:
   android: false
   ios: true
-  image_path:  "assets/ic_launcher_square.png"
+  image_path:  "assets/ic_launcher.jpg"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

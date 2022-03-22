@@ -23,6 +23,7 @@ class AppDrawerMenu extends StatelessWidget {
           ),
           child: ListView(
             children: [
+              const Padding(padding: EdgeInsets.symmetric(vertical: 2),),
               _TileDrawer(
                 name: 'Home',
                 route: HomePage.route,

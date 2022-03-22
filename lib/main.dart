@@ -17,7 +17,10 @@ import 'package:miru_anime/utils/transition.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize(debug: false);
+  await Future.wait([
+    FlutterDownloader.initialize(debug: false),
+    ObjectBox.init(),
+  ]);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(
@@ -25,7 +28,6 @@ void main() async {
       statusBarColor: AppColors.background,
     )
   );
-  await ObjectBox.init();
   runApp(const MiruAnimeApp());
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:miru_anime/backend/sites/animeworld/endpoints.dart';
 import 'package:miru_anime/constants/app_colors.dart';
 import 'package:miru_anime/pages/generic_section/generic_page.dart';
@@ -41,7 +42,26 @@ class CategoriesPage extends StatelessWidget {
         child: Column(
           children: [
             const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-            Text('Categorie', style: Theme.of(context).textTheme.bodyText1,),
+            SizedBox(
+              width: double.infinity,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned(
+                    left: 25,
+                    child: GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: const Icon(
+                        FontAwesomeIcons.circleXmark,
+                        size: 19,
+                        color: AppColors.purple,
+                      ),
+                    ),
+                  ),
+                  Text('Categorie', style: Theme.of(context).textTheme.bodyText1,),
+                ],
+              ),
+            ),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

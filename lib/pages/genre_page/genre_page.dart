@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:miru_anime/backend/sites/animeworld/endpoints.dart';
 import 'package:miru_anime/pages/generic_section/generic_page.dart';
+import 'package:miru_anime/utils/transition.dart';
 import 'package:miru_anime/widgets/app_scaffold.dart';
+import 'package:miru_anime/widgets/close_button.dart';
 
 import '../../constants/app_colors.dart';
 
@@ -19,15 +21,7 @@ class GenrePage extends StatelessWidget {
       route: route,
       child: Column(
         children: [
-          Text('Generi', style: Theme.of(context).textTheme.bodyText1,),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 10),),
-          const Divider(
-            color: AppColors.purple,
-            endIndent: 20,
-            indent: 20,
-            thickness: 1.5,
-            height: 0,
-          ),
+          const TitleWithCloseButton(text: 'Generi'),
           Expanded(
             child: CupertinoScrollbar(
               child: GridView.builder(
@@ -66,8 +60,9 @@ class GenrePage extends StatelessWidget {
             pageBuilder: (_,__,___) => GenericPage(
               url: url + '?page=',
               name: genreTitle,
-              route: ''
-            )
+              route: '',
+            ),
+            transitionsBuilder: transitionBuilder
           )
         );
       },
