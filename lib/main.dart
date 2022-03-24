@@ -11,7 +11,10 @@ import 'package:miru_anime/pages/categorie_page/categorie_page.dart';
 import 'package:miru_anime/pages/generic_section/generic_page.dart';
 import 'package:miru_anime/pages/genre_page/genre_page.dart';
 import 'package:miru_anime/pages/home_page/home_page.dart';
+import 'package:miru_anime/pages/news_page/news_page.dart';
 import 'package:miru_anime/pages/specific_page/specific_anime.dart';
+import 'package:miru_anime/pages/upcoming_page/upcoming_page.dart';
+import 'package:miru_anime/pages/user_list_page/user_anime_list.dart';
 import 'package:miru_anime/utils/no_scroll_behavior.dart';
 import 'package:miru_anime/utils/transition.dart';
 
@@ -42,7 +45,7 @@ class MiruAnimeApp extends StatelessWidget {
       title: 'Miru Anime',
       theme: themeApp,
       home: const HomePage(),
-      scrollBehavior: NoScrollBehavior(),
+      scrollBehavior: const NoScrollBehavior(),
       onGenerateRoute: (settings) {
         switch(settings.name!) {
           case HomePage.route:
@@ -167,6 +170,24 @@ class MiruAnimeApp extends StatelessWidget {
               settings: settings,
               pageBuilder: (_,__,___) => const AdvanceSearch(),
               transitionsBuilder: transitionBuilder
+            );
+          case NewsPage.route:
+            return PageRouteBuilder(
+              settings: settings,
+              pageBuilder: (_,__,___) => const NewsPage(),
+              transitionsBuilder: transitionBuilder
+            );
+          case UpcomingPage.route:
+            return PageRouteBuilder(
+              settings: settings,
+              pageBuilder: (_,__,___) => const UpcomingPage(),
+              transitionsBuilder: transitionBuilder
+            );
+          case UserAnimeListPage.route:
+            return PageRouteBuilder(
+                settings: settings,
+                pageBuilder: (_,__,___) => const UserAnimeListPage(),
+                transitionsBuilder: transitionBuilder
             );
         }
         return null;

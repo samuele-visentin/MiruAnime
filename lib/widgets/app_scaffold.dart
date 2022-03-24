@@ -67,7 +67,7 @@ class _AppBottomBar extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(16))
               ),
               height: 45,
-              width: 250,
+              width: 275,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [

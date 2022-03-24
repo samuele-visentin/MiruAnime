@@ -6,7 +6,10 @@ import 'package:miru_anime/pages/advance_search/advance_search.dart';
 import 'package:miru_anime/pages/categorie_page/categorie_page.dart';
 import 'package:miru_anime/pages/genre_page/genre_page.dart';
 import 'package:miru_anime/pages/home_page/home_page.dart';
+import 'package:miru_anime/pages/news_page/news_page.dart';
 import 'package:miru_anime/pages/specific_page/specific_anime.dart';
+import 'package:miru_anime/pages/upcoming_page/upcoming_page.dart';
+import 'package:miru_anime/pages/user_list_page/user_anime_list.dart';
 
 class AppDrawerMenu extends StatelessWidget {
   final String route;
@@ -29,6 +32,12 @@ class AppDrawerMenu extends StatelessWidget {
                 route: HomePage.route,
                 currentRoute: route,
                 icon: FontAwesomeIcons.house,
+              ),
+              _TileDrawer(
+                name: 'La mia lista',
+                route: UserAnimeListPage.route,
+                currentRoute: route,
+                icon: FontAwesomeIcons.folderOpen
               ),
               _TileDrawer(
                 name: 'Nuove aggiunte',
@@ -65,6 +74,18 @@ class AppDrawerMenu extends StatelessWidget {
                 icon: FontAwesomeIcons.magnifyingGlassPlus,
                 currentRoute: route,
                 route: AdvanceSearch.route,
+              ),
+              _TileDrawer(
+                name: 'Prossime uscite',
+                icon: FontAwesomeIcons.bullhorn,
+                route: UpcomingPage.route,
+                currentRoute: route,
+              ),
+              _TileDrawer(
+                name: 'News',
+                icon: FontAwesomeIcons.newspaper,
+                currentRoute: route,
+                route: NewsPage.route,
               ),
               _TileDrawer(
                 name: 'Casuale',

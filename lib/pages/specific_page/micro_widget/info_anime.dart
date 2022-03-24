@@ -13,41 +13,6 @@ class InfoAnime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final genres = Wrap(
-      direction: Axis.horizontal,
-      spacing: 2,
-      runSpacing: 4,
-      children: [
-        Text('Genere: ', style: Theme.of(context).textTheme.subtitle2,),
-        for (var item in info.genre.entries)
-          GestureDetector(
-            onTap: () => Navigator.of(context).push(PageRouteBuilder(
-                pageBuilder: (_,__,___) => GenericPage(
-                    url: '${AnimeWorldEndPoints.sitePrefixNoS}${item.value}?page=',
-                    name: item.key,
-                    route: ''
-                ),
-                transitionsBuilder: transitionBuilder
-            )),
-            behavior: HitTestBehavior.opaque,
-            child: Wrap(
-              direction: Axis.horizontal,
-              children: [
-                Text(
-                  item.key,
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                      color: AppColors.purple,
-                      decoration: TextDecoration.underline,
-                      decorationColor: AppColors.purple
-                  ),
-                ),
-                const Text(', ')
-              ],
-            )
-        )
-      ],
-    );
-
     return CupertinoScrollbar(
       child: ListView(
         physics: const BouncingScrollPhysics(),
@@ -75,7 +40,7 @@ class InfoAnime extends StatelessWidget {
           _RowInfo(
             url: info.audio.url,
             name: 'Audio',
-            value: info.audio.value
+            value: info.audio.name
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
           Text('Data di uscita: ${info.releaseDate}', style: Theme.of(context).textTheme.subtitle2,),
@@ -83,16 +48,12 @@ class InfoAnime extends StatelessWidget {
           _RowInfo(
               url: info.season.url,
               name: 'Stagione',
-              value: info.season.value
+              value: info.season.name
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          _RowInfo(
-              url: info.studio.url,
-              name: 'Studio',
-              value: info.studio.value
-          ),
+          _WrapContent(list: info.studio, name: 'Studio',),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          genres,
+          _WrapContent(list: info.genre, name: 'Genere',),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
           Text('Voto: ${info.voto}', style: Theme.of(context).textTheme.subtitle2,),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
@@ -103,7 +64,7 @@ class InfoAnime extends StatelessWidget {
           _RowInfo(
               url: info.status.url,
               name: 'Stato',
-              value: info.status.value
+              value: info.status.name
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
           Text('Visualizzazioni: ${info.views}', style: Theme.of(context).textTheme.subtitle2,),
@@ -142,8 +103,6 @@ class _RowInfo extends StatelessWidget {
             value,
             style: Theme.of(context).textTheme.subtitle1!.copyWith(
               color: AppColors.purple,
-              decoration: TextDecoration.underline,
-              decorationColor: AppColors.purple
             ),
           )
         )
@@ -151,4 +110,47 @@ class _RowInfo extends StatelessWidget {
     );
   }
 }
+
+class _WrapContent extends StatelessWidget {
+  final List<Href> list;
+  final String name;
+  const _WrapContent({Key? key, required this.list, required this.name}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      direction: Axis.horizontal,
+      spacing: 2,
+      runSpacing: 4,
+      children: [
+        Text('$name: ', style: Theme.of(context).textTheme.subtitle2,),
+        for (final item in list)
+          GestureDetector(
+              onTap: () => Navigator.of(context).push(PageRouteBuilder(
+                  pageBuilder: (_,__,___) => GenericPage(
+                      url: '${AnimeWorldEndPoints.sitePrefixNoS}${item.url}?page=',
+                      name: item.name,
+                      route: ''
+                  ),
+                  transitionsBuilder: transitionBuilder
+              )),
+              behavior: HitTestBehavior.opaque,
+              child: Wrap(
+                direction: Axis.horizontal,
+                children: [
+                  Text(
+                    item.name,
+                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        color: AppColors.purple,
+                    ),
+                  ),
+                  const Text(', ')
+                ],
+              )
+          )
+      ],
+    );
+  }
+}
+
 

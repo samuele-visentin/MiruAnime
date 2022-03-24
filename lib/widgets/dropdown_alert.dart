@@ -5,15 +5,17 @@ import 'package:miru_anime/constants/app_colors.dart';
 enum DropdownAlertType { checkbox, radio }
 
 class DropdownAlert extends StatefulWidget {
-  final String genreDropdownLabelPrefix;
+  final String labelPefix;
   final Map<Object, Map<String, Object>> filterMap;
   final DropdownAlertType type;
+  final Function? fun;
 
   const DropdownAlert(
       {Key? key,
       required this.filterMap,
       required this.type,
-      required this.genreDropdownLabelPrefix})
+      this.fun,
+      required this.labelPefix})
       : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class DropdownAlert extends StatefulWidget {
 
 class _DropdownAlertState extends State<DropdownAlert> {
   String _dropDownLabel = '';
-  String get _prefix => widget.genreDropdownLabelPrefix;
+  String get _prefix => widget.labelPefix;
 
   Map<Object, Map<String, Object>> get _filterMap => widget.filterMap;
 
@@ -51,12 +53,11 @@ class _DropdownAlertState extends State<DropdownAlert> {
     _updateGenreDropdownLabel();
   }
 
+  final accent = AppColors.purple;
+  final alphaAccent = AppColors.purple.withAlpha(70);
+
   @override
   Widget build(final context) {
-    // ignore: deprecated_member_use
-    final accent = Theme.of(context).accentColor;
-    final alphaAccent = accent.withAlpha(70);
-
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 100),
       child: AlertDialog(
@@ -119,6 +120,7 @@ class _DropdownAlertState extends State<DropdownAlert> {
                                 }
                                 genre['selected'] = true;
                               });
+                              if(widget.fun != null) widget.fun!();
                               _updateGenreDropdownLabel();
                             },
                           )

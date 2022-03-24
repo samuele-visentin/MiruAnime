@@ -17,4 +17,6 @@ class AnimeWorldEndPoints {
   static const special = sitePrefixS + 'specials?page=';
   static const music = sitePrefixS + 'music?page=';
   static const advanceSearch = sitePrefixS + 'filter?';
+  static const news = sitePrefixS + 'news?page=';
+  static const upcoming = sitePrefixS + 'upcoming/';
 }

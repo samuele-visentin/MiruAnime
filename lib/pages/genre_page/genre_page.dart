@@ -5,7 +5,7 @@ import 'package:miru_anime/backend/sites/animeworld/endpoints.dart';
 import 'package:miru_anime/pages/generic_section/generic_page.dart';
 import 'package:miru_anime/utils/transition.dart';
 import 'package:miru_anime/widgets/app_scaffold.dart';
-import 'package:miru_anime/widgets/close_button.dart';
+import 'package:miru_anime/widgets/underline_title_close_button.dart';
 
 import '../../constants/app_colors.dart';
 
@@ -21,7 +21,7 @@ class GenrePage extends StatelessWidget {
       route: route,
       child: Column(
         children: [
-          const TitleWithCloseButton(text: 'Generi'),
+          const UnderlineTitleWithCloseButton(text: 'Generi'),
           Expanded(
             child: CupertinoScrollbar(
               child: GridView.builder(

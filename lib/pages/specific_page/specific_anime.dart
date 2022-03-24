@@ -23,12 +23,12 @@ import 'package:miru_anime/pages/specific_page/micro_widget/info_anime.dart';
 import 'package:miru_anime/pages/specific_page/micro_widget/description.dart';
 import 'package:miru_anime/pages/specific_page/shimmer_page.dart';
 import 'package:miru_anime/pages/video_player/video_player.dart';
-import 'package:miru_anime/pages/specific_page/micro_widget/anime_grid.dart';
 import 'package:miru_anime/utils/transition.dart';
 import 'package:miru_anime/widgets/app_scaffold.dart';
 import 'package:miru_anime/widgets/default_error_page.dart';
 import 'package:miru_anime/widgets/gallery/fullscreen_image.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_anime.dart';
+import 'package:miru_anime/widgets/gridview_anime.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
@@ -188,7 +188,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                       image: data.image,
                     ),
                   ),
-                  _badge(data.info.voto),
+                  _Badge(voto: data.info.voto),
                 ],
               ),
             ),
@@ -304,12 +304,12 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                   commentInfo: data.comment,
                   referer: null,
                   save: true),
-              AnimeGridView(
-                listAnime: data.simili,
+              GridViewAnime(
+                animeList: data.simili,
                 key: const PageStorageKey('animeSimili'),
               ),
-              AnimeGridView(
-                listAnime: data.correlati,
+              GridViewAnime(
+                animeList: data.correlati,
                 key: const PageStorageKey('animeCorrelati'),
               ),
             ],
@@ -356,6 +356,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                   fontWeight: FontWeight.w600,
                   fontSize: 17,
                   fontFamily: 'Montserrat',
+                  color: AppColors.white,
                   letterSpacing: -0.5),
             ),
           ),
@@ -425,6 +426,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                                       textBaseline: TextBaseline.ideographic,
                                       fontFamily: 'Montserrat',
                                       fontWeight: FontWeight.w600,
+                                      color: AppColors.white,
                                       letterSpacing: -0.5,
                                     ),
                                   ),
@@ -436,7 +438,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                               Visibility(
                                 visible: _nameServer != ServerParser.youtube,
                                 replacement: const SizedBox(
-                                  width: 17,
+                                  width: 27,
                                 ),
                                 child:SizedBox(
                                   width: 27,
@@ -464,7 +466,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                                   iconSize: 20,
                                   splashRadius: 20,
                                   padding: EdgeInsets.zero,
-                                  onPressed: () => _playBrowserVideo(episode),
+                                  onPressed: () => _playBrowserVideo(episode, anime),
                                   icon:  const Icon(
                                     FontAwesomeIcons.compass,
                                     color: AppColors.purple,
@@ -477,7 +479,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                               ),
                               Visibility(
                                 replacement: const SizedBox(
-                                  width: 17,
+                                  width: 27,
                                 ),
                                 visible: data[_currentServer].canDownload,
                                 child: SizedBox(
@@ -503,7 +505,10 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                                 replacement: const SizedBox(
                                   width: 27,
                                 ),
-                                visible: _task.any((element) => element.name == episode.title),
+                                visible: _task.any((element) => element.name == episode.title) && (
+                                    _task.firstWhere((element) => element.name == episode.title).status == DownloadTaskStatus.running ||
+                                        _task.firstWhere((element) => element.name == episode.title).status == DownloadTaskStatus.enqueued
+                                ),
                                 child: SizedBox(
                                   width: 27,
                                   height: 20,
@@ -580,7 +585,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
   }
 
   void _playEpisode(
-      final AnimeWorldEpisode episode, AnimeWorldSpecificAnime anime) {
+      final AnimeWorldEpisode episode, final AnimeWorldSpecificAnime anime) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (_, __, ___) =>
             AppVideoPlayer(
@@ -594,14 +599,32 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     }
   }
 
-  void _playBrowserVideo(final AnimeWorldEpisode episode) async {
+  void _playBrowserVideo(final AnimeWorldEpisode episode, final AnimeWorldSpecificAnime anime) async {
     final url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
-    if(url.urlVideo.isEmpty) throw 'url empty';
     launch(url.urlVideo, headers: url.headers);
+    if (_isAdded) {
+      _updateDB(episode, anime);
+    }
   }
-  
 
   Future<void> _downloadEpisode(final AnimeWorldEpisode episode, final AnimeWorldSpecificAnime anime) async {
+    final index = _task.indexWhere((element) => element.name == episode.title);
+    if(!index.isNegative) {
+      if(_task[index].status == DownloadTaskStatus.enqueued || _task[index].status == DownloadTaskStatus.running){
+        Fluttertoast.showToast(
+          msg: 'Download dell\'episodio ${episode.title} in corso',
+          toastLength: Toast.LENGTH_LONG,
+        );
+        return;
+      }
+      else if(_task[index].status == DownloadTaskStatus.complete) {
+        Fluttertoast.showToast(
+          msg: 'Episodio ${episode.title} già scaricato',
+          toastLength: Toast.LENGTH_LONG,
+        );
+        return;
+      }
+    }
     if(await Permission.storage.request() == PermissionStatus.denied){
       Fluttertoast.showToast(
           msg: 'Permessi negati, download cancellato',
@@ -646,7 +669,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
 
   void _removeEpisode(final AnimeWorldEpisode episode) {
     final index = _task.indexWhere((element) => element.name == episode.title);
-    FlutterDownloader.remove(taskId: _task[index].id);
+    FlutterDownloader.remove(taskId: _task[index].id, shouldDeleteContent: true);
     setState(() {
       _task.removeAt(index);
     });
@@ -667,7 +690,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         animeIsFinished: data.state == AnimeState.finish,
         animeUrl: _url,
         imgUrl: data.image,
-        currentEpisode: 'Ep: ${episode.title}',
+        currentEpisode: episode.title,
         time: DateTime.now().toString(),
         userFinishedToWatch:
             episode.isFinal && data.state == AnimeState.finish);
@@ -683,7 +706,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             animeIsFinished: data.state == AnimeState.finish,
             animeUrl: _url,
             imgUrl: data.image,
-            currentEpisode: 'Ep: -',
+            currentEpisode: '-',
             time: DateTime.now().toString(),
             userFinishedToWatch: false);
         _isAdded = true;
@@ -744,8 +767,14 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
       ),
     );
   }
+}
 
-  Widget _badge(final String voto) {
+class _Badge extends StatelessWidget {
+  final String voto;
+  const _Badge({Key? key, required this.voto}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     final rating = voto != 'N/A' ? voto.split('/')[0] : '-';
     return Container(
       height: 30,
@@ -763,13 +792,14 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           borderRadius: BorderRadius.only(bottomRight: Radius.circular(8))),
       child: Center(
           child: Text(
-        rating,
-        style: Theme.of(context)
-            .textTheme
-            .subtitle1!
-            .apply(color: AppColors.white),
-        textAlign: TextAlign.center,
-      )),
+            rating,
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1!
+                .apply(color: AppColors.white),
+            textAlign: TextAlign.center,
+          )),
     );
   }
 }
+

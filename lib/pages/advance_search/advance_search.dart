@@ -8,7 +8,8 @@ import 'package:miru_anime/constants/app_colors.dart';
 import 'package:miru_anime/pages/generic_section/generic_page.dart';
 import 'package:miru_anime/utils/transition.dart';
 import 'package:miru_anime/widgets/app_scaffold.dart';
-import 'package:miru_anime/widgets/close_button.dart';
+import 'package:miru_anime/widgets/rounded_label.dart';
+import 'package:miru_anime/widgets/underline_title_close_button.dart';
 import 'package:miru_anime/widgets/dropdown_alert.dart';
 
 class AdvanceSearch extends StatefulWidget {
@@ -56,7 +57,7 @@ class _AdvanceSearchState extends State<AdvanceSearch> {
       route: AdvanceSearch.route,
       child: Column(
         children: [
-          const TitleWithCloseButton(text: 'Ricerca avanzata'),
+          const UnderlineTitleWithCloseButton(text: 'Ricerca avanzata'),
           Expanded(
             child: CupertinoScrollbar(
               child: ListView(
@@ -113,33 +114,36 @@ class _AdvanceSearchState extends State<AdvanceSearch> {
           )
         );
       },
-      child: Container(
-        height: 50,
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: AppColors.white,
-        ),
-        child: Row(
-          children: const <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 20, right: 14),
-              child: FaIcon(
-                FontAwesomeIcons.magnifyingGlassPlus,
-                size: 18,
-                color: AppColors.functionalred,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Container(
+          height: 50,
+          //margin: const EdgeInsets.only(bottom: 30),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Icon(FontAwesomeIcons.magnifyingGlassPlus,
+                    size: 16, color: Colors.black),
               ),
-            ),
-            Text(
-              'Ricerca avanzata',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Montserrat'
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(right: 35),
+                  child: const Text(
+                    'Ricerca avanzata',
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: 'Montserrat'),
+                  ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -154,23 +158,11 @@ class _AdvanceSearchState extends State<AdvanceSearch> {
     return GestureDetector(
       onTap: () => showDialog(
         context: context,
-        builder: (_) => DropdownAlert(filterMap: map, type: type, genreDropdownLabelPrefix: label,),
+        builder: (_) => DropdownAlert(filterMap: map, type: type, labelPefix: label,),
       ),
-      child: _section(label),
-    );
-  }
-
-  Widget _section(final String name) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Container(
-        width: 250,
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        decoration: BoxDecoration(
-            color: AppColors.purple.withOpacity(0.7),
-            borderRadius: const BorderRadius.all(Radius.circular(20))
-        ),
-        child: Center(child: Text(name, style: Theme.of(context).textTheme.bodyText1,)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: RoundedLabel(name: label),
       ),
     );
   }
@@ -179,21 +171,9 @@ class _AdvanceSearchState extends State<AdvanceSearch> {
     return GestureDetector(
       onTap: () {
         _resetFilters();
-        /*final snackbar = SnackBar(
-            content: Text(
-              'Tutti i filtri sono stati resettati!',
-              style: TextStyle(color: background),
-            ),
-            backgroundColor: isDark ? AppColors.white : AppColors.darkGrey,
-            // TODO: Implementare una logica di undo
-            // action: SnackBarAction(
-            //   label: 'Undo',
-            //   textColor: isDark ? accent : AppColors.white,
-            //   onPressed: () {},
-            // ),
-          );*/
+        // TODO: Implementare una logica di undo
         Fluttertoast.showToast(
-          msg: 'Parametri cancellati',
+          msg: 'Filtri cancellati',
           toastLength: Toast.LENGTH_LONG
         );
       },

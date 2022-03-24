@@ -1,15 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/anime.dart';
 import 'package:miru_anime/backend/sites/animeworld/scraper.dart';
 import 'package:miru_anime/constants/app_colors.dart';
 import 'package:miru_anime/pages/generic_section/generic_shimmer_page.dart';
-import 'package:miru_anime/pages/specific_page/specific_anime.dart';
-import 'package:miru_anime/utils/transition.dart';
 import 'package:miru_anime/widgets/app_scaffold.dart';
-import 'package:miru_anime/widgets/close_button.dart';
+import 'package:miru_anime/widgets/gridview_anime.dart';
+import 'package:miru_anime/widgets/underline_title_close_button.dart';
 import 'package:miru_anime/widgets/default_error_page.dart';
-import 'package:miru_anime/widgets/gallery/thumbnail_anime.dart';
 
 
 class GenericPage extends StatefulWidget {
@@ -80,6 +77,8 @@ class _GenericPageState extends State<GenericPage> {
     return AppScaffold(
       route: route,
       child: RefreshIndicator(
+        color: AppColors.white,
+        backgroundColor: AppColors.viola,
         onRefresh: () async {
           page = 1;
           future = AnimeWorldScraper().getGenericPage('$url$page');
@@ -87,7 +86,7 @@ class _GenericPageState extends State<GenericPage> {
         },
         child: Column(
           children: [
-            TitleWithCloseButton(text: '$name  •  Page: $page'),
+            UnderlineTitleWithCloseButton(text: '$name  •  Page: $page'),
             Expanded(
               child: FutureBuilder<void>(
                 future: future,
@@ -98,7 +97,8 @@ class _GenericPageState extends State<GenericPage> {
                     case ConnectionState.active:
                       return const GenericShimmerPage();
                     case ConnectionState.done:
-                      return snap.hasError ? DefaultErrorPage(error: snap.error.toString()) : successfulPage();
+                      return snap.hasError ? DefaultErrorPage(error: snap.error.toString()) :
+                      GridViewAnime(animeList: animeList, controller: _controller);
                   }
                 },
               ),
@@ -108,75 +108,4 @@ class _GenericPageState extends State<GenericPage> {
       ),
     );
   }
-
-  Widget successfulPage() {
-    if(animeList.isEmpty){
-      return const Center(
-        child: Text('Nessun anime', style: TextStyle(fontSize: 18)),
-      );
-    }
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 1.5),
-      child: CupertinoScrollbar(
-        controller: _controller,
-        child: GridView.builder(
-          controller: _controller,
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          itemCount: animeList.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, childAspectRatio: 155/225,
-              mainAxisSpacing: 15, crossAxisSpacing: 15
-          ),
-          itemBuilder: (final context, final index) {
-            final anime = animeList[index];
-            return GestureDetector(
-              behavior: HitTestBehavior.opaque, //so if the user tab on empty field (like btw image and title) we also obtain the tap invoke
-              onTap: () {
-                Navigator.of(context).push(
-                    PageRouteBuilder(
-                        pageBuilder: (_,__,___) => SpecificAnimePage(url: anime.link),
-                        transitionsBuilder: transitionBuilder
-                    )
-                );
-              },
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Container(
-                    foregroundDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          AppColors.purple.withOpacity(0.7)
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                    ),
-                    child: ThumbnailAnime(
-                      height: 225,
-                      width: 155,
-                      image: anime.thumbnail,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Text(
-                      anime.title,
-                      style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w800, fontSize: 13),
-                      textAlign: TextAlign.center,
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  )
-                ],
-              ),
-            );
-          }),
-      ),
-    );
-  }
-
 }

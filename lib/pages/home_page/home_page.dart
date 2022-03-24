@@ -110,8 +110,8 @@ class _HomePageState extends State<HomePage> {
     return AppScaffold(
       route: HomePage.route,
       child: RefreshIndicator(
-        color: AppColors.purple,
-        backgroundColor: AppColors.darkBlue,
+        color: AppColors.white,
+        backgroundColor: AppColors.viola,
         onRefresh: () async {
           _data = AnimeWorldScraper().getHomePage();
           setState(() {});
@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
               case ConnectionState.done:
                 return snap.hasError ? DefaultErrorPage(error: snap.error.toString()) : _successfulWidget(snap.data!);
               default:
-                return _shimmerWidget();
+                return const _ShimmerWidget();
             }
           },
         ),
@@ -137,100 +137,41 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          _customTitle('Top Anime'),
+          const _CustomTitle(title: 'Top Anime'),
           _selectTop(),
           _topAnime(data.topAnime),
-          _customTitle('Raccomandati'),
-          _swiper(data.sliders),
+          const _CustomTitle(title: 'Raccomandati'),
+          _Swiper(list: data.sliders),
           Visibility(
             visible: !_isEmpty,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _customTitle('Continua a guardare'),
-                _animeListViewWithBadge(_userList),
+                const _CustomTitle(title: 'Continua a guardare'),
+                _AnimeListViewWithBadge(list: _userList),
               ],
             ),
           ),
-          _customTitle('In tendenza'),
-          _animeListViewWithBadge(data.trending),
-          _customTitle('In corso'),
-          _animeListViewWithBadge(data.ongoing),
-          _customTitle('Ultimi episodi'),
-          _animeListViewWithBadge(data.all),
-          _customTitle('Sub ITA'),
-          _animeListViewWithBadge(data.subITA),
-          _customTitle('Doppiati ITA'),
-          _animeListViewWithBadge(data.dubbed),
-          _customTitle('Nuove aggiunte'),
-          _animeListView(data.newAdded),
-          _customTitle(data.upcomingTitle),
-          _animeListView(data.upcoming)
+          const _CustomTitle(title: 'In tendenza'),
+          _AnimeListViewWithBadge(list: data.trending),
+          const _CustomTitle(title: 'In corso'),
+          _AnimeListViewWithBadge(list: data.ongoing),
+          const _CustomTitle(title: 'Ultimi episodi'),
+          _AnimeListViewWithBadge(list: data.all),
+          const _CustomTitle(title: 'Sub ITA'),
+          _AnimeListViewWithBadge(list: data.subITA),
+          const _CustomTitle(title: 'Doppiati ITA'),
+          _AnimeListViewWithBadge(list: data.dubbed),
+          const _CustomTitle(title: 'Nuove aggiunte'),
+          _AnimeListView(list: data.newAdded),
+          _CustomTitle(title: data.upcomingTitle),
+          _AnimeListView(list: data.upcoming)
         ],
-      ),
-    );
-  }
-
-  Widget _swiper(final List<Anime> list) {
-    return SizedBox(
-      height: 200,
-      child: Swiper(
-        itemBuilder: (context, index) {
-          final anime = list[index];
-          return ThumbnailWithTitle(
-            title: anime.title,
-            image: anime.thumbnail,
-            urlAnime: anime.link,
-            width: 340,
-            height: 140,
-          );
-        },
-        itemHeight: 200,
-        itemWidth: 340,
-        itemCount: list.length,
-        scale: 0.7,
       ),
     );
   }
 
   Widget _topAnime(final List<List<Anime>> data) {
-    Widget _rankedAnime(final List<Anime> list){
-      return Column(
-        children: [
-          ThumbnailWithBadge(
-            title: list.first.title,
-            thumbnail: list.first.thumbnail,
-            link: list.first.link,
-            width: MediaQuery.of(context).size.width * 0.85,
-            height: 210,
-            rank: list.first.rank!,
-          ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-          ConstrainedBox(
-              constraints: const BoxConstraints(
-                  maxHeight: 270
-              ),
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: list.length - 1,
-                itemBuilder: (_, index) {
-                  final anime = list[index+1];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ThumbnailWithBadge(
-                      rank: anime.rank!,
-                      thumbnail: anime.thumbnail,
-                      link: anime.link,
-                      title: anime.title,
-                    )
-                  );
-                },
-              )
-          ),
-        ],
-      );
-    }
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 560),
       child: PageView(
@@ -242,19 +183,19 @@ class _HomePageState extends State<HomePage> {
         children: [
           Column(
             children: [
-              _rankedAnime(data[0]),
+              _RankedAnime(list: data[0]),
               //const Padding(padding: const EdgeInsets.symmetric(vertical: 30.0),),
             ],
           ),
           Column(
             children: [
-              _rankedAnime(data[1]),
+              _RankedAnime(list: data[1]),
               //const Padding(padding: const EdgeInsets.symmetric(vertical: 30.0),),
             ],
           ),
           Column(
             children: [
-              _rankedAnime(data[2]),
+              _RankedAnime(list: data[2]),
               //const Padding(padding: const EdgeInsets.symmetric(vertical: 30.0),),
             ],
           ),
@@ -311,20 +252,88 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
 
-  Widget _customTitle(final String title) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 18, bottom: 10),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.headline5!.apply(
-          color: AppColors.purple
-        ),
+class _Swiper extends StatelessWidget {
+  final List<Anime> list;
+  const _Swiper({Key? key, required this.list}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 200,
+      child: Swiper(
+        itemBuilder: (context, index) {
+          final anime = list[index];
+          return ThumbnailWithTitle(
+            title: anime.title,
+            image: anime.thumbnail,
+            urlAnime: anime.link,
+            width: 340,
+            height: 140,
+          );
+        },
+        itemHeight: 200,
+        itemWidth: 340,
+        itemCount: list.length,
+        scale: 0.7,
       ),
     );
   }
+}
 
-  Widget _animeListView(final List<Anime> list) {
+class _RankedAnime extends StatelessWidget {
+  final List<Anime> list;
+  const _RankedAnime({Key? key, required this.list}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ThumbnailWithBadge(
+          title: list.first.title,
+          thumbnail: list.first.thumbnail,
+          link: list.first.link,
+          width: MediaQuery.of(context).size.width * 0.85,
+          height: 210,
+          rank: list.first.rank!,
+        ),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+        ConstrainedBox(
+            constraints: const BoxConstraints(
+                maxHeight: 270
+            ),
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemCount: list.length - 1,
+              itemBuilder: (_, index) {
+                final anime = list[index+1];
+                return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: ThumbnailWithBadge(
+                      rank: anime.rank!,
+                      thumbnail: anime.thumbnail,
+                      link: anime.link,
+                      title: anime.title,
+                    )
+                );
+              },
+            )
+        ),
+      ],
+    );
+  }
+}
+
+
+
+class _AnimeListView extends StatelessWidget {
+  final List<Anime> list;
+  const _AnimeListView({Key? key, required this.list}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
           maxHeight: 290
@@ -347,11 +356,17 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  
-  Widget _animeListViewWithBadge(final List<Anime> list) {
+}
+
+class _AnimeListViewWithBadge extends StatelessWidget {
+  final List<Anime> list;
+  const _AnimeListViewWithBadge({Key? key, required this.list}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 290
+          maxHeight: 290
       ),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -372,50 +387,47 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
 
-  Widget _shimmerWidget() {
-    Widget _row() {
-      return ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxHeight: 260
+class _CustomTitle extends StatelessWidget {
+  final String title;
+  const _CustomTitle({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 18, bottom: 10),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.headline5!.apply(
+            color: AppColors.purple
         ),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: 4,
-          itemBuilder: (_,__){
-            return const ShimmerBox(
-              height: 225,
-              width: 155
-            );
-          },
-        ),
-      );
-    }
-    Widget _title() {
-      return const Padding(
-        padding: EdgeInsets.only(left: 8.0,top: 10, bottom: 10),
-        child: ShimmerBox(
-          width: 200,
-          height: 20,
-        ),
-      );
-    }
+      ),
+    );
+  }
+}
+
+class _ShimmerWidget extends StatelessWidget {
+  const _ShimmerWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return ListView(
       children: [
         _title(),
         Shimmer.fromColors(
-          child: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.85,
-              height: 210,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: AppColors.grey
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.85,
+                height: 210,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: AppColors.grey
+                ),
               ),
             ),
-          ),
-          baseColor: AppColors.baseColor,
-          highlightColor: AppColors.highlightColor),
+            baseColor: AppColors.baseColor,
+            highlightColor: AppColors.highlightColor),
         const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
         _row(),
         _title(),
@@ -426,4 +438,34 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _row() {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+          maxHeight: 260
+      ),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 4,
+        itemBuilder: (_,__){
+          return const ShimmerBox(
+              height: 225,
+              width: 155
+          );
+        },
+      ),
+    );
+  }
+  Widget _title() {
+    return const Padding(
+      padding: EdgeInsets.only(left: 8.0,top: 10, bottom: 10),
+      child: ShimmerBox(
+        width: 200,
+        height: 20,
+      ),
+    );
+  }
 }
+
+
+
+

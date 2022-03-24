@@ -38,9 +38,9 @@ class AnimeWorldSpecificAnime {
 }
 
 class Href {
-  final String value;
+  final String name;
   final String url;
-  Href(this.value, this.url);
+  Href(this.name, this.url);
 }
 
 class DetailAnime {
@@ -48,8 +48,8 @@ class DetailAnime {
   final Href audio;
   final String releaseDate;
   final Href season;
-  final Href studio;
-  final Map<String,String> genre;
+  final List<Href> studio;
+  final List<Href> genre;
   final String voto;
   final String durata;
   final String numberEpisode;

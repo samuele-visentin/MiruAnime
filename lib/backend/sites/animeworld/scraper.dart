@@ -7,8 +7,10 @@ import 'package:miru_anime/backend/sites/animeworld/endpoints.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/anime.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/comment.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/home_page.dart';
+import 'package:miru_anime/backend/sites/animeworld/models/news.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/server.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/specific_page.dart';
+import 'package:miru_anime/backend/sites/animeworld/models/upcoming_anime.dart';
 import 'package:miru_anime/backend/sites/video_url.dart';
 import 'package:miru_anime/backend/sites/server_parser.dart';
 import 'package:miru_anime/backend/sites/video_parser/doodstream_parser.dart';
@@ -218,7 +220,6 @@ class AnimeWorldScraper {
                     episode.attributes['href']!);
           }).toList(growable: false)));
     }
-    final genre = { for (final e in infoDd[5].querySelectorAll('a')) e.text.trim() : e.attributes['href']! };
     return AnimeWorldSpecificAnime(
         image: animePage
             .querySelector('#thumbnail-watch > img')!
@@ -247,8 +248,8 @@ class AnimeWorldScraper {
           audio: Href(infoDd[1].text.trim(), infoDd[1].children.first.attributes['href']??''),
           releaseDate: infoDd[2].text.trim(),
           season: Href(infoDd[3].text.trim(), infoDd[3].children.first.attributes['href']??''),
-          studio: Href(infoDd[4].text.trim(), infoDd[4].children.first.attributes['href']??''),
-          genre: genre,
+          studio: infoDd[4].querySelectorAll('a').map((e) => Href(e.text.trim(),e.attributes['href']??'')).toList(),
+          genre: infoDd[5].querySelectorAll('a').map((e) => Href(e.text.trim(), e.attributes['href']??'')).toList(),
           voto: infoDd[6].text.trim(),
           durata: infoDd[7].text.trim(),
           numberEpisode: infoDd[8].text.trim(),
@@ -360,5 +361,85 @@ class AnimeWorldScraper {
     )).data as String;
     final page = parse(data);
     return page.querySelectorAll('.film-list > .item > .inner').map(getAnime).toList();
+  }
+
+  Future<NewsData> getNewsWithPage(final String url) async {
+    final data = (await _dio.get(
+      url,
+      options: Options(headers: _customHeaders)
+    )).data as String;
+    final page = parse(data);
+    final news =  page.querySelectorAll('div.post-list > div.item.row').map((final element) => News(
+      title: element.querySelector('.title')?.text.trim() ?? '',
+      url: AnimeWorldEndPoints.sitePrefixNoS + (element.querySelector('a')?.attributes['href'] ?? ''),
+      body: element.querySelector('div.text')?.text.trim() ?? '',
+      views: element.querySelector('div.views')?.text.replaceAll(RegExp('<i.*>'), '') ?? '',
+      time: element.querySelector('div.date')?.text.replaceAll(RegExp('<i.*>'), '') ?? '',
+      img: element.querySelector('img')?.attributes['src'] ?? '',
+      type: element.querySelectorAll('span.badge.badge-primary').map((final e) =>
+      e.text
+      ).join(', '),
+    )).toList();
+    return NewsData(
+      news,
+      int.parse(page.querySelector('.total')?.text ?? '1')
+    );
+  }
+
+  Future<List<News>> getNews(final String url) async {
+    final data = (await _dio.get(
+        url,
+        options: Options(headers: _customHeaders)
+    )).data as String;
+    final page = parse(data);
+    return page.querySelectorAll('div.post-list > div.item.row').map((final element) => News(
+      title: element.querySelector('.title')?.text.trim() ?? '',
+      url: AnimeWorldEndPoints.sitePrefixNoS + (element.querySelector('a')?.attributes['href'] ?? ''),
+      body: element.querySelector('div.text')?.text.trim() ?? '',
+      views: element.querySelector('div.views')?.text.replaceAll(RegExp('<i.*>'), '') ?? '',
+      time: element.querySelector('div.date')?.text.replaceAll(RegExp('<i.*>'), '') ?? '',
+      img: element.querySelector('img')?.attributes['src'] ?? '',
+      type: element.querySelectorAll('span.badge.badge-primary').map((final e) =>
+      e.text
+      ).join(', '),
+    )).toList();
+  }
+
+  Future<List<Href>> getUpcomingSections() async {
+    final data = (await _dio.get(AnimeWorldEndPoints.upcoming,
+      options: Options(
+        headers: _customHeaders
+      )
+    )).data as String;
+    final page = parse(data);
+    return page.querySelectorAll('.horiznav_nav > ul > li > a').map((e) => Href(
+      e.text.trim(),
+      e.attributes['href'] ?? '',
+    )).where((element) => element.name != '...').toList();
+  }
+
+  Future<UpComingAnime> getUpcomingAnime(final String url) async {
+    List<Anime> getListAnime(final Element element) {
+      return element.querySelectorAll('.item > .inner').map((e) => Anime(
+        thumbnail: e.querySelector('img')!.attributes['src']!,
+        link: AnimeWorldEndPoints.sitePrefixNoS + e.querySelector('.name')!.attributes['href']!,
+        title: e.querySelector('.name')!.text.trim()
+      )).toList();
+    }
+    
+    final data = (await _dio.get(url,
+      options: Options(
+          headers: _customHeaders
+      )
+    )).data as String;
+    final page = parse(data);
+    final list = page.querySelectorAll('.film-listnext');
+    return UpComingAnime(
+      tv: getListAnime(list[0]),
+      ova: getListAnime(list[1]),
+      ona: getListAnime(list[2]),
+      special: getListAnime(list[3]),
+      movie: getListAnime(list[4]),
+    );
   }
 }

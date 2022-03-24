@@ -26,6 +26,7 @@ class ViewImage extends StatelessWidget {
           await launch(url);
         },
         child: PhotoView(
+          filterQuality: FilterQuality.medium,
           backgroundDecoration: const BoxDecoration(
             color: AppColors.background
           ),

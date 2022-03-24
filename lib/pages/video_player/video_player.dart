@@ -2,12 +2,12 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/server.dart';
 import 'package:miru_anime/backend/sites/video_url.dart';
 import 'package:miru_anime/backend/sites/animeworld/scraper.dart';
 import 'package:miru_anime/backend/sites/server_parser.dart';
 import 'package:miru_anime/constants/app_colors.dart';
+import 'package:miru_anime/widgets/title_close_button.dart';
 import 'package:wakelock/wakelock.dart';
 
 class AppVideoPlayer extends StatefulWidget {
@@ -109,26 +109,9 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
             const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 5,
-                    child: GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: const Icon(
-                        FontAwesomeIcons.circleXmark,
-                        size: 19,
-                        color: AppColors.purple,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '$_animeName - Episodio: ${_episode.title}',
-                    style: Theme.of(context).textTheme.bodyText1,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+              child: TitleWithCloseButton(
+                text:  '$_animeName - Episodio: ${_episode.title}',
+              )
             ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 20)),
             FutureBuilder<DirectUrlVideo>(

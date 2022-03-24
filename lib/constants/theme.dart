@@ -63,6 +63,14 @@ final themeApp = ThemeData.from(
       color: AppColors.white,
       fontSize: 18
     ),
+    bodyText2: TextStyle(
+      fontWeight: FontWeight.w700,
+      fontFamily: 'Montserrat',
+      //height: 20,
+      letterSpacing: 0.15,
+      color: AppColors.purple,
+      fontSize: 15
+    ),
     button: TextStyle(
       fontFamily: 'Montserrat',
       fontSize: 14,

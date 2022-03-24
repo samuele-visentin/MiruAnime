@@ -5,10 +5,12 @@ import 'package:shimmer/shimmer.dart';
 class ShimmerBox extends StatelessWidget {
   final double height;
   final double width;
+  final double radius;
   const ShimmerBox({
     Key? key,
     required this.height,
-    required this.width
+    required this.width,
+    this.radius = 8
   }) : super(key: key);
 
   @override
@@ -21,6 +23,7 @@ class ShimmerBox extends StatelessWidget {
             child: _ShimmerBox(
               height: height,
               width: width,
+              radius: radius,
             ),
           ),
         ),
