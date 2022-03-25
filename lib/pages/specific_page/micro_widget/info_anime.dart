@@ -128,7 +128,8 @@ class _WrapContent extends StatelessWidget {
           GestureDetector(
               onTap: () => Navigator.of(context).push(PageRouteBuilder(
                   pageBuilder: (_,__,___) => GenericPage(
-                      url: '${AnimeWorldEndPoints.sitePrefixNoS}${item.url}?page=',
+                      url: item.url.contains('?') ? '${AnimeWorldEndPoints.sitePrefixNoS}${item.url}?page=' :
+                          '${AnimeWorldEndPoints.sitePrefixNoS}${item.url}&page=',
                       name: item.name,
                       route: ''
                   ),
