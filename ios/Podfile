@@ -51,10 +51,10 @@ post_install do |installer|
         '$(inherited)',
 
         ## dart: PermissionGroup.calendar
-        # 'PERMISSION_EVENTS=1',
+        'PERMISSION_EVENTS=1',
 
         ## dart: PermissionGroup.reminders
-        # 'PERMISSION_REMINDERS=1',
+        'PERMISSION_REMINDERS=1',
 
         ## dart: PermissionGroup.contacts
         # 'PERMISSION_CONTACTS=1',
@@ -90,7 +90,7 @@ post_install do |installer|
         # 'PERMISSION_APP_TRACKING_TRANSPARENCY=1',
 
         ## dart: PermissionGroup.criticalAlerts
-        # 'PERMISSION_CRITICAL_ALERTS=1'
+        'PERMISSION_CRITICAL_ALERTS=1'
       ]
 
     end
