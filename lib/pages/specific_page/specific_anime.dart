@@ -601,6 +601,13 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
 
   void _playBrowserVideo(final AnimeWorldEpisode episode, final AnimeWorldSpecificAnime anime) async {
     final url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
+    if (Uri.tryParse(url.urlVideo) == null) {
+      Fluttertoast.showToast(
+        msg: 'Errore nell\'ottenimento del link',
+        toastLength: Toast.LENGTH_LONG
+      );
+      return;
+    }
     launch(url.urlVideo, headers: url.headers);
     if (_isAdded) {
       _updateDB(episode, anime);
@@ -635,10 +642,16 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     final url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
     if(url.urlVideo.contains('.m3u8')) {
       Fluttertoast.showToast(
-        msg: 'Questo tipo di video non può essere scarcato',
+        msg: 'Questo tipo di video non può essere scaricato',
         toastLength: Toast.LENGTH_LONG
       );
       return;
+    }
+    if(await Permission.notification.request() == PermissionStatus.denied) {
+      Fluttertoast.showToast(
+          msg: 'Episodio ${episode.title} in download',
+          toastLength: Toast.LENGTH_LONG
+      );
     }
     if(!Platform.isIOS) {
       final saveDir = (await getExternalStorageDirectories(type: StorageDirectory.downloads))!.first;

@@ -94,7 +94,7 @@ class _RowInfo extends StatelessWidget {
           onTap: () => Navigator.of(context).push(PageRouteBuilder(
             pageBuilder: (_,__,___) => GenericPage(
               url: '${AnimeWorldEndPoints.sitePrefixNoS}$url&page=',
-              name: '$name $value',
+              name: value,
               route: ''
             ),
             transitionsBuilder: transitionBuilder

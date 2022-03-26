@@ -49,6 +49,7 @@ class _SpecificUpcomingPageState extends State<SpecificUpcomingPage> {
                       Tab(text: 'Special'),
                       Tab(text: 'Movie'),
                     ],
+                    //FIXME: reduce size of text -> labelStyle: ,
                   ),
                   Expanded(
                     child: FutureBuilder<UpComingAnime>(

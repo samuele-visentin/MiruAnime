@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const _CustomTitle(title: 'Continua a guardare'),
-                _AnimeListViewWithBadge(list: _userList),
+                _AnimeListViewWithBadge(list: _userList, prefixBadge: 'Ep: ',),
               ],
             ),
           ),
@@ -359,8 +359,9 @@ class _AnimeListView extends StatelessWidget {
 }
 
 class _AnimeListViewWithBadge extends StatelessWidget {
+  final String prefixBadge;
   final List<Anime> list;
-  const _AnimeListViewWithBadge({Key? key, required this.list}) : super(key: key);
+  const _AnimeListViewWithBadge({Key? key, required this.list, this.prefixBadge = ''}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -380,7 +381,7 @@ class _AnimeListViewWithBadge extends StatelessWidget {
               title: anime.title,
               thumbnail: anime.thumbnail,
               link: anime.link,
-              badge: anime.info!,
+              badge: '$prefixBadge${anime.info!}',
             ),
           );
         },

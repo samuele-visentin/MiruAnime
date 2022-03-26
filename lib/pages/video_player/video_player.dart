@@ -114,19 +114,25 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
               )
             ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 20)),
-            FutureBuilder<DirectUrlVideo>(
-              future: _url,
-              builder: (_, snap) {
-                switch (snap.connectionState) {
-                  case ConnectionState.done:
-                    if(snap.hasError){
-                      return _errorWidget(snap.error.toString());
-                    }
-                    return BetterPlayer(controller: _controller, key: _key);
-                  default:
-                    return _loading();
-                }
-              },
+            Expanded(
+              child: FutureBuilder<DirectUrlVideo>(
+                future: _url,
+                builder: (_, snap) {
+                  switch (snap.connectionState) {
+                     case ConnectionState.done:
+                      if(snap.hasError){
+                        return _errorWidget(snap.error.toString());
+                      }
+                      return Column(
+                        children: [
+                          BetterPlayer(controller: _controller, key: _key),
+                        ],
+                      );
+                    default:
+                      return _loading();
+                  }
+                },
+              ),
             ),
           ],
         ),
@@ -135,17 +141,19 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
   }
 
   Widget _loading() {
-    return const Padding(
-      padding: EdgeInsets.only(top: 70),
-      child: Center(
-        child: SizedBox(
-          width: 30,
-          height: 30,
-          child: CircularProgressIndicator(
-            color: AppColors.purple,
+    return Column(
+      children: const [
+        Padding(
+          padding: EdgeInsets.only(top: 100),
+          child: SizedBox(
+            width: 30,
+            height: 30,
+            child: CircularProgressIndicator(
+              color: AppColors.purple,
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -165,8 +173,8 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
                 fontSize: 16,
                 fontFamily: 'Montserrat',
                 letterSpacing: -0.5,
-                fontWeight: FontWeight.w500,
-                color: AppColors.white
+                fontWeight: FontWeight.w600,
+                color: AppColors.teal
               ),
             ),
             const SizedBox(height: 20),
@@ -177,7 +185,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
             const SizedBox(height: 20),
             Text(
               _controller.betterPlayerDataSource!.url,
-              style: const TextStyle(fontSize: 18, color: AppColors.functionalred),
+              style: const TextStyle(fontSize: 16, color: AppColors.white),
             ),
           ],
         ),
