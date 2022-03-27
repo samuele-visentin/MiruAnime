@@ -28,17 +28,17 @@ because app upgrade might corrupt the db).
 - Internal database
 - Share link of anime
 - Open video with external app
+
+### How the app looks like:
  
 iOS Platform           |  Android Platform  
 :-------------------------:|:-------------------------:
 ![](images/IMG_0141.PNG)  |  ![](images/Screenshot_20220327-165248.jpg)
-![](images/IMG_0142.PNG)  |  ![](images/Screenshot_20220327-165449.jpg)
+![](images/IMG_0142.PNG)  |  ![](images/Screenshot_20220327-165456.jpg)
 ![](images/IMG_0143.PNG)  |  ![](images/Screenshot_20220327-165518.jpg)
 ![](images/IMG_0144.PNG)  |  ![](images/Screenshot_20220327-165544.jpg)
 ![](images/IMG_0145.PNG)  |  ![](images/Screenshot_20220327-165528.jpg)
 ![](images/IMG_0146.PNG)  |  ![](images/Screenshot_20220327-165625.jpg)
-                          |  ![](images/Screenshot_20220327-165615.jpg)
-                          |  ![](images/Screenshot_20220327-165605.jpg)
 
 ### Disclaimer
 
