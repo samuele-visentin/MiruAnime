@@ -27,7 +27,7 @@ because app upgrade might corrupt the db).
 - Download anime if the video is .mp4
 - Internal database
 - Share link of anime
-- Open video with external app
+- Open video with external app or built-in video player
 
 ### How the app looks like:
  
