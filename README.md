@@ -29,7 +29,8 @@ because app upgrade might corrupt the db).
 - Share link of anime
 - Open video with external app
 
-### iOS Platform          |  Android Platform
+### iOS Platform           |  Android Platform 
+:-------------------------:|:-------------------------:
 ![](images/IMG_0141.PNG)  |  ![](images/Screenshot_20220327-165248.jpg)
 ![](images/IMG_0142.PNG)  |  ![](images/Screenshot_20220327-165449.jpg)
 ![](images/IMG_0143.PNG)  |  ![](images/Screenshot_20220327-165518.jpg)
