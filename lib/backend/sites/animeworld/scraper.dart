@@ -11,6 +11,8 @@ import 'package:miru_anime/backend/sites/animeworld/models/news.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/server.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/specific_page.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/upcoming_anime.dart';
+import 'package:miru_anime/backend/sites/video_parser/streamlare_parser.dart';
+import 'package:miru_anime/backend/sites/video_parser/vup_parser.dart';
 import 'package:miru_anime/backend/sites/video_url.dart';
 import 'package:miru_anime/backend/sites/server_parser.dart';
 import 'package:miru_anime/backend/sites/video_parser/doodstream_parser.dart';
@@ -170,17 +172,21 @@ class AnimeWorldScraper {
         case '9':
           return ServerParser.animeworld;
         case '3':
-          return  ServerParser.vvvvid;
+          return ServerParser.vvvvid;
         case '8':
           return ServerParser.streamtape;
         case '6':
-          return  ServerParser.server2;
+          return ServerParser.server2;
         case '2':
           return ServerParser.doodStream;
         case '17':
           return ServerParser.userload;
         case '4':
           return ServerParser.youtube;
+        case '18':
+          return ServerParser.vup;
+        case '25':
+          return ServerParser.streamlare;
         default:
           return ServerParser.none;
       }
@@ -337,6 +343,10 @@ class AnimeWorldScraper {
         return await DoodstreamParser().getUrl(grabber);
       case ServerParser.userload:
         return await UserloadParser().getUrl(grabber);
+      case ServerParser.streamlare:
+        return await StreamlareParser().getUrlVideo(grabber);
+      case ServerParser.vup:
+        return await VupParser().getUrlVideo(grabber);
       default:
         return DirectUrlVideo('', {});
     }

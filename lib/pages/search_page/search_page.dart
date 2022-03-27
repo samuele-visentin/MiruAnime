@@ -146,10 +146,14 @@ class _SearchPageState extends State<SearchPage> {
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () => Navigator.of(context).pop(),
-                    child: const Icon(
-                      FontAwesomeIcons.circleXmark,
-                      size: 20,
-                      color: AppColors.purple,
+                    child: const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: Icon(
+                        FontAwesomeIcons.circleXmark,
+                        size: 20,
+                        color: AppColors.purple,
+                      ),
                     ),
                   ),
                 ],
@@ -201,7 +205,15 @@ class _SearchPageState extends State<SearchPage> {
   Widget _successfulResult(final List<Anime> list){
     if(list.isEmpty) {
       return const Center(
-        child: Text('Non ci sono anime con questo nome', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),),
+        child: Text('Nessun anime trovato',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Montserrat',
+            color: AppColors.white,
+          ),
+          textAlign: TextAlign.center,
+        ),
       );
     }
     return CupertinoScrollbar(

@@ -228,6 +228,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                           onTap: () => Navigator.of(context).pop(),
                           child: const SizedBox(
                             width: 36,
+                            height: 20,
                             child: Icon(
                               FontAwesomeIcons.circleXmark,
                               size: 20,
@@ -600,7 +601,16 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
   }
 
   void _playBrowserVideo(final AnimeWorldEpisode episode, final AnimeWorldSpecificAnime anime) async {
-    final url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
+    late final DirectUrlVideo url;
+    try {
+      url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
+    } catch (_) {
+      Fluttertoast.showToast(
+        msg: 'Errore nell\'ottenimento del link',
+        toastLength: Toast.LENGTH_LONG
+      );
+      return;
+    }
     if (Uri.tryParse(url.urlVideo) == null) {
       Fluttertoast.showToast(
         msg: 'Errore nell\'ottenimento del link',

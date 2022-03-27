@@ -26,7 +26,7 @@ class GridViewAnime extends StatelessWidget {
   Widget build(BuildContext context) {
     if(animeList.isEmpty){
       return Center(
-        child: Text('Nessun anime', style: Theme.of(context).textTheme.bodyText1),
+        child: Text('Nessun anime', style: Theme.of(context).textTheme.bodyText1, textAlign: TextAlign.center,),
       );
     }
     return Padding(

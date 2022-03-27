@@ -36,11 +36,11 @@ class _NewsPageState extends State<NewsPage> {
     if(_controller.position.maxScrollExtent <= _controller.position.pixels + 400) {
       if (loading) return;
       loading = true;
+      ++page;
       AnimeWorldScraper().getNews('${AnimeWorldEndPoints.news}$page').then((value) async {
         if (!mounted) return;
         setState(() {
           news.addAll(value);
-          ++page;
         });
         await Future.delayed(const Duration(milliseconds: 150)); //we wait so the build function can execute before the listener does another fetch
         loading = false;
@@ -61,7 +61,6 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   void dispose(){
-    _controller.removeListener(_listener);
     _controller.dispose();
     super.dispose();
   }
@@ -130,7 +129,7 @@ class _NewsPageState extends State<NewsPage> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 4, right: 4, bottom: 4),
+                        padding: const EdgeInsets.only(left: 5, right: 5, bottom: 4),
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
@@ -140,7 +139,10 @@ class _NewsPageState extends State<NewsPage> {
                                 const Padding(padding: EdgeInsets.symmetric(vertical: 5),),
                                 Text(
                                   element.title,
-                                  style: Theme.of(context).textTheme.bodyText2,
+                                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 14
+                                  ),
                                   textAlign: TextAlign.center,
                                   maxLines: 4,
                                   overflow: TextOverflow.ellipsis,
@@ -148,8 +150,8 @@ class _NewsPageState extends State<NewsPage> {
                                 Text(
                                   element.body,
                                   style: Theme.of(context).textTheme.caption!.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
                                     letterSpacing: 0.15
                                   ),
                                   textAlign: TextAlign.center,
@@ -166,7 +168,7 @@ class _NewsPageState extends State<NewsPage> {
                                 child: Text(
                                   element.time,
                                   style: Theme.of(context).textTheme.caption!.copyWith(
-                                    fontSize: 11
+                                    fontSize: 10
                                   ),
                                 ),
                               ),

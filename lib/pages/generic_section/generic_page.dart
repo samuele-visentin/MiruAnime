@@ -50,7 +50,6 @@ class _GenericPageState extends State<GenericPage> {
 
   @override
   void dispose(){
-    _controller.removeListener(_listener);
     _controller.dispose();
     super.dispose();
   }
@@ -60,11 +59,11 @@ class _GenericPageState extends State<GenericPage> {
     if(_controller.position.maxScrollExtent <= _controller.position.pixels + 400) {
       if (loading) return;
       loading = true;
+      ++page;
       AnimeWorldScraper().getGenericPage('$url$page').then((value) async {
         if (!mounted) return;
         setState(() {
           animeList.addAll(value);
-          ++page;
         });
         await Future.delayed(const Duration(milliseconds: 150)); //we wait so the build function can execute before the listener does another fetch
         loading = false;

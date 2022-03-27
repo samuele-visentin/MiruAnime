@@ -75,10 +75,14 @@ class _UserAnimeListPageState extends State<UserAnimeListPage> {
                         )
                       );
                     },
-                    child: const Icon(
-                      FontAwesomeIcons.sort,
-                      size: 19,
-                      color: AppColors.purple,
+                    child: const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: Icon(
+                        FontAwesomeIcons.sort,
+                        size: 19,
+                        color: AppColors.purple,
+                      ),
                     ),
                   ),
                 )
@@ -150,7 +154,7 @@ class _GridViewAnime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(list.isEmpty) return Center(child: Text('Non ci sono anime', style: Theme.of(context).textTheme.subtitle1,),);
+    if(list.isEmpty) return Center(child: Text('Nessun anime', style: Theme.of(context).textTheme.subtitle1, textAlign: TextAlign.center,),);
     return CupertinoScrollbar(
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),
@@ -204,7 +208,7 @@ class _GridViewAnime extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                     child: Text(
-                      'Episodio: ${anime.currentEpisode}',
+                      'Ep: ${anime.currentEpisode}',
                       style: Theme.of(context).textTheme.subtitle2,
                       textAlign: TextAlign.center,
                     ),

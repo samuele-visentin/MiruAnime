@@ -16,6 +16,8 @@ class ServerParser {
   static const doodStream = ServerParser._('DoodStream');
   static const userload = ServerParser._('Userload');
   static const youtube = ServerParser._('YouTube');
+  static const streamlare = ServerParser._('Streamlare');
+  static const vup = ServerParser._('VUP');
   static const none = ServerParser._('');
 }
 

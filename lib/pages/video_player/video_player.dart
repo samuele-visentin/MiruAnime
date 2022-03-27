@@ -30,7 +30,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
   AnimeWorldEpisode get _episode => widget.episode;
   ServerParser get _name => widget.nameServer;
   String get _animeName => widget.animeName;
-  late final Future<DirectUrlVideo> _url;
+  late final Future<void> _url;
   late final BetterPlayerController _controller;
   final GlobalKey _key = GlobalKey();
 
@@ -38,47 +38,48 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
   void initState() {
     super.initState();
     Wakelock.enable();
-    _url = AnimeWorldScraper().getUrlVideo(_episode, _name).then((value) {
-      _controller = BetterPlayerController(
-        BetterPlayerConfiguration(
-          fit: BoxFit.contain,
-          autoPlay: true,
-          allowedScreenSleep: false,
-          fullScreenByDefault: true,
-          showPlaceholderUntilPlay: true,
-          //placeholderOnTop: true,
-          deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
-          controlsConfiguration: BetterPlayerControlsConfiguration(
-            //pipMenuIcon: Icons.picture_in_picture_alt_sharp,
-            enableAudioTracks: false,
-            enablePip: false,
-            enableSubtitles: false,
-            controlBarColor: Colors.black.withOpacity(0.55),
-            progressBarBufferedColor: AppColors.background,
-            controlsHideTime: const Duration(milliseconds: 10),
-            enableQualities: false,
-            loadingColor: AppColors.purple,
-            progressBarPlayedColor: AppColors.purple,
-            progressBarHandleColor: AppColors.purple,
-            overflowMenuIconsColor: AppColors.purple,
-            overflowModalColor: AppColors.white,
-            overflowModalTextColor: Colors.black,
-            //liveTextColor: Colors.black,
-            //iconsColor: Colors.redAccent[700],
-            iconsColor: AppColors.white,
-          ),
-          aspectRatio: 16/9,
-          autoDispose: true,
-          errorBuilder: (_, final errorMessage) =>
-              _errorWidget(errorMessage.toString()),
+    _controller = BetterPlayerController(
+      BetterPlayerConfiguration(
+        fit: BoxFit.contain,
+        autoPlay: true,
+        allowedScreenSleep: false,
+        fullScreenByDefault: true,
+        showPlaceholderUntilPlay: true,
+        //placeholderOnTop: true,
+        deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
+        controlsConfiguration: BetterPlayerControlsConfiguration(
+          //pipMenuIcon: Icons.picture_in_picture_alt_sharp,
+          enableAudioTracks: false,
+          enablePip: false,
+          enableSubtitles: false,
+          controlBarColor: Colors.black.withOpacity(0.55),
+          progressBarBufferedColor: AppColors.background,
+          controlsHideTime: const Duration(milliseconds: 10),
+          enableQualities: false,
+          loadingColor: AppColors.purple,
+          progressBarPlayedColor: AppColors.purple,
+          progressBarHandleColor: AppColors.purple,
+          overflowMenuIconsColor: AppColors.purple,
+          overflowModalColor: AppColors.white,
+          overflowModalTextColor: Colors.black,
+          //liveTextColor: Colors.black,
+          //iconsColor: Colors.redAccent[700],
+          iconsColor: AppColors.white,
         ),
-        betterPlayerDataSource: BetterPlayerDataSource.network(
+        aspectRatio: 16/9,
+        autoDispose: true,
+        errorBuilder: (_, final errorMessage) =>
+            _errorWidget(errorMessage.toString()),
+      ),
+    );
+    _url = AnimeWorldScraper().getUrlVideo(_episode, _name).then((final value) {
+      _controller.setupDataSource(
+        BetterPlayerDataSource.network(
           value.urlVideo,
           headers: value.headers
         ),
       );
-      _controller.addEventsListener(changeAspectRatio);
-      return value;
+      if(mounted) _controller.addEventsListener(changeAspectRatio);
     });
   }
 
@@ -93,10 +94,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
   @override
   void dispose() {
     Wakelock.disable();
-    _url.whenComplete(() {
-      _controller.removeEventsListener(changeAspectRatio);
-      _controller.dispose();
-    });
+    _controller.dispose();
     super.dispose();
   }
 
@@ -115,7 +113,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
             ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 20)),
             Expanded(
-              child: FutureBuilder<DirectUrlVideo>(
+              child: FutureBuilder<void>(
                 future: _url,
                 builder: (_, snap) {
                   switch (snap.connectionState) {
@@ -168,7 +166,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
           scrollDirection: Axis.vertical,
           children: <Widget>[
             const Text(
-              'The video URL is broken. Probably the site has changed its API infrastructure; try to change the server (Userload has several problem for copyright), if the problem persist send me the following error message so i can solve the problem:',
+              'The video URL is broken. Maybe the site has changed its API infrastructure or try to change the server (Userload has several problem for copyright), if the problem persist send me the following error message so i can solve the problem:',
               style: TextStyle(
                 fontSize: 16,
                 fontFamily: 'Montserrat',
@@ -184,7 +182,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
             ),
             const SizedBox(height: 20),
             Text(
-              _controller.betterPlayerDataSource!.url,
+              _controller.betterPlayerDataSource?.url ?? '',
               style: const TextStyle(fontSize: 16, color: AppColors.white),
             ),
           ],

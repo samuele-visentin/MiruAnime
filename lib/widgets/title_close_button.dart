@@ -18,10 +18,14 @@ class TitleWithCloseButton extends StatelessWidget {
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => Navigator.of(context).pop(),
-              child: const Icon(
-                FontAwesomeIcons.circleXmark,
-                size: 19,
-                color: AppColors.purple,
+              child: const SizedBox(
+                width: 20,
+                height: 20,
+                child: Icon(
+                  FontAwesomeIcons.circleXmark,
+                  size: 19,
+                  color: AppColors.purple,
+                ),
               ),
             ),
           ),

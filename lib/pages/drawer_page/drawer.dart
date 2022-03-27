@@ -11,10 +11,24 @@ import 'package:miru_anime/pages/specific_page/specific_anime.dart';
 import 'package:miru_anime/pages/upcoming_page/upcoming_page.dart';
 import 'package:miru_anime/pages/user_list_page/user_anime_list.dart';
 
-class AppDrawerMenu extends StatelessWidget {
+class AppDrawerMenu extends StatefulWidget {
   final String route;
   const AppDrawerMenu({Key? key, required this.route}) : super(key: key);
 
+  @override
+  State<AppDrawerMenu> createState() => _AppDrawerMenuState();
+}
+
+class _AppDrawerMenuState extends State<AppDrawerMenu> {
+  
+  late String currentRoute;
+  
+  @override
+  void initState() {
+    super.initState();
+    currentRoute = widget.route;
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -27,70 +41,59 @@ class AppDrawerMenu extends StatelessWidget {
           child: ListView(
             children: [
               const Padding(padding: EdgeInsets.symmetric(vertical: 2),),
-              _TileDrawer(
+              _tileDrawer(
                 name: 'Home',
                 route: HomePage.route,
-                currentRoute: route,
                 icon: FontAwesomeIcons.house,
               ),
-              _TileDrawer(
+              _tileDrawer(
                 name: 'La mia lista',
                 route: UserAnimeListPage.route,
-                currentRoute: route,
                 icon: FontAwesomeIcons.folderOpen
               ),
-              _TileDrawer(
+              _tileDrawer(
                 name: 'Nuove aggiunte',
                 route: AnimeSection.newAdded.route,
-                currentRoute: route,
                 icon: FontAwesomeIcons.plus,
               ),
-              _TileDrawer(
+              _tileDrawer(
                 name: 'Ultimi episodi',
                 route: AnimeSection.last.route,
-                currentRoute: route,
                 icon: FontAwesomeIcons.tv
               ),
-              _TileDrawer(
+              _tileDrawer(
                 name: 'Anime in corso',
                 icon: FontAwesomeIcons.spinner,
-                currentRoute: route,
                 route: AnimeSection.ongoing.route,
               ),
-              _TileDrawer(
+              _tileDrawer(
                 name: 'Generi',
                 icon: FontAwesomeIcons.barsStaggered,
-                currentRoute: route,
                 route: GenrePage.route,
               ),
-              _TileDrawer(
+              _tileDrawer(
                 name: 'Categorie',
                 icon: FontAwesomeIcons.listUl,
-                currentRoute: route,
                 route: CategoriesPage.route,
               ),
-              _TileDrawer(
+              _tileDrawer(
                 name: 'Ricerca avanzata',
                 icon: FontAwesomeIcons.magnifyingGlassPlus,
-                currentRoute: route,
                 route: AdvanceSearch.route,
               ),
-              _TileDrawer(
+              _tileDrawer(
                 name: 'Prossime uscite',
                 icon: FontAwesomeIcons.bullhorn,
                 route: UpcomingPage.route,
-                currentRoute: route,
               ),
-              _TileDrawer(
+              _tileDrawer(
                 name: 'News',
                 icon: FontAwesomeIcons.newspaper,
-                currentRoute: route,
                 route: NewsPage.route,
               ),
-              _TileDrawer(
+              _tileDrawer(
                 name: 'Casuale',
                 icon: FontAwesomeIcons.shuffle,
-                currentRoute: route,
                 route: SpecificAnimePage.randomAnimeRoute,
               ),
             ],
@@ -99,25 +102,12 @@ class AppDrawerMenu extends StatelessWidget {
       ),
     );
   }
-}
-
-
-class _TileDrawer extends StatelessWidget {
-  final String name;
-  final String currentRoute;
-  final String route;
-  final IconData icon;
-
-  const _TileDrawer({
-    Key? key,
-    required this.name,
-    required this.route,
-    required this.currentRoute,
-    required this.icon
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  
+  Widget _tileDrawer({
+    required final String name,
+    required final String route,
+    required final IconData icon
+  }) {
     if (currentRoute == route) {
       return Container(
         decoration: const BoxDecoration(
@@ -137,7 +127,7 @@ class _TileDrawer extends StatelessWidget {
               hoverColor: Colors.transparent,
               focusColor: Colors.transparent,
               title: Text(name,
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(color: AppColors.white)
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(color: AppColors.white)
               ),
               leading: FaIcon(
                 icon,
@@ -155,6 +145,9 @@ class _TileDrawer extends StatelessWidget {
         hoverColor: Colors.transparent,
         focusColor: Colors.transparent,
         onTap: (){
+          setState(() {
+            currentRoute = route;
+          });
           if(route == HomePage.route) {
             Navigator.of(context).popUntil((route) => route.isFirst);
           } else {
@@ -162,7 +155,7 @@ class _TileDrawer extends StatelessWidget {
           }
         },
         title: Text(name,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(color: AppColors.white)
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(color: AppColors.white)
         ),
         leading: FaIcon(
           icon,
@@ -173,4 +166,5 @@ class _TileDrawer extends StatelessWidget {
     );
   }
 }
+
 

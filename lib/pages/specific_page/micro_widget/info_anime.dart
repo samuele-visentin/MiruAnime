@@ -145,7 +145,7 @@ class _WrapContent extends StatelessWidget {
                         color: AppColors.purple,
                     ),
                   ),
-                  const Text(', ')
+                  Text(', ', style: Theme.of(context).textTheme.subtitle2)
                 ],
               )
           )

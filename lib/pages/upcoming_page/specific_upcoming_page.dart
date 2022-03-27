@@ -5,6 +5,7 @@ import 'package:miru_anime/pages/generic_section/generic_shimmer_page.dart';
 import 'package:miru_anime/widgets/app_scaffold.dart';
 import 'package:miru_anime/widgets/default_error_page.dart';
 
+import '../../constants/app_colors.dart';
 import '../../widgets/gridview_anime.dart';
 import '../../widgets/title_close_button.dart';
 
@@ -41,15 +42,23 @@ class _SpecificUpcomingPageState extends State<SpecificUpcomingPage> {
               length: 5,
               child: Column(
                 children: [
-                  const TabBar(
-                    tabs: [
+                  TabBar(
+                    tabs: const [
                       Tab(text: 'Anime'),
                       Tab(text: 'OVA'),
                       Tab(text: 'ONA'),
                       Tab(text: 'Special'),
                       Tab(text: 'Movie'),
                     ],
-                    //FIXME: reduce size of text -> labelStyle: ,
+                    labelStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800
+                    ),
+                    unselectedLabelStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white.withAlpha(70)
+                    ),
                   ),
                   Expanded(
                     child: FutureBuilder<UpComingAnime>(
@@ -101,42 +110,3 @@ class _SpecificUpcomingPageState extends State<SpecificUpcomingPage> {
     );
   }
 }
-
-/*class _CustomTab extends StatelessWidget {
-  final String name;
-  final int page;
-  final PageController controller;
-  final bool check;
-  const _CustomTab({Key? key, required this.name, required this.page, required this.controller, required this.check}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(8),
-      onTap: () {
-        controller.animateToPage(page, duration: const Duration(milliseconds: 400), curve: Curves.fastOutSlowIn);
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          padding: const EdgeInsets.only(bottom: 2),
-          decoration: check ? const BoxDecoration(
-            border: Border(bottom: BorderSide(
-              color: AppColors.purple,
-              width: 1.5
-            ))
-          ) : null,
-          child: Text(
-            name,
-            style: check ? Theme.of(context).textTheme.subtitle1 : Theme.of(context).textTheme.subtitle1!.copyWith(
-              //fontWeight: FontWeight.w400,
-              color: AppColors.white.withOpacity(0.7)
-            ),
-          )
-        ),
-      ),
-    );
-  }
-}*/
-
-
