@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:miru_anime/backend/sites/animeworld/models/server.dart';
-import 'package:miru_anime/backend/sites/video_url.dart';
 import 'package:miru_anime/backend/sites/animeworld/scraper.dart';
 import 'package:miru_anime/backend/sites/server_parser.dart';
 import 'package:miru_anime/constants/app_colors.dart';

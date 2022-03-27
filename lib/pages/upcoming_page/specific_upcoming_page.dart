@@ -35,6 +35,7 @@ class _SpecificUpcomingPageState extends State<SpecificUpcomingPage> {
       route: '', 
       child: Column(
         children: [
+          const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
           TitleWithCloseButton(text: widget.name),
           const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
           Expanded(
@@ -51,13 +52,13 @@ class _SpecificUpcomingPageState extends State<SpecificUpcomingPage> {
                       Tab(text: 'Movie'),
                     ],
                     labelStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.w800
                     ),
                     unselectedLabelStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.white.withAlpha(70)
+                      color: AppColors.white.withAlpha(65)
                     ),
                   ),
                   Expanded(

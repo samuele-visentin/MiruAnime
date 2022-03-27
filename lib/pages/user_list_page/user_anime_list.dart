@@ -56,6 +56,7 @@ class _UserAnimeListPageState extends State<UserAnimeListPage> {
         length: 2,
         child: Column(
           children: [
+            const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
             Stack(
               alignment: Alignment.center,
               children: [
@@ -88,6 +89,7 @@ class _UserAnimeListPageState extends State<UserAnimeListPage> {
                 )
               ],
             ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
             TabBar(
               labelStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 16
