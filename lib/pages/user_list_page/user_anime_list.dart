@@ -164,13 +164,12 @@ class _GridViewAnime extends StatelessWidget {
         itemCount: list.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 150/230,
-            mainAxisSpacing: 15, crossAxisSpacing: 15
+            mainAxisSpacing: 20, crossAxisSpacing: 15
         ),
         itemBuilder: (_,final index) {
           final anime = list[index];
           return Container(
             clipBehavior: Clip.antiAlias,
-            height: 220,
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.white),
               borderRadius: BorderRadius.circular(9)
@@ -201,7 +200,9 @@ class _GridViewAnime extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
                     child: Text(
                       anime.title,
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        fontSize: 14
+                      ),
                       textAlign: TextAlign.center,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
@@ -211,7 +212,9 @@ class _GridViewAnime extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                     child: Text(
                       'Ep: ${anime.currentEpisode}',
-                      style: Theme.of(context).textTheme.subtitle2,
+                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        fontSize: 13
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   )

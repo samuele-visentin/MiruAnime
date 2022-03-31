@@ -604,9 +604,9 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     late final DirectUrlVideo url;
     try {
       url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
-    } catch (_) {
+    } catch (e) {
       Fluttertoast.showToast(
-        msg: 'Errore nell\'ottenimento del link',
+        msg: 'Errore: ${e.toString()}',
         toastLength: Toast.LENGTH_LONG
       );
       return;
@@ -649,8 +649,23 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
       );
       return;
     }
-    final url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
-    if(url.urlVideo.contains('.m3u8')) {
+    late final DirectUrlVideo url;
+    try {
+      url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'Errore: ${e.toString()}',
+          toastLength: Toast.LENGTH_LONG
+      );
+      return;
+    }
+    if (Uri.tryParse(url.urlVideo) == null) {
+      Fluttertoast.showToast(
+          msg: 'Errore nell\'ottenimento del link',
+          toastLength: Toast.LENGTH_LONG
+      );
+      return;
+    } else if(url.urlVideo.contains('.m3u8')) {
       Fluttertoast.showToast(
         msg: 'Questo tipo di video non può essere scaricato',
         toastLength: Toast.LENGTH_LONG
@@ -682,7 +697,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           savedDir: saveDir.path,
           saveInPublicStorage: false,
           headers: url.headers,
-          fileName: anime.title + ' episodio ' + episode.title + '.mp4'
+          fileName: (anime.title + '_episodio_' + episode.title + '.mp4').replaceAll(' ', '_')
       );
       setState(() {
         _task.add(AppDownloadTask(episode.title, DownloadTaskStatus.enqueued, id!));

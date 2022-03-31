@@ -221,13 +221,15 @@ class _SearchPageState extends State<SearchPage> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 155/255,
-            mainAxisSpacing: 20, crossAxisSpacing: 10),
+            mainAxisSpacing: 5, crossAxisSpacing: 10),
         itemBuilder: (final context, final index){
           final anime = list[index];
           return ThumbnailWithTitle(
             title: anime.title,
             image: anime.thumbnail,
-            urlAnime: anime.link
+            urlAnime: anime.link,
+            width: 155,
+            height: 216,
           );
         },
         itemCount: list.length,

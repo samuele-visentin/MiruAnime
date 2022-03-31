@@ -33,6 +33,7 @@ class UserloadParser {
     final String randomLetters = String.fromCharCodes(
         Iterable.generate(32, (_) => letters.codeUnitAt(_rnd.nextInt(letters.length))
         ));
+
     //we brute force the real url by test all the cases (couse the name and the position of morocco's value can change)
     for (final url in regexParam.allMatches(infoUrl)) {
       if(url.group(1)!.isEmpty || url.group(1)!.contains('.mp4'))
@@ -52,7 +53,7 @@ class UserloadParser {
               }
           )
       )).data as String;
-      if(response.contains('<title>')) continue; //the page return status OK but the page is 404 error
+      if(Uri.tryParse(response) == null) continue; //the page return status OK but the page is 404 error
       return DirectUrlVideo(response, {});
     }
     throw ArgumentError('Uri parser fail');
