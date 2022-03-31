@@ -46,7 +46,7 @@ class ThumbnailWithTitle extends StatelessWidget {
             height: height,
             image: image,
           ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 2)),
           SizedBox(
             width: width,
             height: 35,

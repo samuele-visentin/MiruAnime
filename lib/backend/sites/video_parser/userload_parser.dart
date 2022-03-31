@@ -53,7 +53,7 @@ class UserloadParser {
               }
           )
       )).data as String;
-      if(Uri.tryParse(response) == null) continue; //the page return status OK but the page is 404 error
+      if(response.contains('<title>') || Uri.tryParse(response) == null) continue; //the page return status OK but the page is 404 error
       return DirectUrlVideo(response, {});
     }
     throw ArgumentError('Uri parser fail');

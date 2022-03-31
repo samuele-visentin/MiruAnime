@@ -218,18 +218,19 @@ class _SearchPageState extends State<SearchPage> {
     }
     return CupertinoScrollbar(
       child: GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 155/255,
-            mainAxisSpacing: 5, crossAxisSpacing: 10),
+            crossAxisCount: 2, childAspectRatio: 155/270,
+            mainAxisSpacing: 15, crossAxisSpacing: 15),
         itemBuilder: (final context, final index){
           final anime = list[index];
           return ThumbnailWithTitle(
             title: anime.title,
             image: anime.thumbnail,
             urlAnime: anime.link,
-            width: 155,
-            height: 216,
+            width: double.infinity,
+            height: 205,
           );
         },
         itemCount: list.length,
