@@ -71,7 +71,7 @@ class _UserAnimeListPageState extends State<UserAnimeListPage> {
                         builder: (_) => DropdownAlert(
                          filterMap: sortFilter,
                           type: DropdownAlertType.radio,
-                          labelPefix: 'Sort',
+                          labelPefix: 'Ordine',
                           fun: _sort,
                         )
                       );
