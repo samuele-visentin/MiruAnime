@@ -1,0 +1,74 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:4435384651597019710",
+      "lastPropertyId": "9:2211110247357550496",
+      "name": "AnimeDatabase",
+      "properties": [
+        {
+          "id": "1:6642653038717941767",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1624324498582935196",
+          "name": "animeID",
+          "type": 9,
+          "flags": 2048,
+          "indexId": "1:1782501352687934008"
+        },
+        {
+          "id": "3:3724183071520773738",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "4:2778369010634874414",
+          "name": "imgUrl",
+          "type": 9
+        },
+        {
+          "id": "5:7173841413930794411",
+          "name": "animeUrl",
+          "type": 9
+        },
+        {
+          "id": "6:8677672389133642407",
+          "name": "currentEpisode",
+          "type": 9
+        },
+        {
+          "id": "7:7784180153386615748",
+          "name": "time",
+          "type": 9
+        },
+        {
+          "id": "8:1910135139490616878",
+          "name": "userFinishedToWatch",
+          "type": 1
+        },
+        {
+          "id": "9:2211110247357550496",
+          "name": "animeIsFinished",
+          "type": 1
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:4435384651597019710",
+  "lastIndexId": "1:1782501352687934008",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
