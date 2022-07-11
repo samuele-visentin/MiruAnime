@@ -14,7 +14,7 @@ class AnilistClient extends OAuth2Client {
     accessTokenRequestHeaders = {'Accept': 'application/json', 'Content-Type' : 'application/json'};
   }
 
-  @override
+ @override
   Future<AccessTokenResponse> getTokenWithImplicitGrantFlow(
       {required String clientId,
         List<String>? scopes,

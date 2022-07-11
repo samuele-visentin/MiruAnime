@@ -36,24 +36,15 @@ void main() async {
   final futures = await Future.wait(<Future<dynamic>>[
     FlutterDownloader.initialize(),
     ObjectBox.init(),
-<<<<<<< HEAD
     AppSettings.isLogged(AppSettings.anilistSetting),
     AppSettings.initializeTheme(),
     AppSettings.isLogged(AppSettings.malSetting)
-=======
-    AppSettings.isAnilistLogged(),
-    AppSettings.initializeTheme(),
->>>>>>> 5bf27227cce39cf170329f31b252a785b7f047a0
   ]);
   FlutterDownloader.registerCallback(downloadCallback);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
-<<<<<<< HEAD
   Anilist.isLogged = futures[2];
   MyAnimeList.isLogged = futures[4];
-=======
-  if( futures[2] as bool == true ) Anilist.isLogged = true;
->>>>>>> 5bf27227cce39cf170329f31b252a785b7f047a0
   final TypeTheme theme = futures[3];
   if(theme == TypeTheme.light)
     SystemChrome.setSystemUIOverlayStyle(statusBarLight);

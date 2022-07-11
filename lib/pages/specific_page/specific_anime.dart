@@ -16,6 +16,9 @@ import 'package:miru_anime/backend/models/comment.dart';
 import 'package:miru_anime/backend/models/server.dart';
 import 'package:miru_anime/backend/models/specific_page.dart';
 import 'package:miru_anime/backend/sites/anilist/anilist.dart';
+import 'package:miru_anime/backend/sites/anilist/anilist_status.dart';
+import 'package:miru_anime/backend/sites/myanimelist/mal_status.dart';
+import 'package:miru_anime/backend/sites/myanimelist/myanimelist.dart';
 import 'package:miru_anime/backend/sites/myanimelist/scraper.dart';
 import 'package:miru_anime/backend/sites/animeworld/scraper.dart';
 import 'package:miru_anime/backend/globals/server_types.dart';
@@ -639,12 +642,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     if (_isAdded) {
       _updateDB(episode, anime);
     }
-    _updateOnlineDB(
-      episodeTitle: episode.title,
-      anilistId: anime.anilistLink,
-      myanimelistId: anime.myanimelistLink,
-      isFinished: episode.isFinal && anime.state == AnimeState.finish
-    );
+    _updateEpisodeOnlineDB(anime, episode);
   }
 
   void _playBrowserVideo(final AnimeWorldEpisode episode,
@@ -670,12 +668,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     if (_isAdded) {
       _updateDB(episode, anime);
     }
-    _updateOnlineDB(
-      episodeTitle: episode.title,
-      anilistId: anime.anilistLink,
-      myanimelistId: anime.myanimelistLink,
-      isFinished: episode.isFinal && anime.state == AnimeState.finish
-    );
+    _updateEpisodeOnlineDB(anime, episode);
   }
 
   Future<void> _downloadEpisode(final AnimeWorldEpisode episode,
@@ -797,27 +790,59 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         _isAdded = true;
       });
       _box.put(_animeSaved);
+      _updateOnlineDB(
+        anilistId: data.anilistLink,
+        myanimelistId: data.myanimelistLink,
+        anilistStatus: AnilistStatus.planning,
+        malStatus: MalStatus.planning
+      );
     } else {
       _box.remove(_animeSaved.id);
       setState(() {
         _isAdded = false;
       });
+      _updateOnlineDB(
+        anilistId: data.anilistLink,
+        myanimelistId: data.myanimelistLink,
+        anilistStatus: AnilistStatus.paused,
+        malStatus: MalStatus.paused
+      );
     }
+  }
+
+  void _updateEpisodeOnlineDB(final AnimeWorldSpecificAnime data, final AnimeWorldEpisode episode) {
+    var progress = int.tryParse(episode.title);
+    progress ??= int.tryParse(episode.title.split('-').last);
+    final isFinal = episode.isFinal && data.state == AnimeState.finish;
+    _updateOnlineDB(
+        anilistId: data.anilistLink,
+        myanimelistId: data.myanimelistLink,
+        progress: progress,
+        anilistStatus: isFinal ? AnilistStatus.completed : AnilistStatus.current,
+        malStatus: isFinal ? MalStatus.completed : MalStatus.current
+    );
   }
 
   void _updateOnlineDB({
     required final String? anilistId,
     required final String? myanimelistId,
-    required final String episodeTitle,
-    required final bool isFinished
+    final int? progress,
+    required final AnilistStatus anilistStatus,
+    required final MalStatus malStatus
   }) async {
     if(Anilist.isLogged && anilistId != null) {
       final id = Uri.parse(anilistId).pathSegments.last;
-      var progress = int.tryParse(episodeTitle);
-      progress ??= int.parse(episodeTitle.split('-').last);
-      Anilist().updateUserData(
+      Anilist().updateUserDataAnimeStatus(
         id: id,
-        isFinished: isFinished,
+        status: anilistStatus,
+        progress: progress
+      );
+    }
+    if(MyAnimeList.isLogged && myanimelistId != null) {
+      final id = Uri.parse(myanimelistId).pathSegments.last;
+      MyAnimeList().updateUserList(
+        id: id,
+        status: malStatus,
         progress: progress
       );
     }

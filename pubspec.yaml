@@ -52,6 +52,7 @@ dependencies:
   provider: ^6.0.2
   shared_preferences: ^2.0.13
   oauth2_client: ^2.4.0
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:
@@ -101,6 +102,7 @@ flutter:
   # example:
   assets:
     - assets/genres/
+    - assets/images/
   fonts:
     - family: Montserrat
       fonts:

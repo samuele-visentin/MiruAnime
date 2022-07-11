@@ -121,7 +121,7 @@ final _themeAppPurple = ThemeData.from(
   colorScheme: const ColorScheme(
       primary: AppColors.background,
       secondary: AppColors.purple,
-      secondaryContainer: AppColors.purple,
+      secondaryContainer: AppColors.darkBlue,
       surface: AppColors.white,
       background: AppColors.background,
       error: AppColors.functionalred,
@@ -139,7 +139,7 @@ final _themeAppAmoled = ThemeData.from(
     colorScheme: const ColorScheme(
         primary: Colors.black,
         secondary: AppColors.ocean8,
-        secondaryContainer: AppColors.darkViola,
+        secondaryContainer: AppColors.background,
         surface: AppColors.white,
         background: Colors.black,
         error: AppColors.functionalred,
@@ -157,7 +157,7 @@ final _themeAppLight = ThemeData.from(
     colorScheme: const ColorScheme(
         primary: AppColors.white,
         secondary: AppColors.purple,
-        secondaryContainer: AppColors.purple,
+        secondaryContainer: AppColors.ocean4,
         surface: AppColors.functionalDarkGrey,
         background: AppColors.white,
         error: AppColors.functionalred,

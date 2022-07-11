@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:miru_anime/backend/database/app_settings.dart';
 import 'package:miru_anime/backend/sites/anilist/anilist_client.dart';
+import 'package:miru_anime/backend/sites/anilist/anilist_status.dart';
 import 'package:oauth2_client/oauth2_helper.dart';
 
 class Anilist {
   static var isLogged = false;
-  static const _secret = 'TOKEN';
-  static const _id = 'ID';
+  static const _secret = '';
+  static const _id = '';
   static const _url = 'https://graphql.anilist.co/';
   final _dio = Dio();
 
@@ -29,17 +30,23 @@ class Anilist {
     return request.data;
   }
 
-  Future<void> logIn() async {
+  Future<OAuth2Helper> getHelper() async {
     final client = AnilistClient(
         redirectUri: 'miruanime://oauth',
         customUriScheme: 'miruanime'
     );
-    final helper = OAuth2Helper(
+    return OAuth2Helper(
       client,
       clientId: _id,
       grantType: OAuth2Helper.IMPLICIT_GRANT,
       clientSecret: _secret,
+      enablePKCE: false,
+      enableState: true
     );
+  }
+
+  Future<void> logIn() async {
+    final helper = await getHelper();
     final token = await helper.getToken();
     if (token?.accessToken == null)
       throw Exception('Failed to get token');
@@ -48,45 +55,26 @@ class Anilist {
   }
 
   void logOut() async {
-    final client = AnilistClient(
-        redirectUri: 'miruanime://oauth',
-        customUriScheme: 'miruanime'
-    );
-    final helper = OAuth2Helper(
-      client,
-      clientId: _id,
-      grantType: OAuth2Helper.IMPLICIT_GRANT,
-      clientSecret: _secret,
-    );
+    final helper = await getHelper();
     helper.removeAllTokens();
     AppSettings.saveBool(AppSettings.anilistSetting, false);
     Anilist.isLogged = false;
   }
 
   Future<String> getToken() async {
-    final client = AnilistClient(
-        redirectUri: 'miruanime://oauth',
-        customUriScheme: 'miruanime'
-    );
-    final helper = OAuth2Helper(
-      client,
-      clientId: _id,
-      grantType: OAuth2Helper.IMPLICIT_GRANT,
-      clientSecret: _secret,
-    );
+    final helper = await getHelper();
     return (await helper.getToken())!.accessToken!;
   }
 
-  void updateUserData({
+  void updateUserDataAnimeStatus({
     required final String id,
-    required final bool isFinished,
-    required final int progress,
+    required final AnilistStatus status,
+    final int? progress,
   }) async {
     const query = r'''
     mutation ($mediaId: Int, $status: MediaListStatus) {
       SaveMediaListEntry (mediaId: $mediaId, status: $status) {
         id
-        status
       }
     }
     ''';
@@ -106,9 +94,9 @@ class Anilist {
     ''';
     variables = {
       'id': json['data']['SaveMediaListEntry']['id'],
-      'status': isFinished ? 'COMPLETED' : 'CURRENT',
-      'progress': progress
+      'status': status.value,
     };
+    if(progress != null) variables['progress'] = progress;
     await request(query2, variables);
   }
 }
