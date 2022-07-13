@@ -36,6 +36,7 @@ class AppTheme extends ChangeNotifier {
   set setTheme(final TypeTheme themeType) {
     AppSettings.saveInt(AppSettings.themeSetting, themeType.index);
     _theme = _getType(themeType);
+    _type = themeType;
     notifyListeners();
   }
 
