@@ -75,7 +75,7 @@ class GridViewAnime extends StatelessWidget {
                         gradient: LinearGradient(
                           colors: [
                             Colors.transparent,
-                            Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.7)
+                            Theme.of(context).colorScheme.secondary.withOpacity(0.7)
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,

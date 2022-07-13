@@ -52,72 +52,70 @@ class _UserAnimeListPageState extends State<UserAnimeListPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       route: UserAnimeListPage.route,
-      child: SafeArea(
-        child: DefaultTabController(
-          length: 2,
-          child: Column(
-            children: [
-              const Padding(padding: EdgeInsets.symmetric(vertical: 2)),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  const TitleWithCloseButton(text: 'La mia lista'),
-                  Positioned(
-                    right: 25,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) => DropdownAlert(
-                           filterMap: sortFilter,
-                            type: DropdownAlertType.radio,
-                            labelPefix: 'Ordine',
-                            fun: _sort,
-                          )
-                        );
-                      },
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: Icon(
-                          FontAwesomeIcons.sort,
-                          size: 19,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
+      child: DefaultTabController(
+        length: 2,
+        child: Column(
+          children: [
+            const Padding(padding: EdgeInsets.symmetric(vertical: 2)),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                const TitleWithCloseButton(text: 'La mia lista'),
+                Positioned(
+                  right: 25,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => DropdownAlert(
+                         filterMap: sortFilter,
+                          type: DropdownAlertType.radio,
+                          labelPefix: 'Ordine',
+                          fun: _sort,
+                        )
+                      );
+                    },
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: Icon(
+                        FontAwesomeIcons.sort,
+                        size: 19,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
-                  )
+                  ),
+                )
+              ],
+            ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+            TabBar(
+              indicatorColor: Theme.of(context).colorScheme.onPrimary,
+              labelColor: Theme.of(context).colorScheme.onBackground,
+              labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                fontSize: 14.sp
+              ),
+              tabs: const [
+                Tab(text: 'In corso',),
+                Tab(text: 'Finiti')
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  _GridViewAnime(
+                    list: _userListOngoing,
+                    key: const PageStorageKey('listOngoing'),
+                  ),
+                  _GridViewAnime(
+                    list: _userListFinished,
+                    key: const PageStorageKey('listFinished'),
+                  ),
                 ],
               ),
-              const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
-              TabBar(
-                indicatorColor: Theme.of(context).colorScheme.onPrimary,
-                labelColor: Theme.of(context).colorScheme.onBackground,
-                labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: 14.sp
-                ),
-                tabs: const [
-                  Tab(text: 'In corso',),
-                  Tab(text: 'Finiti')
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    _GridViewAnime(
-                      list: _userListOngoing,
-                      key: const PageStorageKey('listOngoing'),
-                    ),
-                    _GridViewAnime(
-                      list: _userListFinished,
-                      key: const PageStorageKey('listFinished'),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       )
     );

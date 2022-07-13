@@ -66,6 +66,7 @@ class _HomePageState extends State<HomePage> {
     return AppScaffold(
       route: HomePage.route,
       scrollController: _scrollController,
+      paddingTop: false,
       child: RefreshIndicator(
         color: Theme.of(context).colorScheme.onSurface,
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage> {
           builder: (final _, final snap) {
             switch (snap.connectionState) {
               case ConnectionState.done:
-                return snap.hasError ? SafeArea(child: DefaultErrorPage(error: snap.error.toString())) : _successfulWidget(snap.data!);
+                return snap.hasError ? SafeArea(bottom: false, child: DefaultErrorPage(error: snap.error.toString())) : _successfulWidget(snap.data!);
               default:
                 return const _ShimmerWidget();
             }
@@ -139,7 +140,10 @@ class _HomePageState extends State<HomePage> {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Theme.of(context).backgroundColor, Colors.transparent],
+                  colors: [
+                    Theme.of(context).backgroundColor,
+                    Theme.of(context).backgroundColor.withOpacity(0.8),
+                  ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 )
@@ -379,6 +383,7 @@ class _ShimmerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: false,
       child: ListView(
         children: [
           _title(),

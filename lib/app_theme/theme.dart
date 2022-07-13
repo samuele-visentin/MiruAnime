@@ -6,7 +6,6 @@ import 'app_colors.dart';
 
 const statusBarLight = SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,
-  //TODO: check if this work on ios
   statusBarBrightness: Brightness.dark,
   statusBarIconBrightness: Brightness.dark
 );

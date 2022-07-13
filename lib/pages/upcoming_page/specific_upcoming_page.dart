@@ -34,58 +34,56 @@ class _SpecificUpcomingPageState extends State<SpecificUpcomingPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       route: '', 
-      child: SafeArea(
-        child: Column(
-          children: [
-            const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
-            TitleWithCloseButton(text: widget.name),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
-            Expanded(
-              child: DefaultTabController(
-                length: 5,
-                child: Column(
-                  children: [
-                    TabBar(
-                      isScrollable: true,
-                      tabs: const [
-                        Tab(text: 'Anime'),
-                        Tab(text: 'OVA'),
-                        Tab(text: 'ONA'),
-                        Tab(text: 'Special'),
-                        Tab(text: 'Movie'),
-                      ],
-                      indicatorColor: Theme.of(context).colorScheme.onPrimary,
-                      labelColor: Theme.of(context).colorScheme.onBackground,
-                      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w700
-                      ),
-                      unselectedLabelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white.withAlpha(65)
-                      ),
+      child: Column(
+        children: [
+          const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+          TitleWithCloseButton(text: widget.name),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+          Expanded(
+            child: DefaultTabController(
+              length: 5,
+              child: Column(
+                children: [
+                  TabBar(
+                    isScrollable: true,
+                    tabs: const [
+                      Tab(text: 'Anime'),
+                      Tab(text: 'OVA'),
+                      Tab(text: 'ONA'),
+                      Tab(text: 'Special'),
+                      Tab(text: 'Movie'),
+                    ],
+                    indicatorColor: Theme.of(context).colorScheme.onPrimary,
+                    labelColor: Theme.of(context).colorScheme.onBackground,
+                    labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w700
                     ),
-                    Expanded(
-                      child: FutureBuilder<UpComingAnime>(
-                        future: future,
-                        builder: (_, snap){
-                          switch(snap.connectionState){
-                            case ConnectionState.done:
-                              return snap.hasError ? DefaultErrorPage(error: snap.error.toString()) :
-                                _successfulPage(snap.data!);
-                            default:
-                              return const ShimmerGridAnime();
-                          }
-                        },
-                      ),
+                    unselectedLabelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white.withAlpha(65)
                     ),
-                  ],
-                ),
+                  ),
+                  Expanded(
+                    child: FutureBuilder<UpComingAnime>(
+                      future: future,
+                      builder: (_, snap){
+                        switch(snap.connectionState){
+                          case ConnectionState.done:
+                            return snap.hasError ? DefaultErrorPage(error: snap.error.toString()) :
+                              _successfulPage(snap.data!);
+                          default:
+                            return const ShimmerGridAnime();
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       )
     );
   }

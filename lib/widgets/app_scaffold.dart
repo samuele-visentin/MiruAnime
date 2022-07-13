@@ -8,7 +8,14 @@ class AppScaffold extends StatelessWidget {
   final Widget child;
   final String route;
   final ScrollController? scrollController;
-  const AppScaffold({Key? key, required this.route, required this.child, this.scrollController}) : super(key: key);
+  final bool paddingTop;
+  const AppScaffold({
+    Key? key,
+    this.paddingTop = true,
+    required this.route,
+    required this.child,
+    this.scrollController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,21 +24,19 @@ class AppScaffold extends StatelessWidget {
         route: route,
         scrollController: scrollController
       ),
-      body: Column(
-        children: [
-          Expanded(child: child),
-          const Divider(
-            thickness: 2,
-            color: AppColors.grey,
-            height: 1,
-          ),
-          const SafeArea(
-            top: false,
-            left: false,
-            right: false,
-            child: _AppBottomBar(),
-          )
-        ],
+      body: SafeArea(
+        top: paddingTop,
+        child: Column(
+          children: [
+            Expanded(child: child),
+            const Divider(
+              thickness: 2,
+              color: AppColors.grey,
+              height: 1,
+            ),
+            const _AppBottomBar()
+          ],
+        ),
       ),
     );
   }

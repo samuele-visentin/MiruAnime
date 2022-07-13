@@ -107,25 +107,23 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return AppScaffold(
       route: SettingsPage.route,
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const UnderlineTitleWithCloseButton(text: 'Opzioni'),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
-                child: _selectTheme(),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
-                child: _cancelAllTask(),
-              ),
-              const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-              anilistButton,
-              malButton
-            ],
-          ),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const UnderlineTitleWithCloseButton(text: 'Opzioni'),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+              child: _selectTheme(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+              child: _cancelAllTask(),
+            ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            anilistButton,
+            malButton
+          ],
         ),
       ),
     );
@@ -182,7 +180,7 @@ class _SettingsPageState extends State<SettingsPage> {
         onChanged: (final value) {
           if (value == null) return;
           _typeTheme = value;
-          if(value == TypeTheme.light)
+          if(value != TypeTheme.light)
             SystemChrome.setSystemUIOverlayStyle(statusBarLight);
           else
             SystemChrome.setSystemUIOverlayStyle(statusBarDark);

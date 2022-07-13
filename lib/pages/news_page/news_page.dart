@@ -69,30 +69,28 @@ class _NewsPageState extends State<NewsPage> {
     return AppScaffold(
       route: NewsPage.route,
       scrollController: _controller,
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            UnderlineTitleWithCloseButton(
-              text: 'News  •  Page: $page',
-              indent: 10,
-              endIndent: 10,
-            ),
-            Expanded(
-              child: FutureBuilder<void>(
-                future: future,
-                builder: (_, snap) {
-                  switch(snap.connectionState) {
-                    case ConnectionState.done:
-                      return snap.hasError ? DefaultErrorPage(error: snap.error.toString()) : _successfulPage();
-                    default:
-                      return const _ShimmerNewsPage();
-                  }
-                },
-              )
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          UnderlineTitleWithCloseButton(
+            text: 'News  •  Page: $page',
+            indent: 10,
+            endIndent: 10,
+          ),
+          Expanded(
+            child: FutureBuilder<void>(
+              future: future,
+              builder: (_, snap) {
+                switch(snap.connectionState) {
+                  case ConnectionState.done:
+                    return snap.hasError ? DefaultErrorPage(error: snap.error.toString()) : _successfulPage();
+                  default:
+                    return const _ShimmerNewsPage();
+                }
+              },
             )
-          ],
-        ),
+          )
+        ],
       )
     );
   }

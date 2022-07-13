@@ -215,33 +215,31 @@ class _GenrePageState extends State<GenrePage> {
     return AppScaffold(
       route: GenrePage.route,
       scrollController: scrollController,
-      child: SafeArea(
-        child: Column(
-          children: [
-            const UnderlineTitleWithCloseButton(text: 'Generi'),
-            Expanded(
-              child: CupertinoScrollbar(
+      child: Column(
+        children: [
+          const UnderlineTitleWithCloseButton(text: 'Generi'),
+          Expanded(
+            child: CupertinoScrollbar(
+              controller: scrollController,
+              child: GridView.builder(
                 controller: scrollController,
-                child: GridView.builder(
-                  controller: scrollController,
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
-                  itemBuilder: (_, index){
-                    final genere = GenrePage._data.entries.elementAt(index);
-                    return genreCard(
-                        genreTitle: genere.key,
-                        url: genere.value['url']!,
-                        svgAssetPath: genere.value['svgAssetPath']!
-                    );
-                  },
-                  itemCount: GenrePage._data.length,
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
                 ),
+                itemBuilder: (_, index){
+                  final genere = GenrePage._data.entries.elementAt(index);
+                  return genreCard(
+                      genreTitle: genere.key,
+                      url: genere.value['url']!,
+                      svgAssetPath: genere.value['svgAssetPath']!
+                  );
+                },
+                itemCount: GenrePage._data.length,
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       )
     );
   }

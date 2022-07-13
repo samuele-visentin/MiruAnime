@@ -32,26 +32,24 @@ class CategoriesPage extends StatelessWidget {
 
     return AppScaffold(
         route: route,
-        child: SafeArea(
-          child: Column(
-            children: [
-              const UnderlineTitleWithCloseButton(text: 'Categorie'),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _section('Anime', AnimeWorldEndPoints.anime),
-                    _section('Movie', AnimeWorldEndPoints.movies),
-                    _section('OVA', AnimeWorldEndPoints.ova),
-                    _section('ONA', AnimeWorldEndPoints.ona),
-                    _section('Special', AnimeWorldEndPoints.special),
-                    _section('Music', AnimeWorldEndPoints.music),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 20))
-                  ],
-                ),
+        child: Column(
+          children: [
+            const UnderlineTitleWithCloseButton(text: 'Categorie'),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _section('Anime', AnimeWorldEndPoints.anime),
+                  _section('Movie', AnimeWorldEndPoints.movies),
+                  _section('OVA', AnimeWorldEndPoints.ova),
+                  _section('ONA', AnimeWorldEndPoints.ona),
+                  _section('Special', AnimeWorldEndPoints.special),
+                  _section('Music', AnimeWorldEndPoints.music),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 20))
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         )
     );
   }

@@ -46,7 +46,7 @@ void main() async {
   Anilist.isLogged = futures[2];
   MyAnimeList.isLogged = futures[4];
   final TypeTheme theme = futures[3];
-  if(theme == TypeTheme.light)
+  if(theme != TypeTheme.light)
     SystemChrome.setSystemUIOverlayStyle(statusBarLight);
   else
     SystemChrome.setSystemUIOverlayStyle(statusBarDark);

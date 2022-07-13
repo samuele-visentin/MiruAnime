@@ -83,28 +83,26 @@ class _GenericPageState extends State<GenericPage> {
           future = AnimeWorldScraper().getGenericPage('$url$page');
           setState(() {});
         },
-        child: SafeArea(
-          child: Column(
-            children: [
-              UnderlineTitleWithCloseButton(text: '$name  •  Page: $page'),
-              Expanded(
-                child: FutureBuilder<void>(
-                  future: future,
-                  builder: (_, final snap) {
-                    switch (snap.connectionState) {
-                      case ConnectionState.none:
-                      case ConnectionState.waiting:
-                      case ConnectionState.active:
-                        return const ShimmerGridAnime();
-                      case ConnectionState.done:
-                        return snap.hasError ? DefaultErrorPage(error: snap.error.toString()) :
-                        GridViewAnime(animeList: animeList, controller: _controller);
-                    }
-                  },
-                ),
+        child: Column(
+          children: [
+            UnderlineTitleWithCloseButton(text: '$name  •  Page: $page'),
+            Expanded(
+              child: FutureBuilder<void>(
+                future: future,
+                builder: (_, final snap) {
+                  switch (snap.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
+                    case ConnectionState.active:
+                      return const ShimmerGridAnime();
+                    case ConnectionState.done:
+                      return snap.hasError ? DefaultErrorPage(error: snap.error.toString()) :
+                      GridViewAnime(animeList: animeList, controller: _controller);
+                  }
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

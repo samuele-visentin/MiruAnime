@@ -55,49 +55,47 @@ class _AdvanceSearchState extends State<AdvanceSearch> {
   Widget build(BuildContext context) {
     return AppScaffold(
       route: AdvanceSearch.route,
-      child: SafeArea(
-        child: Column(
-          children: [
-            const UnderlineTitleWithCloseButton(text: 'Ricerca avanzata'),
-            Expanded(
-              child: CupertinoScrollbar(
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  children: [
-                    const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10,),),
-                    _filterButton(label: 'Generi', map: mapAnimeWorldGenresFilter),
-                    _filterButton(label: 'Anno', map: mapAnimeWorldYearsFilter),
-                    _filterButton(
-                      label: 'Stato',
-                      map: mapAnimeWorldStatusFilter,
-                      type: DropdownAlertType.radio,
-                    ),
-                    _filterButton(
-                      label: 'Ordine',
-                      map: mapAnimeWorldOrderFilter,
-                      type: DropdownAlertType.radio,
-                    ),
-                    _filterButton(
-                        label: 'Stagione', map: mapAnimeWorldSeasonFilter),
-                    _filterButton(
-                        label: 'Sottotitoli', map: mapAnimeWorldLanguageFilter),
-                    _filterButton(
-                        label: 'Audio',
-                        map: mapAnimeWorldSoundFilter
-                    ),
-                    _filterButton(label: 'Tipo', map: mapAnimeWorldTypeFilter),
-                    _filterButton(label: 'Studio', map: mapAnimeWorldStudioFilter),
-                    _resetButton(),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                    _searchBar(),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                  ],
-                ),
+      child: Column(
+        children: [
+          const UnderlineTitleWithCloseButton(text: 'Ricerca avanzata'),
+          Expanded(
+            child: CupertinoScrollbar(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                children: [
+                  const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10,),),
+                  _filterButton(label: 'Generi', map: mapAnimeWorldGenresFilter),
+                  _filterButton(label: 'Anno', map: mapAnimeWorldYearsFilter),
+                  _filterButton(
+                    label: 'Stato',
+                    map: mapAnimeWorldStatusFilter,
+                    type: DropdownAlertType.radio,
+                  ),
+                  _filterButton(
+                    label: 'Ordine',
+                    map: mapAnimeWorldOrderFilter,
+                    type: DropdownAlertType.radio,
+                  ),
+                  _filterButton(
+                      label: 'Stagione', map: mapAnimeWorldSeasonFilter),
+                  _filterButton(
+                      label: 'Sottotitoli', map: mapAnimeWorldLanguageFilter),
+                  _filterButton(
+                      label: 'Audio',
+                      map: mapAnimeWorldSoundFilter
+                  ),
+                  _filterButton(label: 'Tipo', map: mapAnimeWorldTypeFilter),
+                  _filterButton(label: 'Studio', map: mapAnimeWorldStudioFilter),
+                  _resetButton(),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                  _searchBar(),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       )
     );
   }

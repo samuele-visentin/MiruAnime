@@ -152,20 +152,18 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           if (snap.connectionState != ConnectionState.done) {
             return const ShimmerAnimePage();
           } else if (snap.hasError) {
-            return SafeArea(
-              child: RefreshIndicator(
-                color: AppColors.purple,
-                triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                backgroundColor: AppColors.darkBlue,
-                onRefresh: () async {
-                  _anime = AnimeWorldScraper().getSpecificAnimePage(_url);
-                  setState(() {});
-                },
-                child: DefaultErrorPage(error: snap.error.toString()),
-              ),
+            return RefreshIndicator(
+              color: AppColors.purple,
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              backgroundColor: AppColors.darkBlue,
+              onRefresh: () async {
+                _anime = AnimeWorldScraper().getSpecificAnimePage(_url);
+                setState(() {});
+              },
+              child: DefaultErrorPage(error: snap.error.toString()),
             );
           }
-          return SafeArea(child: _successfulPage(snap.data!));
+          return _successfulPage(snap.data!);
         },
       ),
     );
