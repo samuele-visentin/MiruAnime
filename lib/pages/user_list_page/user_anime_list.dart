@@ -203,7 +203,7 @@ class _GridViewAnime extends StatelessWidget {
                     child: Text(
                       anime.title,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: 13.sp,
+                        fontSize: 11.sp,
                       ),
                       textAlign: TextAlign.center,
                       maxLines: 3,

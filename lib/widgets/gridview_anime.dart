@@ -45,7 +45,7 @@ class GridViewAnime extends StatelessWidget {
             itemCount: animeList.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, childAspectRatio: width/height,
-                mainAxisSpacing: 25, crossAxisSpacing: 20
+                mainAxisSpacing: 20, crossAxisSpacing: 15
             ),
             itemBuilder: (final context, final index) {
               final anime = animeList[index];
