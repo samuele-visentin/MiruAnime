@@ -11,6 +11,7 @@ class InfoAnime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme.caption!.copyWith(color: Theme.of(context).colorScheme.onBackground);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -23,17 +24,17 @@ class InfoAnime extends StatelessWidget {
               children: [
                 Text(
                   'Prossimo episodio: ',
-                  style: Theme.of(context).textTheme.caption,
+                  style: theme,
                 ),
                 Text(
                   nextEpisode,
-                  style: Theme.of(context).textTheme.caption,
+                  style: theme
                 ),
               ],
             ),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          Text('Categoria: ${info.categoria}', style: Theme.of(context).textTheme.caption,),
+          Text('Categoria: ${info.categoria}', style: theme,),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
           _RowInfo(
             url: info.audio.url,
@@ -41,7 +42,7 @@ class InfoAnime extends StatelessWidget {
             value: info.audio.name
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          Text('Data di uscita: ${info.releaseDate}', style: Theme.of(context).textTheme.caption,),
+          Text('Data di uscita: ${info.releaseDate}', style: theme,),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
           _RowInfo(
               url: info.season.url,
@@ -53,11 +54,11 @@ class InfoAnime extends StatelessWidget {
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
           _WrapContent(list: info.genre, name: 'Genere',),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          Text('Voto: ${info.voto}', style: Theme.of(context).textTheme.caption,),
+          Text('Voto: ${info.voto}', style: theme,),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          Text('Durata: ${info.durata}', style: Theme.of(context).textTheme.caption,),
+          Text('Durata: ${info.durata}', style: theme,),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          Text('Episodi: ${info.numberEpisode}', style: Theme.of(context).textTheme.caption,),
+          Text('Episodi: ${info.numberEpisode}', style: theme,),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
           _RowInfo(
               url: info.status.url,
@@ -65,7 +66,7 @@ class InfoAnime extends StatelessWidget {
               value: info.status.name
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          Text('Visualizzazioni: ${info.views}', style: Theme.of(context).textTheme.caption,),
+          Text('Visualizzazioni: ${info.views}', style: theme),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
         ],
       ),
@@ -85,7 +86,7 @@ class _RowInfo extends StatelessWidget {
       children: [
         Text(
           '$name: ',
-          style: Theme.of(context).textTheme.bodySmall,
+          style: Theme.of(context).textTheme.caption,
         ),
         GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -99,7 +100,7 @@ class _RowInfo extends StatelessWidget {
           )),
           child: Text(
             value,
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+            style: Theme.of(context).textTheme.caption!.copyWith(
               color: Theme.of(context).colorScheme.secondary,
             ),
           )

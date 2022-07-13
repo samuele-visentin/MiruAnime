@@ -378,12 +378,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         child: Text(
           _nameServer.toString(),
           textAlign: TextAlign.center,
-          style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 17,
-              fontFamily: 'Montserrat',
-              color: Theme.of(context).colorScheme.onBackground,
-              letterSpacing: -0.5),
+          style: Theme.of(context).textTheme.bodyLarge
         ),
       );
 
@@ -441,14 +436,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                     child: Center(
                       child: Text(
                         'Episodio: ${episode.title}',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          textBaseline: TextBaseline.ideographic,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.onBackground,
-                          letterSpacing: -0.5,
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium
                       ),
                     ),
                   );

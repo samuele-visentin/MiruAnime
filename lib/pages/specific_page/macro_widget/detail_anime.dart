@@ -153,7 +153,7 @@ class _Cast extends StatelessWidget {
                   child: Center(
                     child: Text(
                       character.animeCharName,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 11.sp),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onBackground),
                       textAlign: TextAlign.center,
                       maxLines: 2,
                     ),
@@ -162,7 +162,7 @@ class _Cast extends StatelessWidget {
               ),
             ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
-            Text(character.role, style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 10.sp),),
+            Text(character.role, style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 9.sp),),
             const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
             _CircleAvatar(url: character.realCharImg, name: character.realCharName,),
             const Padding(padding: EdgeInsets.symmetric(vertical: 2)),
@@ -174,7 +174,7 @@ class _Cast extends StatelessWidget {
                   child: Center(
                     child: Text(
                       character.realCharName,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 11.sp),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onBackground),
                       textAlign: TextAlign.center,
                       maxLines: 2,
                     ),

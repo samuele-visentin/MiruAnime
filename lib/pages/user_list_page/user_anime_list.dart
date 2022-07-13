@@ -204,6 +204,7 @@ class _GridViewAnime extends StatelessWidget {
                       anime.title,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         fontSize: 11.sp,
+                        color: Theme.of(context).colorScheme.onBackground
                       ),
                       textAlign: TextAlign.center,
                       maxLines: 3,
@@ -215,7 +216,8 @@ class _GridViewAnime extends StatelessWidget {
                     child: Text(
                       'Ep: ${anime.currentEpisode}',
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: 12.sp
+                        fontSize: 10.sp,
+                        color: Theme.of(context).colorScheme.onBackground
                       ),
                       textAlign: TextAlign.center,
                     ),
