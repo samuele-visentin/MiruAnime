@@ -33,25 +33,23 @@ class _UpcomingPageState extends State<UpcomingPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       route: UpcomingPage.route,
-      child: SafeArea(
-        child: Column(
-          children: [
-            const UnderlineTitleWithCloseButton(text: 'Prossime uscite'),
-            Expanded(
-              child: FutureBuilder<List<Href>>(
-                future: future,
-                builder: (_, snap) {
-                  switch(snap.connectionState) {
-                    case ConnectionState.done:
-                      return snap.hasError ? DefaultErrorPage(error: snap.error.toString()) : _successfulPage(snap.data!);
-                    default:
-                      return const _ShimmerPage();
-                  }
-                },
-              ),
-            )
-          ],
-        ),
+      child: Column(
+        children: [
+          const UnderlineTitleWithCloseButton(text: 'Prossime uscite'),
+          Expanded(
+            child: FutureBuilder<List<Href>>(
+              future: future,
+              builder: (_, snap) {
+                switch(snap.connectionState) {
+                  case ConnectionState.done:
+                    return snap.hasError ? DefaultErrorPage(error: snap.error.toString()) : _successfulPage(snap.data!);
+                  default:
+                    return const _ShimmerPage();
+                }
+              },
+            ),
+          )
+        ],
       )
     );
   }

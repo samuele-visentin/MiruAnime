@@ -34,6 +34,7 @@ import 'package:miru_anime/widgets/app_scaffold.dart';
 import 'package:miru_anime/widgets/default_error_page.dart';
 import 'package:miru_anime/widgets/gallery/fullscreen_image.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_anime.dart';
+import 'package:miru_anime/widgets/refresh_indicator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:resize/resize.dart';
@@ -146,25 +147,23 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       route: SpecificAnimePage.route,
-      child: FutureBuilder<AnimeWorldSpecificAnime?>(
-        future: _anime,
-        builder: (_, snap) {
-          if (snap.connectionState != ConnectionState.done) {
-            return const ShimmerAnimePage();
-          } else if (snap.hasError) {
-            return RefreshIndicator(
-              color: AppColors.purple,
-              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-              backgroundColor: AppColors.darkBlue,
-              onRefresh: () async {
-                _anime = AnimeWorldScraper().getSpecificAnimePage(_url);
-                setState(() {});
-              },
-              child: DefaultErrorPage(error: snap.error.toString()),
-            );
-          }
-          return _successfulPage(snap.data!);
+      child: AppRefreshIndicator(
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        onRefresh: () async {
+          _anime = AnimeWorldScraper().getSpecificAnimePage(_url);
+          setState(() {});
         },
+        child: FutureBuilder<AnimeWorldSpecificAnime?>(
+          future: _anime,
+          builder: (_, snap) {
+            if (snap.connectionState != ConnectionState.done) {
+              return const ShimmerAnimePage();
+            } else if (snap.hasError) {
+              return DefaultErrorPage(error: snap.error.toString());
+            }
+            return _successfulPage(snap.data!);
+          },
+        ),
       ),
     );
   }

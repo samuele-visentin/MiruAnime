@@ -6,13 +6,13 @@ import 'app_colors.dart';
 
 const statusBarLight = SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,
-  statusBarBrightness: Brightness.dark,
+  statusBarBrightness: Brightness.light,
   statusBarIconBrightness: Brightness.dark
 );
 
 const statusBarDark = SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,
-  statusBarBrightness: Brightness.light,
+  statusBarBrightness: Brightness.dark,
   statusBarIconBrightness: Brightness.light
 );
 
@@ -54,14 +54,14 @@ class AppTheme extends ChangeNotifier {
 final _textTheme = TextTheme(
     headlineLarge: TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 18.sp,
+        fontSize: 16.sp,
         fontWeight: FontWeight.w600,
         //color: AppColors.white
       //height: 29
     ),
     headlineMedium: TextStyle(
       fontFamily: 'Montserrat',
-      fontSize: 16.sp,
+      fontSize: 15.sp,
       fontWeight: FontWeight.w600,
       //color: AppColors.white,
     ),
@@ -77,39 +77,39 @@ final _textTheme = TextTheme(
         fontFamily: 'Montserrat',
         letterSpacing: 0.15,
         //color: AppColors.white,
-        fontSize: 15.sp
+        fontSize: 13.sp
     ),
     bodyMedium: TextStyle(
         fontWeight: FontWeight.w600,
         fontFamily: 'Montserrat',
         letterSpacing: 0.15,
         //color: AppColors.white,
-        fontSize: 14.sp
+        fontSize: 12.sp
     ),
     bodySmall: TextStyle(
         fontWeight: FontWeight.w600,
         fontFamily: 'Montserrat',
         letterSpacing: 0.15,
         //color: AppColors.white,
-        fontSize: 13.sp
+        fontSize: 11.sp
     ),
     titleLarge: TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 18.sp,
+        fontSize: 15.sp,
         fontWeight: FontWeight.w800,
         letterSpacing: 0.15,
         //color: AppColors.white
     ),
     titleMedium: TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 15.sp,
+        fontSize: 13.sp,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.15,
         //color: AppColors.white
     ),
     titleSmall: TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 11.sp,
+        fontSize: 10.sp,
         fontWeight: FontWeight.w700,
         letterSpacing: 0.4,
         //color: AppColors.white

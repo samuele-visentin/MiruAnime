@@ -180,7 +180,7 @@ class _SettingsPageState extends State<SettingsPage> {
         onChanged: (final value) {
           if (value == null) return;
           _typeTheme = value;
-          if(value != TypeTheme.light)
+          if(value == TypeTheme.light)
             SystemChrome.setSystemUIOverlayStyle(statusBarLight);
           else
             SystemChrome.setSystemUIOverlayStyle(statusBarDark);

@@ -17,7 +17,7 @@ class UnderlineTitleWithCloseButton extends StatelessWidget {
     return Column(
       children: [
         TitleWithCloseButton(text: text),
-        const Padding(padding: EdgeInsets.symmetric(vertical: 5),),
+        const Padding(padding: EdgeInsets.symmetric(vertical: 6),),
         Divider(
           color: Theme.of(context).colorScheme.secondary,
           endIndent: endIndent,

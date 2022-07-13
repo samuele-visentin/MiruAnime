@@ -8,7 +8,7 @@ class TitleWithCloseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 5),
+      padding: const EdgeInsets.only(top: 6),
       child: SizedBox(
         width: double.infinity,
         child: Stack(
@@ -20,11 +20,11 @@ class TitleWithCloseButton extends StatelessWidget {
                 behavior: HitTestBehavior.opaque,
                 onTap: () => Navigator.of(context).pop(),
                 child: SizedBox(
-                  width: 20,
-                  height: 20,
+                  width: 22,
+                  height: 22,
                   child: Icon(
-                    FontAwesomeIcons.circleXmark,
-                    size: 18,
+                    FontAwesomeIcons.chevronLeft,
+                    size: 20,
                     color: Theme.of(context).colorScheme.secondary
                   ),
                 ),

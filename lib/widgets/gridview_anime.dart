@@ -91,9 +91,9 @@ class GridViewAnime extends StatelessWidget {
                       padding: const EdgeInsets.all(12),
                       child: Text(
                         anime.title,
-                        style: Theme.of(context).textTheme.caption!.copyWith(
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.w800,
-                          fontSize: 12.sp,
+                          fontSize: 11.sp,
                           letterSpacing: 0.4,
                           color: AppColors.white
                         ),

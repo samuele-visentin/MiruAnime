@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:miru_anime/backend/models/anime.dart';
 import 'package:miru_anime/backend/sites/animeworld/scraper.dart';
+import 'package:miru_anime/widgets/refresh_indicator.dart';
 import 'package:miru_anime/widgets/shimmer_gridview_anime.dart';
 import 'package:miru_anime/widgets/app_scaffold.dart';
 import 'package:miru_anime/widgets/gridview_anime.dart';
@@ -75,9 +76,7 @@ class _GenericPageState extends State<GenericPage> {
     return AppScaffold(
       route: route,
       scrollController: _controller,
-      child: RefreshIndicator(
-        color: Theme.of(context).colorScheme.onSurface,
-        backgroundColor: Theme.of(context).colorScheme.surface,
+      child: AppRefreshIndicator(
         onRefresh: () async {
           page = 1;
           future = AnimeWorldScraper().getGenericPage('$url$page');

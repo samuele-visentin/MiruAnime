@@ -14,6 +14,7 @@ import 'package:miru_anime/widgets/default_error_page.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_title_anime.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_with_badge.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_with_bottom_badge.dart';
+import 'package:miru_anime/widgets/refresh_indicator.dart';
 import 'package:miru_anime/widgets/shimmer_box.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:resize/resize.dart';
@@ -67,9 +68,7 @@ class _HomePageState extends State<HomePage> {
       route: HomePage.route,
       scrollController: _scrollController,
       paddingTop: false,
-      child: RefreshIndicator(
-        color: Theme.of(context).colorScheme.onSurface,
-        backgroundColor: Theme.of(context).colorScheme.surface,
+      child: AppRefreshIndicator(
         onRefresh: () async {
           _data = AnimeWorldScraper().getHomePage();
           setState(() {});
@@ -98,7 +97,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SafeArea(child: Padding(padding: EdgeInsets.symmetric(vertical: 5))),
+              Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top)),
               const _CustomTitle(title: 'Top Anime'),
               _selectTop(),
               _topAnime(data.topAnime),

@@ -60,7 +60,7 @@ class _SpecificUpcomingPageState extends State<SpecificUpcomingPage> {
                       fontWeight: FontWeight.w700
                     ),
                     unselectedLabelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 12.sp,
+                      fontSize: 10.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.white.withAlpha(65)
                     ),
