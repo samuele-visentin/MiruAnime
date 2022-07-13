@@ -42,7 +42,7 @@ dependencies:
   permission_handler: ^10.0.0
   shimmer: ^2.0.0
   share_plus: ^4.0.1
-  better_player: ^0.0.81
+  better_player: ^0.0.83
   wakelock: ^0.6.1+2
   flutter_svg: ^1.0.3
   url_launcher: ^6.0.20

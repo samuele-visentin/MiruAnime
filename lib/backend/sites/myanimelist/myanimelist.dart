@@ -7,7 +7,7 @@ import 'package:oauth2_client/oauth2_helper.dart';
 class MyAnimeList {
   final _dio = Dio();
   static var isLogged = false;
-  static const _clientID = '';
+  static const _clientID = 'clientID';
 
   Future<OAuth2Helper> getHelper() async {
     final client = MyAnimeListClient(
@@ -18,8 +18,6 @@ class MyAnimeList {
       client,
       clientId: _clientID,
       grantType: OAuth2Helper.AUTHORIZATION_CODE,
-      enablePKCE: true,
-      enableState: true,
       authCodeParams: {
         'code_challenge_method' : 'plain'
       }
