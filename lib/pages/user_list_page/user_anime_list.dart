@@ -94,7 +94,7 @@ class _UserAnimeListPageState extends State<UserAnimeListPage> {
               indicatorColor: Theme.of(context).colorScheme.onPrimary,
               labelColor: Theme.of(context).colorScheme.onBackground,
               labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontSize: 14.sp
+                fontSize: 12.sp
               ),
               tabs: const [
                 Tab(text: 'In corso',),

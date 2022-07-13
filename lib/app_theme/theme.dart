@@ -128,7 +128,7 @@ final _themeAppPurple = ThemeData.from(
       onPrimary: AppColors.purple,
       onSecondary: AppColors.blue,
       onSurface: Colors.black,
-      onBackground: AppColors.white,
+      onBackground: Colors.white,
       onError: AppColors.background,
       brightness: Brightness.dark
     ),
@@ -146,7 +146,7 @@ final _themeAppAmoled = ThemeData.from(
         onPrimary: AppColors.white,
         onSecondary: AppColors.darkBlue,
         onSurface: Colors.black,
-        onBackground: AppColors.white,
+        onBackground: Colors.white,
         onError: AppColors.background,
         brightness: Brightness.dark
     ),

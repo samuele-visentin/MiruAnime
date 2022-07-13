@@ -117,12 +117,13 @@ class _WrapContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onBackground);
     return Wrap(
       direction: Axis.horizontal,
       spacing: 2,
       runSpacing: 4,
       children: [
-        Text('$name: ', style: Theme.of(context).textTheme.bodySmall,),
+        Text('$name: ', style: theme,),
         for (final item in list)
           GestureDetector(
               onTap: () => Navigator.of(context).push(PageRouteBuilder(
@@ -144,7 +145,7 @@ class _WrapContent extends StatelessWidget {
                         color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
-                  Text(', ', style: Theme.of(context).textTheme.bodySmall)
+                  Text(', ', style: theme)
                 ],
               )
           )
