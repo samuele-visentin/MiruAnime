@@ -86,7 +86,9 @@ class _RowInfo extends StatelessWidget {
       children: [
         Text(
           '$name: ',
-          style: Theme.of(context).textTheme.caption,
+          style: Theme.of(context).textTheme.caption!.copyWith(
+            color: Theme.of(context).colorScheme.onBackground
+          ),
         ),
         GestureDetector(
           behavior: HitTestBehavior.opaque,
