@@ -7,7 +7,7 @@ import 'package:oauth2_client/oauth2_helper.dart';
 class MyAnimeList {
   final _dio = Dio();
   static var isLogged = false;
-  static const _clientID = '4f6fecc167fd72e26f05b94f01ba5823';
+  static const _clientID = '';
 
   Future<OAuth2Helper> getHelper() async {
     final client = MyAnimeListClient(
@@ -36,7 +36,7 @@ class MyAnimeList {
   void logOut() async {
     final helper = await getHelper();
     helper.removeAllTokens();
-    AppSettings.saveBool(AppSettings.anilistSetting, false);
+    AppSettings.saveBool(AppSettings.malSetting, false);
     MyAnimeList.isLogged = false;
   }
 

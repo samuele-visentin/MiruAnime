@@ -72,7 +72,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
       if (value.servers.isNotEmpty) {
         final index = value.servers
             .indexWhere((element) => element.name == ServerName.animeworld);
-        if (!index.isNegative) {
+        if (index != -1) {
           final animeworldServer = value.servers[index];
           value.servers.removeAt(index);
           value.servers.insert(0, animeworldServer);
