@@ -250,9 +250,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
       children: [
         GestureDetector(
             onTap: () {
-              if(data.myanimelistLink != null) {
-                animeCast ??= Anilist().getCastAnime(data.anilistLink);
-              }
+              animeCast ??= Anilist().getCastAnime(data.anilistLink);
               Navigator.of(context).push(PageRouteBuilder(
                 pageBuilder: (_, __, ___) => DetailWidget(
                   description: data.description,
