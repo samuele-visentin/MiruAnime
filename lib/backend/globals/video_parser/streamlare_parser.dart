@@ -33,9 +33,15 @@ class StreamlareParser {
         }
       )
     )).data as Map<String, dynamic>;
+    String link;
     if(json['result']!.containsKey('Original'))
-      return DirectUrlVideo(json['result']!['Original']['file'], {});
+      link = json['result']!['Original']['file'];
     else
-      return DirectUrlVideo(json['result']!['file'], {});
+      link = json['result']!['file'];
+    return DirectUrlVideo(link, {
+      'Accept' : 'video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5',
+      'User-Agent' : userAgent,
+      'Referer' : 'https://sltube.org/'
+    });
   }
 }

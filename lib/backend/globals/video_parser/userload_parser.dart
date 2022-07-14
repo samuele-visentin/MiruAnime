@@ -53,7 +53,11 @@ class UserloadParser {
           )
       )).data as String;
       if(response.contains('<title>') || Uri.tryParse(response) == null) continue; //the page return status OK but the page is 404 error
-      return DirectUrlVideo(response, {});
+      return DirectUrlVideo(response, {
+        'Referer' : 'https://userload.co/',
+        'Accept' : 'video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5',
+        'User-Agent' : userAgent
+      });
     }
     throw ArgumentError('Uri parser fail');
   }
