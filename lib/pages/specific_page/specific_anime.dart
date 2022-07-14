@@ -258,7 +258,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                   description: data.description,
                   detail: data.info,
                   nextEpisode: data.nextEpisode,
-                  cast: animeCast,
+                  cast: animeCast!,
                 ),
                 transitionsBuilder: transitionBuilder)
               );

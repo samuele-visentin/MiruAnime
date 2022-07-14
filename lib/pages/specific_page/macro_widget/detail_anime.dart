@@ -18,7 +18,7 @@ class DetailWidget extends StatelessWidget {
   final DetailAnime detail;
   final String nextEpisode;
   final String description;
-  final Future<List<AnimeCast>>? cast;
+  final Future<List<AnimeCast>> cast;
 
   const DetailWidget({
     Key? key,
