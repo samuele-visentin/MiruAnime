@@ -19,7 +19,6 @@ import 'package:miru_anime/backend/sites/anilist/anilist.dart';
 import 'package:miru_anime/backend/sites/anilist/anilist_status.dart';
 import 'package:miru_anime/backend/sites/myanimelist/mal_status.dart';
 import 'package:miru_anime/backend/sites/myanimelist/myanimelist.dart';
-import 'package:miru_anime/backend/sites/myanimelist/scraper.dart';
 import 'package:miru_anime/backend/sites/animeworld/scraper.dart';
 import 'package:miru_anime/backend/globals/server_types.dart';
 import 'package:miru_anime/backend/globals/video_url.dart';
@@ -252,7 +251,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         GestureDetector(
             onTap: () {
               if(data.myanimelistLink != null) {
-                animeCast ??= MyAnimeListScraper().getAnimeCast(data.myanimelistLink!);
+                animeCast ??= Anilist().getCastAnime(data.anilistLink);
               }
               Navigator.of(context).push(PageRouteBuilder(
                 pageBuilder: (_, __, ___) => DetailWidget(
