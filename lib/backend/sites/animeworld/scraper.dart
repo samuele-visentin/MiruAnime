@@ -400,11 +400,8 @@ class AnimeWorldScraper {
             as String;
     final page = parse(data);
     return AnimeGenericData(
-        page
-            .querySelectorAll('.film-list > .item > .inner')
-            .map(getAnime)
-            .toList(),
-        int.parse(page.querySelector('.total')?.text ?? '1'));
+      _getGenericAnimeList(page),
+      int.parse(page.querySelector('.total')?.text ?? '1'));
   }
 
   Future<List<Anime>> getGenericPage(final String url) async {
@@ -412,10 +409,24 @@ class AnimeWorldScraper {
         (await _dio.get(url, options: Options(headers: _customHeaders))).data
             as String;
     final page = parse(data);
-    return page
-        .querySelectorAll('.film-list > .item > .inner')
-        .map(getAnime)
-        .toList();
+    return _getGenericAnimeList(page);
+  }
+
+  List<Anime> _getGenericAnimeList(final Document page) {
+    final animeList = <Anime>[];
+    final setName = <String>{};
+    for (final div in page.querySelectorAll('.film-list > .item > .inner')) {
+      final name = div.querySelector('a.name')!;
+      if(setName.contains(name.text)) continue;
+      setName.add(name.text);
+      animeList.add(Anime(
+          thumbnail: div.querySelector('img')!.attributes['src']!,
+          title: name.text.trim(),
+          link: AnimeWorldEndPoints.sitePrefixNoS +
+              name.attributes['href']!)
+      );
+    }
+    return animeList;
   }
 
   List<News> _getListNews(final List<Element> elements) {

@@ -6,8 +6,8 @@ import 'package:oauth2_client/oauth2_helper.dart';
 
 class Anilist {
   static var isLogged = false;
-  static const _secret = 'secret';
-  static const _id = 'id';
+  static const _secret = 'j0R8bjtuYw46Pfj8qo1efUC8Ln4m3j0bsK0QciGQ';
+  static const _id = '8033';
   static const _url = 'https://graphql.anilist.co/';
   final _dio = Dio();
 
