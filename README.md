@@ -29,6 +29,7 @@ because app upgrade might corrupt the db).
 - Share link of anime
 - Open video with external app or built-in video player
 - Support Anilist and MyAnimeList to save anime progress
+- Anime cast info
 
 ### How the app looks like:
  
