@@ -644,8 +644,11 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           toastLength: Toast.LENGTH_LONG);
       return;
     }
+    LaunchMode launchMode;
+    if(Platform.isIOS) launchMode = LaunchMode.inAppWebView;
+    else launchMode = LaunchMode.externalApplication;
     launchUrl(uri,
-        mode: LaunchMode.externalApplication,
+        mode: launchMode,
         webViewConfiguration: WebViewConfiguration(headers: url.headers));
     if (_isAdded) {
       _updateDB(episode, anime);
