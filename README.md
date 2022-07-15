@@ -28,6 +28,7 @@ because app upgrade might corrupt the db).
 - Internal database
 - Share link of anime
 - Open video with external app or built-in video player
+- Support Anilist and MyAnimeList to save anime progress
 
 ### How the app looks like:
  

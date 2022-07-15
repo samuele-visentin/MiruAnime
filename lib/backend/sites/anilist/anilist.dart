@@ -120,7 +120,7 @@ class Anilist {
               }
               image {
                 large
-               }
+              }
             }
             role
           }
