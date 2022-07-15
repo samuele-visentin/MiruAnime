@@ -146,23 +146,30 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       route: SpecificAnimePage.route,
-      child: AppRefreshIndicator(
-        triggerMode: RefreshIndicatorTriggerMode.anywhere,
-        onRefresh: () async {
-          _anime = AnimeWorldScraper().getSpecificAnimePage(_url);
-          setState(() {});
+      child: FutureBuilder<AnimeWorldSpecificAnime?>(
+        future: _anime,
+        builder: (_, snap) {
+          if (snap.connectionState != ConnectionState.done) {
+            return AppRefreshIndicator(
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              onRefresh: () async {
+                _anime = AnimeWorldScraper().getSpecificAnimePage(_url);
+                setState(() {});
+              },
+              child: const ShimmerAnimePage()
+            );
+          } else if (snap.hasError) {
+            return AppRefreshIndicator(
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              onRefresh: () async {
+                _anime = AnimeWorldScraper().getSpecificAnimePage(_url);
+                setState(() {});
+              },
+              child: DefaultErrorPage(error: snap.error.toString())
+            );
+          }
+          return _successfulPage(snap.data!);
         },
-        child: FutureBuilder<AnimeWorldSpecificAnime?>(
-          future: _anime,
-          builder: (_, snap) {
-            if (snap.connectionState != ConnectionState.done) {
-              return const ShimmerAnimePage();
-            } else if (snap.hasError) {
-              return DefaultErrorPage(error: snap.error.toString());
-            }
-            return _successfulPage(snap.data!);
-          },
-        ),
       ),
     );
   }
