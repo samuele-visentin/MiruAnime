@@ -146,7 +146,7 @@ class Anilist {
             }
           })
       )).data;
-      for (final edges in json['data']['Media']['characters']['edges']) {
+      for (final Map<String,dynamic> edges in json['data']['Media']['characters']['edges']) {
         listCast.add(
             AnimeCast(
                 animeCharImg: edges['node']['image']['large'],
@@ -155,7 +155,7 @@ class Anilist {
             )
         );
       }
-    } while(json['data']['Media']['characters']['pageInfo']['hasNextPage'] == true);
+    } while(json['data']['Media']['characters']['pageInfo']['hasNextPage']);
     return listCast;
   }
 }
