@@ -73,23 +73,20 @@ class Anilist {
     final int? progress,
   }) async {
     const query = r'''
-    mutation ($mediaId: Int, $status: MediaListStatus) {
-      SaveMediaListEntry (mediaId: $mediaId, status: $status) {
+    mutation ($mediaId: Int) {
+      SaveMediaListEntry (mediaId: $mediaId) {
         id
       }
     }
     ''';
     var variables = <String, dynamic>{
       'mediaId': id,
-      'status': 'CURRENT',
     };
     final json = await request(query, variables);
     const query2 = r'''
     mutation ($id: Int, $status: MediaListStatus, $progress: Int) {
       SaveMediaListEntry (id: $id, status: $status, progress: $progress) {
         id
-        status
-        progress
       }
     }
     ''';

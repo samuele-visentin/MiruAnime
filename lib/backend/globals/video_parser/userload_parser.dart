@@ -56,7 +56,8 @@ class UserloadParser {
       return DirectUrlVideo(response, {
         'Referer' : 'https://userload.co/',
         'Accept' : 'video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5',
-        'User-Agent' : userAgent
+        'User-Agent' : userAgent,
+        'Range' : 'bytes=0-'
       });
     }
     throw ArgumentError('Uri parser fail');
