@@ -150,19 +150,12 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         future: _anime,
         builder: (_, snap) {
           if (snap.connectionState != ConnectionState.done) {
-            return AppRefreshIndicator(
-              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-              onRefresh: () async {
-                _anime = AnimeWorldScraper().getSpecificAnimePage(_url);
-                setState(() {});
-              },
-              child: const ShimmerAnimePage()
-            );
+            return const ShimmerAnimePage();
           } else if (snap.hasError) {
             return AppRefreshIndicator(
               triggerMode: RefreshIndicatorTriggerMode.anywhere,
               onRefresh: () async {
-                _anime = AnimeWorldScraper().getSpecificAnimePage(_url);
+                getFuture();
                 setState(() {});
               },
               child: DefaultErrorPage(error: snap.error.toString())
