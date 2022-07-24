@@ -65,6 +65,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
 
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
     final color = Theme.of(context).colorScheme.secondary;
     _controller.setBetterPlayerControlsConfiguration(
       BetterPlayerControlsConfiguration(
@@ -87,7 +88,6 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
         iconsColor: AppColors.white,
       ),
     );
-    super.didChangeDependencies();
   }
 
   void changeAspectRatio(final BetterPlayerEvent event) {
