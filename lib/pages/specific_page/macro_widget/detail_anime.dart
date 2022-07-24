@@ -52,7 +52,7 @@ class DetailWidget extends StatelessWidget {
         ),
         //const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
         SizedBox(
-          height: 230,
+          height: 185,
           child: FutureBuilder<List<AnimeCast>>(
             future: cast,
             builder: (_, asyncsnap) {
@@ -134,26 +134,11 @@ class _Cast extends StatelessWidget {
         final character = cast[index];
         return Column(
           children: [
-            _CircleAvatar(url: character.animeCharImg, name: character.animeCharName),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-              child: SizedBox(
-                width: 100,
-                height: 32,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                  child: Center(
-                    child: Text(
-                      character.animeCharName,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onBackground),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    ),
-                  ),
-                )
-              ),
+            _CastAvatar(
+              url: character.animeCharImg,
+              name: character.animeCharName,
+              role: character.role,
             ),
-            Text(character.role, style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 9.sp, color: Colors.white),),
           ],
         );
       },
@@ -161,10 +146,11 @@ class _Cast extends StatelessWidget {
   }
 }
 
-class _CircleAvatar extends StatelessWidget {
+class _CastAvatar extends StatelessWidget {
   final String url;
   final String name;
-  const _CircleAvatar({Key? key, required this.url, required this.name}) : super(key: key);
+  final String role;
+  const _CastAvatar({Key? key, required this.url, required this.name, required this.role}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -177,10 +163,57 @@ class _CircleAvatar extends StatelessWidget {
             transitionsBuilder: transitionBuilder
           )
         ),
-        child: ThumbnailAnime(
-          image: url,
-          width: 110,
-          height: 150,
+        child: Stack(
+          alignment: Alignment.bottomLeft,
+          children: [
+            Container(
+              height: 150.2,
+              foregroundDecoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                gradient: const LinearGradient(
+                  colors: [
+                    Colors.transparent,
+                    Color.fromRGBO(0, 0, 0, 0.9)
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter
+                )
+              ),
+              child: ThumbnailAnime(
+                image: url,
+                width: 110,
+                height: 150,
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: SizedBox(
+                    width: 100,
+                    child: Text(name,
+                      maxLines: 2,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onBackground,
+                        fontSize: 10.sp
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                  child: Text(role,
+                    maxLines: 2,
+                    style: Theme.of(context).textTheme.caption!.copyWith(
+                      fontSize: 7.sp
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
         )
       ),
     );

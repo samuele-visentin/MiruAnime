@@ -38,7 +38,7 @@ void main() async {
     ObjectBox.init(),
     AppSettings.isLogged(AppSettings.anilistSetting),
     AppSettings.initializeTheme(),
-    AppSettings.isLogged(AppSettings.malSetting)
+    AppSettings.isLogged(AppSettings.malSetting),
   ]);
   FlutterDownloader.registerCallback(downloadCallback);
   SystemChrome.setPreferredOrientations(

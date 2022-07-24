@@ -41,11 +41,11 @@ class GridViewAnime extends StatelessWidget {
             controller: controller,
             physics: scrollPhysics,
             shrinkWrap: shinkWrap,
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 35),
             itemCount: animeList.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, childAspectRatio: width/height,
-                mainAxisSpacing: 20, crossAxisSpacing: 15
+                mainAxisSpacing: 10, crossAxisSpacing: 15
             ),
             itemBuilder: (final context, final index) {
               final anime = animeList[index];

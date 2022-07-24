@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:card_swiper/card_swiper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:miru_anime/app_theme/app_colors.dart';
 import 'package:miru_anime/backend/database/anime_saved.dart';
@@ -8,6 +10,7 @@ import 'package:miru_anime/backend/database/store.dart';
 import 'package:miru_anime/backend/models/anime.dart';
 import 'package:miru_anime/backend/models/home_page.dart';
 import 'package:miru_anime/backend/sites/animeworld/scraper.dart';
+import 'package:miru_anime/backend/updater/app_updater.dart';
 import 'package:miru_anime/objectbox.g.dart';
 import 'package:miru_anime/widgets/app_scaffold.dart';
 import 'package:miru_anime/widgets/default_error_page.dart';
@@ -16,6 +19,7 @@ import 'package:miru_anime/widgets/gallery/thumbnail_with_badge.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_with_bottom_badge.dart';
 import 'package:miru_anime/widgets/refresh_indicator.dart';
 import 'package:miru_anime/widgets/shimmer_box.dart';
+import 'package:miru_anime/widgets/updater_app.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:resize/resize.dart';
 
@@ -50,6 +54,21 @@ class _HomePageState extends State<HomePage> {
         _userList = list;
         _isEmpty = list.isEmpty;
       });
+    });
+    AppUpdater().checkNewVersions().then((final value) {
+      if(value) {
+        if(!Platform.isIOS) {
+          showCupertinoDialog(
+            context: context,
+            builder: (_) => UpdaterWidget.iosAlertDialog(context)
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (_) => UpdaterWidget.androidAlertDialog(context)
+          );
+        }
+      }
     });
   }
 

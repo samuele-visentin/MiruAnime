@@ -33,7 +33,7 @@ class Anilist {
 
   Future<OAuth2Helper> getHelper() async {
     final client = AnilistClient(
-        redirectUri: 'miruanime://oauth',
+        //redirectUri: 'miruanime://oauth',
         customUriScheme: 'miruanime'
     );
     return OAuth2Helper(
@@ -42,7 +42,7 @@ class Anilist {
       grantType: OAuth2Helper.IMPLICIT_GRANT,
       clientSecret: _secret,
       enablePKCE: false,
-      enableState: true
+      enableState: true,
     );
   }
 

@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:dio/dio.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:miru_anime/backend/globals/video_parser/doodstream_parser.dart';
@@ -28,28 +31,71 @@ class AnimeWorldScraper {
   static final _customHeaders = {HttpHeaders.userAgentHeader: userAgent};
   static bool _saveCookie = true;
 
+  String _decryptCookie(final String script) {
+    final values = <String>[];
+
+    String atob(final String string){
+      final stringToBase64 = utf8.fuse(base64);
+      return stringToBase64.decode(string);
+    }
+
+    List<int> toNumbers(final String codes) {
+      final nums = <int>[];
+      codes.replaceAllMapped(RegExp('(..)'), (final match) {
+        nums.add(int.parse(match.group(1)!, radix: 16));
+        return '';
+      });
+      return nums;
+    }
+
+    String toHex(List<int> bytes) {
+      var charCode = '0'; //FIXME is '0' or ''
+      for(final byte in bytes){
+        charCode += (16 > byte ? '0' : '') + byte.toRadixString(16);
+      }
+      return charCode.toLowerCase();
+    }
+
+    String hexToString(final String string) {
+      final regex = RegExp('/x([0-9]*)');
+      return String.fromCharCodes(regex.allMatches(string).map((e) => int.parse(e.group(1)!)));
+    }
+
+    for (final string in script.split('[')[1].split('];')[0].split(',')) {
+      values.add(string.replaceAll('"', ''));
+    }
+    //TODO: check if this work with the new token type
+    final b1 = toNumbers(atob('YjM2MTQxYjhkNGEzMDg1Y2ZhNDFiZDhkMjYzZjkxMTg='));
+    final c1 = script.split('c1=atob("')[1].split('"')[0];
+    final c2 = toNumbers(atob(c1));
+    final a3 = toNumbers(script.split('a3=toNumbers("')[1].split('"')[0]);
+    final encrypter = Encrypter(AES(
+        Key(Uint8List.fromList(b1)),
+        mode: AESMode.cbc
+    ));
+    final encrypted = toHex(encrypter.decryptBytes(Encrypted(Uint8List.fromList(a3)), iv: IV(Uint8List.fromList(c2))));
+    return 'SecurityAW=$encrypted';
+  }
+
   Future<AnimeWorldHomePage> getHomePage() async {
     Response<String> response = await _dio.get(
         AnimeWorldEndPoints.sitePrefixNoS,
         options: Options(headers: _customHeaders));
-    if ((response.data?.length ?? 0) < 1000) {
+    if (response.data!.length < 1500) {
       //Sometimes the site returns one dummy page with some javascript to redirect the page with new cookied
-      final String data = response.data.toString();
-      final path = Uri.parse(data.split('href="')[1].split('";')[0])
-          .replace(scheme: 'https');
-      final cookie = data.split('cookie="')[1].split(';')[0].trim();
-      _customHeaders['cookie'] = '$cookie; ';
-      response = await _dio.get(path.toString(),
+      final cookie = _decryptCookie(response.data!.split('<script>')[1].split('</script')[0]);
+      final uri = Uri.parse(response.data!.split('location.href="')[1].split('"')[0]);
+      uri.replace(scheme: 'https');
+      response = await _dio.getUri(uri,
           options: Options(headers: _customHeaders));
-      //TODO: check if this code work also with AwCookie
-      if ((response.headers['set-cookie']) != null) {
+      if (response.headers['set-cookie'] != null) {
         _customHeaders['cookie'] = cookie +
             response.headers['set-cookie']!
                 .map((final cookie) => cookie.split(';')[0])
                 .join('; ');
         _saveCookie = false;
       }
-    } else if (_saveCookie) {
+    } else if (_saveCookie && response.headers['set-cookie'] != null) {
       _customHeaders['cookie'] = response.headers['set-cookie']!
           .map((final cookie) => cookie.split(';')[0])
           .join('; ');

@@ -91,9 +91,9 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           });
         }
       });
-      if(value.servers.isNotEmpty) {
+      if (value.servers.isNotEmpty) {
         downloadTask = [
-          for(int i = 0; i < value.servers[0].listEpisode.length; i++)
+          for (int i = 0; i < value.servers[0].listEpisode.length; i++)
             AppDownloadTask('', DownloadTaskStatus.undefined, 0)
         ];
       }
@@ -153,13 +153,12 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             return const ShimmerAnimePage();
           } else if (snap.hasError) {
             return AppRefreshIndicator(
-              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-              onRefresh: () async {
-                getFuture();
-                setState(() {});
-              },
-              child: DefaultErrorPage(error: snap.error.toString())
-            );
+                triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                onRefresh: () async {
+                  getFuture();
+                  setState(() {});
+                },
+                child: DefaultErrorPage(error: snap.error.toString()));
           }
           return _successfulPage(snap.data!);
         },
@@ -236,9 +235,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             data.title,
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium,
+            style: Theme.of(context).textTheme.titleMedium,
             maxLines: 7,
           ),
         ),
@@ -252,14 +249,13 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             onTap: () {
               animeCast ??= Anilist().getCastAnime(data.anilistLink);
               Navigator.of(context).push(PageRouteBuilder(
-                pageBuilder: (_, __, ___) => DetailWidget(
-                  description: data.description,
-                  detail: data.info,
-                  nextEpisode: data.nextEpisode,
-                  cast: animeCast!,
-                ),
-                transitionsBuilder: transitionBuilder)
-              );
+                  pageBuilder: (_, __, ___) => DetailWidget(
+                        description: data.description,
+                        detail: data.info,
+                        nextEpisode: data.nextEpisode,
+                        cast: animeCast!,
+                      ),
+                  transitionsBuilder: transitionBuilder));
             },
             child: Text(
               'Dettagli',
@@ -271,9 +267,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                   AnimeWorldScraper().getComment(data.comment);
               Navigator.of(context).push(PageRouteBuilder(
                   pageBuilder: (_, __, ___) => CommentWidget(
-                    comments: commentMap['animeComment']!, 
-                    name: 'Commenti'
-                  ),
+                      comments: commentMap['animeComment']!, name: 'Commenti'),
                   transitionsBuilder: transitionBuilder));
             },
             child: Text(
@@ -284,9 +278,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             onTap: () {
               Navigator.of(context).push(PageRouteBuilder(
                   pageBuilder: (_, __, ___) => RelatedContent(
-                    simili: data.simili, 
-                    correlati: data.correlati
-                  ),
+                      simili: data.simili, correlati: data.correlati),
                   transitionsBuilder: transitionBuilder));
             },
             child: Text(
@@ -372,11 +364,9 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
 
       final serverName = SizedBox(
         width: 175,
-        child: Text(
-          _nameServer.toString(),
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyLarge
-        ),
+        child: Text(_nameServer.toString(),
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyLarge),
       );
 
       final rightArrow = GestureDetector(
@@ -431,10 +421,8 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                     width: 125,
                     height: 20,
                     child: Center(
-                      child: Text(
-                        'Episodio: ${episode.title}',
-                        style: Theme.of(context).textTheme.bodyMedium
-                      ),
+                      child: Text('Episodio: ${episode.title}',
+                          style: Theme.of(context).textTheme.bodyMedium),
                     ),
                   );
 
@@ -481,7 +469,8 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                     ),
                     visible: data[_currentServer].canDownload,
                     child: Visibility(
-                      visible: task.status == DownloadTaskStatus.enqueued || task.status == DownloadTaskStatus.running,
+                      visible: task.status == DownloadTaskStatus.enqueued ||
+                          task.status == DownloadTaskStatus.running,
                       replacement: SizedBox(
                         width: 27,
                         height: 20,
@@ -489,7 +478,8 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                           iconSize: 17,
                           splashRadius: 20,
                           padding: EdgeInsets.zero,
-                          onPressed: () => _downloadEpisode(episode, anime, task),
+                          onPressed: () =>
+                              _downloadEpisode(episode, anime, task),
                           icon: Icon(
                             FontAwesomeIcons.download,
                             color: buttonColor,
@@ -516,19 +506,19 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                   );
 
                   final progress = Visibility(
-                    visible: task.status == DownloadTaskStatus.enqueued || task.status == DownloadTaskStatus.running,
+                    visible: task.status == DownloadTaskStatus.enqueued ||
+                        task.status == DownloadTaskStatus.running,
                     replacement: const SizedBox(
                       width: 27,
                       height: 20,
                     ),
                     child: SizedBox(
-                      width: 27,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        value: task.progress / 100,
-                        color: buttonColor,
-                      )
-                    ),
+                        width: 27,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          value: task.progress / 100,
+                          color: buttonColor,
+                        )),
                   );
 
                   final openComment = SizedBox(
@@ -645,8 +635,10 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
       return;
     }
     LaunchMode launchMode;
-    if(Platform.isIOS) launchMode = LaunchMode.inAppWebView;
-    else launchMode = LaunchMode.externalApplication;
+    if (Platform.isIOS)
+      launchMode = LaunchMode.inAppWebView;
+    else
+      launchMode = LaunchMode.externalApplication;
     launchUrl(uri,
         mode: launchMode,
         webViewConfiguration: WebViewConfiguration(headers: url.headers));
@@ -658,20 +650,20 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
 
   Future<void> _downloadEpisode(final AnimeWorldEpisode episode,
       final AnimeWorldSpecificAnime anime, final AppDownloadTask task) async {
-      if (task.status == DownloadTaskStatus.enqueued ||
-          task.status == DownloadTaskStatus.running) {
-        Fluttertoast.showToast(
-          msg: 'Download dell\'episodio ${episode.title} in corso',
-          toastLength: Toast.LENGTH_LONG,
-        );
-        return;
-      } else if (task.status == DownloadTaskStatus.complete) {
-        Fluttertoast.showToast(
-          msg: 'Episodio ${episode.title} già scaricato',
-          toastLength: Toast.LENGTH_LONG,
-        );
-        return;
-      }
+    if (task.status == DownloadTaskStatus.enqueued ||
+        task.status == DownloadTaskStatus.running) {
+      Fluttertoast.showToast(
+        msg: 'Download dell\'episodio ${episode.title} in corso',
+        toastLength: Toast.LENGTH_LONG,
+      );
+      return;
+    } else if (task.status == DownloadTaskStatus.complete) {
+      Fluttertoast.showToast(
+        msg: 'Episodio ${episode.title} già scaricato',
+        toastLength: Toast.LENGTH_LONG,
+      );
+      return;
+    }
     if (await Permission.storage.request() == PermissionStatus.denied) {
       Fluttertoast.showToast(
         msg: 'Permessi negati, download cancellato',
@@ -704,7 +696,8 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           toastLength: Toast.LENGTH_LONG);
     }
     String? id;
-    final name = '${anime.title}_episodio_${episode.title}.mp4'.replaceAll(' ', '_');
+    final name =
+        '${anime.title}_episodio_${episode.title}.mp4'.replaceAll(' ', '_');
     if (!Platform.isIOS) {
       final saveDir = (await getExternalStorageDirectories(
               type: StorageDirectory.downloads))!
@@ -724,10 +717,8 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           headers: url.headers,
           fileName: name);
     }
-    if(id == null) {
-      Fluttertoast.showToast(
-          msg: 'Errore',
-          toastLength: Toast.LENGTH_LONG);
+    if (id == null) {
+      Fluttertoast.showToast(msg: 'Errore', toastLength: Toast.LENGTH_LONG);
       return;
     }
     setState(() {
@@ -736,9 +727,9 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     });
   }
 
-  void _removeEpisode(final AnimeWorldEpisode episode, final AppDownloadTask task) {
-    FlutterDownloader.remove(
-        taskId: task.id, shouldDeleteContent: true);
+  void _removeEpisode(
+      final AnimeWorldEpisode episode, final AppDownloadTask task) {
+    FlutterDownloader.remove(taskId: task.id, shouldDeleteContent: true);
     setState(() {
       task.status = DownloadTaskStatus.undefined;
     });
@@ -776,26 +767,25 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
       });
       _box.put(_animeSaved);
       _updateOnlineDB(
-        anilistId: data.anilistLink,
-        myanimelistId: data.myanimelistLink,
-        anilistStatus: AnilistStatus.planning,
-        malStatus: MalStatus.planning
-      );
+          anilistId: data.anilistLink,
+          myanimelistId: data.myanimelistLink,
+          anilistStatus: AnilistStatus.planning,
+          malStatus: MalStatus.planning);
     } else {
       _box.remove(_animeSaved.id);
       setState(() {
         _isAdded = false;
       });
       _updateOnlineDB(
-        anilistId: data.anilistLink,
-        myanimelistId: data.myanimelistLink,
-        anilistStatus: AnilistStatus.paused,
-        malStatus: MalStatus.paused
-      );
+          anilistId: data.anilistLink,
+          myanimelistId: data.myanimelistLink,
+          anilistStatus: AnilistStatus.paused,
+          malStatus: MalStatus.paused);
     }
   }
 
-  void _updateEpisodeOnlineDB(final AnimeWorldSpecificAnime data, final AnimeWorldEpisode episode) {
+  void _updateEpisodeOnlineDB(
+      final AnimeWorldSpecificAnime data, final AnimeWorldEpisode episode) {
     var progress = int.tryParse(episode.title);
     progress ??= int.tryParse(episode.title.split('-').last);
     final isFinal = episode.isFinal && data.state == AnimeState.finish;
@@ -803,33 +793,26 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         anilistId: data.anilistLink,
         myanimelistId: data.myanimelistLink,
         progress: progress,
-        anilistStatus: isFinal ? AnilistStatus.completed : AnilistStatus.current,
-        malStatus: isFinal ? MalStatus.completed : MalStatus.current
-    );
+        anilistStatus:
+            isFinal ? AnilistStatus.completed : AnilistStatus.current,
+        malStatus: isFinal ? MalStatus.completed : MalStatus.current);
   }
 
-  void _updateOnlineDB({
-    required final String? anilistId,
-    required final String? myanimelistId,
-    final int? progress,
-    required final AnilistStatus anilistStatus,
-    required final MalStatus malStatus
-  }) async {
-    if(Anilist.isLogged && anilistId != null) {
+  void _updateOnlineDB(
+      {required final String? anilistId,
+      required final String? myanimelistId,
+      final int? progress,
+      required final AnilistStatus anilistStatus,
+      required final MalStatus malStatus}) async {
+    if (Anilist.isLogged && anilistId != null) {
       final id = Uri.parse(anilistId).pathSegments.last;
       Anilist().updateUserDataAnimeStatus(
-        id: id,
-        status: anilistStatus,
-        progress: progress
-      );
+          id: id, status: anilistStatus, progress: progress);
     }
-    if(MyAnimeList.isLogged && myanimelistId != null) {
+    if (MyAnimeList.isLogged && myanimelistId != null) {
       final id = Uri.parse(myanimelistId).pathSegments.last;
-      MyAnimeList().updateUserList(
-        id: id,
-        status: malStatus,
-        progress: progress
-      );
+      MyAnimeList()
+          .updateUserList(id: id, status: malStatus, progress: progress);
     }
   }
 }
@@ -858,13 +841,10 @@ class _Badge extends StatelessWidget {
       child: Center(
           child: Text(
         rating,
-        style: Theme.of(context)
-            .textTheme.titleSmall!
-            .copyWith(
-              color: AppColors.white,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w800
-            ),
+        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+            color: AppColors.white,
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w800),
         textAlign: TextAlign.center,
       )),
     );
