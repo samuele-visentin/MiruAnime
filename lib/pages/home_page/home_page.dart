@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
     });
     AppUpdater().checkNewVersions().then((final value) {
       if(value) {
-        if(!Platform.isIOS) {
+        if(Platform.isIOS) {
           showCupertinoDialog(
             context: context,
             builder: (_) => UpdaterWidget.iosAlertDialog(context)
