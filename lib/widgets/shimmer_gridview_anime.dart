@@ -7,7 +7,7 @@ class ShimmerGridAnime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 35),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
       crossAxisCount: 2,
       childAspectRatio: 155/225,
       mainAxisSpacing: 10,

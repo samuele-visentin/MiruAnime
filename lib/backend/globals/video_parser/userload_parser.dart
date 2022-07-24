@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:dio/dio.dart';
@@ -57,7 +58,7 @@ class UserloadParser {
         'Referer' : 'https://userload.co/',
         'Accept' : 'video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5',
         'User-Agent' : userAgent,
-        'Range' : 'bytes=0-'
+        'Range' : Platform.isIOS ? 'bytes=0-1' : 'bytes=0-'
       });
     }
     throw ArgumentError('Uri parser fail');

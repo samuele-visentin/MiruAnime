@@ -46,25 +46,6 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
         showPlaceholderUntilPlay: true,
         //placeholderOnTop: true,
         deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
-        controlsConfiguration: BetterPlayerControlsConfiguration(
-          //pipMenuIcon: Icons.picture_in_picture_alt_sharp,
-          enableAudioTracks: false,
-          enablePip: false,
-          enableSubtitles: false,
-          controlBarColor: Colors.black.withOpacity(0.55),
-          progressBarBufferedColor: AppColors.background,
-          controlsHideTime: const Duration(milliseconds: 10),
-          enableQualities: true,
-          loadingColor: AppColors.purple,
-          progressBarPlayedColor: AppColors.purple,
-          progressBarHandleColor: AppColors.purple,
-          overflowMenuIconsColor: AppColors.purple,
-          overflowModalColor: AppColors.white,
-          overflowModalTextColor: Colors.black,
-          //liveTextColor: Colors.black,
-          //iconsColor: Colors.redAccent[700],
-          iconsColor: AppColors.white,
-        ),
         aspectRatio: 16/9,
         autoDispose: true,
         errorBuilder: (_, final errorMessage) =>
@@ -82,6 +63,32 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    final color = Theme.of(context).colorScheme.secondary;
+    _controller.setBetterPlayerControlsConfiguration(
+      BetterPlayerControlsConfiguration(
+        //pipMenuIcon: Icons.picture_in_picture_alt_sharp,
+        enableAudioTracks: false,
+        enablePip: false,
+        enableSubtitles: false,
+        controlBarColor: Colors.black.withOpacity(0.55),
+        progressBarBufferedColor: AppColors.background,
+        controlsHideTime: const Duration(milliseconds: 10),
+        enableQualities: true,
+        loadingColor: color,
+        progressBarPlayedColor: color,
+        progressBarHandleColor: color,
+        overflowMenuIconsColor: color,
+        overflowModalColor: AppColors.white,
+        overflowModalTextColor: Colors.black,
+        //liveTextColor: Colors.black,
+        //iconsColor: Colors.redAccent[700],
+        iconsColor: AppColors.white,
+      ),
+    );
+    super.didChangeDependencies();
+  }
 
   void changeAspectRatio(final BetterPlayerEvent event) {
     if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
@@ -140,14 +147,14 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
 
   Widget _loading() {
     return Column(
-      children: const [
+      children: [
         Padding(
-          padding: EdgeInsets.only(top: 100),
+          padding: const EdgeInsets.only(top: 100),
           child: SizedBox(
             width: 30,
             height: 30,
             child: CircularProgressIndicator(
-              color: AppColors.purple,
+              color: Theme.of(context).colorScheme.secondary,
             ),
           ),
         ),

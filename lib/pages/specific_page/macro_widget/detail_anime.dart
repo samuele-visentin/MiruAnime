@@ -167,9 +167,9 @@ class _CastAvatar extends StatelessWidget {
           alignment: Alignment.bottomLeft,
           children: [
             Container(
-              height: 150.2,
+              height: 150.5,
               foregroundDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(7),
                 gradient: const LinearGradient(
                   colors: [
                     Colors.transparent,
@@ -195,7 +195,7 @@ class _CastAvatar extends StatelessWidget {
                     child: Text(name,
                       maxLines: 2,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Colors.white,
                         fontSize: 10.sp
                       ),
                       textAlign: TextAlign.center,
@@ -207,7 +207,8 @@ class _CastAvatar extends StatelessWidget {
                   child: Text(role,
                     maxLines: 2,
                     style: Theme.of(context).textTheme.caption!.copyWith(
-                      fontSize: 7.sp
+                      fontSize: 7.sp,
+                      color: Colors.white.withAlpha(130)
                     ),
                   ),
                 ),
