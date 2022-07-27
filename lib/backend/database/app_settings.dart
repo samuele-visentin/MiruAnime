@@ -6,6 +6,7 @@ class AppSettings {
   static const themeSetting = 'appTheme';
   static const anilistSetting = 'anilist';
   static const malSetting = 'mal';
+  static const playerSetting = 'player';
 
   static void saveInt(final String key, final int value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -33,8 +34,13 @@ class AppSettings {
   }
 
 
-  static Future<bool> isLogged(final String setting) async {
+  static Future<bool> readBool(final String setting) async {
     final data = await _readData(setting) as bool?;
     return data ?? false;
+  }
+
+  static Future<int> readInt(final String setting) async {
+    final data = await _readData(setting) as int?;
+    return data ?? 0;
   }
 }

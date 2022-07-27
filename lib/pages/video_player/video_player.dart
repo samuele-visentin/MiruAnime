@@ -69,7 +69,6 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
     final color = Theme.of(context).colorScheme.secondary;
     _controller.setBetterPlayerControlsConfiguration(
       BetterPlayerControlsConfiguration(
-        //pipMenuIcon: Icons.picture_in_picture_alt_sharp,
         enableAudioTracks: false,
         enablePip: false,
         enableSubtitles: false,

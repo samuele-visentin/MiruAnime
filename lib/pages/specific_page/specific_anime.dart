@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:miru_anime/app_theme/app_colors.dart';
 import 'package:miru_anime/backend/database/anime_saved.dart';
+import 'package:miru_anime/backend/database/custom_player.dart';
 import 'package:miru_anime/backend/database/store.dart';
 import 'package:miru_anime/backend/models/anime_cast.dart';
 import 'package:miru_anime/backend/models/comment.dart';
@@ -39,6 +40,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:resize/resize.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class SpecificAnimePage extends StatefulWidget {
   static const randomAnimeRoute = '/random';
@@ -155,7 +157,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             return AppRefreshIndicator(
                 triggerMode: RefreshIndicatorTriggerMode.anywhere,
                 onRefresh: () async {
-                  getFuture();
+                  _anime = getFuture();
                   setState(() {});
                 },
                 child: DefaultErrorPage(error: snap.error.toString()));
@@ -627,21 +629,45 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           msg: 'Errore: ${e.toString()}', toastLength: Toast.LENGTH_LONG);
       return;
     }
-    final uri = Uri.tryParse(url.urlVideo);
+    var uri = Uri.tryParse(url.urlVideo);
     if (uri == null) {
       Fluttertoast.showToast(
           msg: 'Errore nell\'ottenimento del link',
           toastLength: Toast.LENGTH_LONG);
       return;
     }
-    LaunchMode launchMode;
-    if (Platform.isIOS)
-      launchMode = LaunchMode.inAppWebView;
-    else
-      launchMode = LaunchMode.externalApplication;
-    launchUrl(uri,
-        mode: launchMode,
-        webViewConfiguration: WebViewConfiguration(headers: url.headers));
+    switch (CustomPlayer.player) {
+      case Player.browser:
+        launchUrl(uri,
+          webViewConfiguration: WebViewConfiguration(headers: url.headers),
+          mode: LaunchMode.externalApplication,
+        );
+        break;
+      case Player.vlc:
+        if(await canLaunchUrl(Uri(scheme: 'vlc'))) {
+          launchUrlString(
+            'vlc://${uri.toString()}',
+            webViewConfiguration: WebViewConfiguration(headers: url.headers),
+            mode: LaunchMode.externalApplication
+          );
+        } else {
+          Fluttertoast.showToast(msg: 'VLC non installato');
+          return;
+        }
+        break;
+      case Player.infuse:
+        if(await canLaunchUrl(Uri(scheme: 'infuse'))) {
+          launchUrlString(
+            'infuse://${uri.toString()}',
+            webViewConfiguration: WebViewConfiguration(headers: url.headers),
+            mode: LaunchMode.externalApplication
+          );
+        } else {
+          Fluttertoast.showToast(msg: 'Infuse non installato');
+          return;
+        }
+        break;
+    }
     if (_isAdded) {
       _updateDB(episode, anime);
     }

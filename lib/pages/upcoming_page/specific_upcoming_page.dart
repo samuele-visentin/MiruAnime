@@ -5,7 +5,6 @@ import 'package:miru_anime/backend/sites/animeworld/scraper.dart';
 import 'package:miru_anime/widgets/app_scaffold.dart';
 import 'package:miru_anime/widgets/default_error_page.dart';
 import 'package:miru_anime/widgets/shimmer_gridview_anime.dart';
-import 'package:resize/resize.dart';
 
 import '../../widgets/gridview_anime.dart';
 import '../../widgets/title_close_button.dart';
@@ -56,11 +55,9 @@ class _SpecificUpcomingPageState extends State<SpecificUpcomingPage> {
                     indicatorColor: Theme.of(context).colorScheme.onPrimary,
                     labelColor: Theme.of(context).colorScheme.onBackground,
                     labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 12.sp,
                       fontWeight: FontWeight.w700
                     ),
                     unselectedLabelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 10.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.white.withAlpha(65)
                     ),

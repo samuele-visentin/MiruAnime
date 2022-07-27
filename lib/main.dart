@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:miru_anime/app_theme/theme.dart';
 import 'package:miru_anime/backend/database/app_settings.dart';
+import 'package:miru_anime/backend/database/custom_player.dart';
 import 'package:miru_anime/backend/database/store.dart';
 import 'package:miru_anime/backend/sites/anilist/anilist.dart';
 import 'package:miru_anime/backend/sites/animeworld/anime_section.dart';
@@ -36,16 +37,17 @@ void main() async {
   final futures = await Future.wait(<Future<dynamic>>[
     FlutterDownloader.initialize(),
     ObjectBox.init(),
-    AppSettings.isLogged(AppSettings.anilistSetting),
+    AppSettings.readBool(AppSettings.anilistSetting),
+    AppSettings.readBool(AppSettings.malSetting),
     AppSettings.initializeTheme(),
-    AppSettings.isLogged(AppSettings.malSetting),
+    CustomPlayer.getSetting()
   ]);
   FlutterDownloader.registerCallback(downloadCallback);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   Anilist.isLogged = futures[2];
-  MyAnimeList.isLogged = futures[4];
-  final TypeTheme theme = futures[3];
+  MyAnimeList.isLogged = futures[3];
+  final TypeTheme theme = futures[4];
   if(theme == TypeTheme.light)
     SystemChrome.setSystemUIOverlayStyle(statusBarLight);
   else

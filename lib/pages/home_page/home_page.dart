@@ -21,7 +21,6 @@ import 'package:miru_anime/widgets/refresh_indicator.dart';
 import 'package:miru_anime/widgets/shimmer_box.dart';
 import 'package:miru_anime/widgets/updater_app.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:resize/resize.dart';
 
 class HomePage extends StatefulWidget {
   static const route = '/';
@@ -191,7 +190,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _selectTop(){
-    Widget _tab(final String label, final int tabNum, final double tabWidth){
+    Widget _tab(final String label, final int tabNum){
       final bool isDisable = _activeTab != tabNum;
       return GestureDetector(
         onTap: () async => await _pageController.animateToPage(
@@ -216,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                   ? Theme.of(context).colorScheme.onBackground.withAlpha(80)
                   : Theme.of(context).colorScheme.onBackground,
               fontWeight: FontWeight.w500,
-              fontSize: 17.sp,
+              fontSize: 16,
               fontFamily: 'Montserrat',
             ),
           ),
@@ -229,11 +228,11 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _tab('Today',0,45.0),
+          _tab('Today',0),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10.0),),
-          _tab('Week',1,80.0),
+          _tab('Week',1),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10.0),),
-          _tab('Month',2,50.0),
+          _tab('Month',2),
         ],
       ),
     );

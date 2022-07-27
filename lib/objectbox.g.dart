@@ -8,6 +8,7 @@
 
 import 'dart:typed_data';
 
+// ignore: depend_on_referenced_packages
 import 'package:flat_buffers/flat_buffers.dart' as fb;
 import 'package:objectbox/internal.dart'; // generated code can access "internal" functionality
 import 'package:objectbox/objectbox.dart';
