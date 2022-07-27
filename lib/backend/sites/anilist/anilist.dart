@@ -12,6 +12,10 @@ class Anilist {
   static const _url = 'https://graphql.anilist.co/';
   final _dio = Dio();
 
+  static Future<void> getSetting() async {
+    isLogged = await AppSettings.readBool(AppSettings.anilistSetting);
+  }
+
   Future<Map<String, dynamic>> request(final String query,
       final Map<String, dynamic> variables) async {
     final token = await getToken();

@@ -34,20 +34,17 @@ void downloadCallback(String id, DownloadTaskStatus status, int progress) {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final futures = await Future.wait(<Future<dynamic>>[
+  await Future.wait([
     FlutterDownloader.initialize(),
     ObjectBox.init(),
-    AppSettings.readBool(AppSettings.anilistSetting),
-    AppSettings.readBool(AppSettings.malSetting),
-    AppSettings.initializeTheme(),
+    Anilist.getSetting(),
+    MyAnimeList.getSetting(),
     CustomPlayer.getSetting()
   ]);
   FlutterDownloader.registerCallback(downloadCallback);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
-  Anilist.isLogged = futures[2];
-  MyAnimeList.isLogged = futures[3];
-  final TypeTheme theme = futures[4];
+  final theme = await AppSettings.initializeTheme();
   if(theme == TypeTheme.light)
     SystemChrome.setSystemUIOverlayStyle(statusBarLight);
   else

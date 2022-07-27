@@ -9,6 +9,10 @@ class MyAnimeList {
   static var isLogged = false;
   static const _clientID = '';
 
+  static Future<void> getSetting() async {
+    isLogged = await AppSettings.readBool(AppSettings.malSetting);
+  }
+
   Future<OAuth2Helper> getHelper() async {
     final client = MyAnimeListClient(
         redirectUri: 'miruanime://oauth',
