@@ -658,7 +658,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
       case Player.infuse:
         if(await canLaunchUrl(Uri(scheme: 'infuse'))) {
           launchUrlString(
-            'infuse://${uri.toString()}',
+            'infuse://x-callback-url/play?x-success=miruanime://&url=${uri.toString()}',
             webViewConfiguration: WebViewConfiguration(headers: url.headers),
             mode: LaunchMode.externalApplication
           );
