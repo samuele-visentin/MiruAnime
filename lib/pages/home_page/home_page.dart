@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> {
             label,
             style: TextStyle(
               color: isDisable
-                  ? Theme.of(context).colorScheme.onBackground.withAlpha(80)
+                  ? Theme.of(context).colorScheme.onBackground.withOpacity(0.65)
                   : Theme.of(context).colorScheme.onBackground,
               fontWeight: FontWeight.w500,
               fontSize: 16,

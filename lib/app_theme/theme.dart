@@ -97,7 +97,7 @@ final _textTheme = TextTheme(
     titleLarge: TextStyle(
         fontFamily: 'Montserrat',
         fontSize: 15.sp,
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w700,
         letterSpacing: 0.15,
         //color: AppColors.white
     ),

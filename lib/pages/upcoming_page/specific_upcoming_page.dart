@@ -57,10 +57,7 @@ class _SpecificUpcomingPageState extends State<SpecificUpcomingPage> {
                     labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontWeight: FontWeight.w700
                     ),
-                    unselectedLabelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.white.withAlpha(65)
-                    ),
+                    unselectedLabelColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.65),
                   ),
                   Expanded(
                     child: FutureBuilder<UpComingAnime>(
