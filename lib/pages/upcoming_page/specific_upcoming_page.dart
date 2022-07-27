@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:miru_anime/app_theme/app_colors.dart';
 import 'package:miru_anime/backend/models/upcoming_anime.dart';
 import 'package:miru_anime/backend/sites/animeworld/scraper.dart';
 import 'package:miru_anime/widgets/app_scaffold.dart';

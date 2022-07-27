@@ -50,6 +50,22 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
         autoDispose: true,
         errorBuilder: (_, final errorMessage) =>
             _errorWidget(errorMessage.toString()),
+        controlsConfiguration: BetterPlayerControlsConfiguration(
+          enableAudioTracks: false,
+          enablePip: false,
+          enableSubtitles: false,
+          controlBarColor: Colors.black.withOpacity(0.55),
+          progressBarBufferedColor: AppColors.functionalDarkGrey,
+          controlsHideTime: const Duration(milliseconds: 10),
+          enableQualities: true,
+          loadingColor: AppColors.purple,
+          progressBarPlayedColor: AppColors.purple,
+          progressBarHandleColor: AppColors.purple,
+          overflowMenuIconsColor: AppColors.purple,
+          overflowModalColor: AppColors.white,
+          overflowModalTextColor: Colors.black,
+          iconsColor: AppColors.white,
+        ),
       ),
     );
     _url = AnimeWorldScraper().getUrlVideo(_episode, _name).then((final value) {
@@ -61,32 +77,6 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
       );
       if(mounted) _controller.addEventsListener(changeAspectRatio);
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final color = Theme.of(context).colorScheme.secondary;
-    _controller.setBetterPlayerControlsConfiguration(
-      BetterPlayerControlsConfiguration(
-        enableAudioTracks: false,
-        enablePip: false,
-        enableSubtitles: false,
-        controlBarColor: Colors.black.withOpacity(0.55),
-        progressBarBufferedColor: AppColors.background,
-        controlsHideTime: const Duration(milliseconds: 10),
-        enableQualities: true,
-        loadingColor: color,
-        progressBarPlayedColor: color,
-        progressBarHandleColor: color,
-        overflowMenuIconsColor: color,
-        overflowModalColor: AppColors.white,
-        overflowModalTextColor: Colors.black,
-        //liveTextColor: Colors.black,
-        //iconsColor: Colors.redAccent[700],
-        iconsColor: AppColors.white,
-      ),
-    );
   }
 
   void changeAspectRatio(final BetterPlayerEvent event) {
@@ -146,14 +136,14 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
 
   Widget _loading() {
     return Column(
-      children: [
+      children: const [
         Padding(
-          padding: const EdgeInsets.only(top: 100),
+          padding: EdgeInsets.only(top: 100),
           child: SizedBox(
             width: 30,
             height: 30,
             child: CircularProgressIndicator(
-              color: Theme.of(context).colorScheme.secondary,
+              color: AppColors.purple,
             ),
           ),
         ),
