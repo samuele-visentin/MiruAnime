@@ -11,14 +11,14 @@ the installation space, but if you want to install on old device you can clone b
 Xcode or Android Studio and change the target version; Maybe you will need to change some plugin setup.
 
 This app support video's download (with .mp4 type, not .m3u8) so if you desire to download video
-you should activate notifications to now about the download status.
+you should activate notifications to know about the download status.
 When the download is completed you should find the file on the Miru Anime's folder inside "iPhone" folder on
 iOS Phones or in the Download folder on Android 10 or above or inside the app's folder (org.loli.miruAnime) 
 on "Android" folder if the user has android 8.0, 8.1 or 9.
 
-The app has also a built-in database with Objectbox to store so the user can add anime that he is watching,
+The app has also a built-in database with Objectbox so the user can add anime that he is watching,
 the db contains the last episode watched and if the user has finished it. (But you should only to keep track
-of the anime you currently watching and then save your progress in another app or site, like My Anime List,
+of the anime you currently watching and then save your progress in another app or site, like MyAnimeList,
 because app upgrade might corrupt the db).
 
 #### Current features:
