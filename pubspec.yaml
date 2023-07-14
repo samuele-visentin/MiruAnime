@@ -29,29 +29,29 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dio: ^4.0.4
+  dio: ^5.1.1
   cupertino_icons: ^1.0.2
   html: ^0.15.0
-  objectbox: ^1.3.0
+  objectbox: ^2.0.0
   objectbox_flutter_libs: any
   font_awesome_flutter: ^10.0.0
   cached_network_image: ^3.2.0
-  card_swiper: ^2.0.1
+  card_swiper: ^3.0.1
   photo_view: ^0.14.0
   fluttertoast: ^8.0.8
   permission_handler: ^10.0.0
-  shimmer: ^2.0.0
-  share_plus: ^4.0.1
+  shimmer: ^3.0.0
+  share_plus: ^6.3.1
   better_player: ^0.0.83
   wakelock: ^0.6.1+2
-  flutter_svg: ^1.0.3
+  flutter_svg: ^2.0.4
   url_launcher: ^6.0.20
   flutter_downloader: ^1.7.3
   path_provider: ^2.0.9
   resize: ^1.0.0
   provider: ^6.0.2
   shared_preferences: ^2.0.13
-  oauth2_client: ^2.4.0
+  oauth2_client: ^3.2.1
   http: ^0.13.4
   encrypt: ^5.0.1
 
@@ -67,7 +67,7 @@ dev_dependencies:
   flutter_lints: ^2.0.1
   objectbox_generator: any
   build_runner: ^2.1.7
-  flutter_launcher_icons: ^0.9.2
+  flutter_launcher_icons: ^0.13.1
 
 flutter_icons:
   android: false

@@ -158,7 +158,7 @@ class _GridViewAnime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(list.isEmpty) return Center(child: Text('Nessun anime', style: Theme.of(context).textTheme.subtitle1, textAlign: TextAlign.center,),);
+    if(list.isEmpty) return Center(child: Text('Nessun anime', style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.center,),);
     return CupertinoScrollbar(
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),

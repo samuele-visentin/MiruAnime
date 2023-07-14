@@ -206,7 +206,7 @@ class _CastAvatar extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                   child: Text(role,
                     maxLines: 2,
-                    style: Theme.of(context).textTheme.caption!.copyWith(
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       fontSize: 7.sp,
                       color: Colors.white.withAlpha(130)
                     ),

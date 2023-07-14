@@ -56,10 +56,10 @@ class AnimeWorldScraper {
       return charCode.toLowerCase();
     }
 
-    String hexToString(final String string) {
+    /*String hexToString(final String string) {
       final regex = RegExp('/x([0-9]*)');
       return String.fromCharCodes(regex.allMatches(string).map((e) => int.parse(e.group(1)!)));
-    }
+    }*/
 
     for (final string in script.split('[')[1].split('];')[0].split(',')) {
       values.add(string.replaceAll('"', ''));

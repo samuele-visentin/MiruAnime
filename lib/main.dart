@@ -27,7 +27,7 @@ import 'package:provider/provider.dart';
 import 'package:resize/resize.dart';
 
 @pragma('vm:entry-point')
-void downloadCallback(String id, DownloadTaskStatus status, int progress) {
+void downloadCallback(String id, int status, int progress) {
   final send = IsolateNameServer.lookupPortByName('downloader_send_port');
   if (send != null) send.send([id, status, progress]);
 }

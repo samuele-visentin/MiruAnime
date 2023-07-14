@@ -25,7 +25,7 @@ class ViewImage extends StatelessWidget {
                 child: PhotoView(
                   filterQuality: FilterQuality.high,
                   backgroundDecoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor
+                    color: Theme.of(context).colorScheme.background
                   ),
                   imageProvider: (useCache ? CachedNetworkImageProvider(url) : NetworkImage(url)) as ImageProvider<Object>,
                   maxScale: PhotoViewComputedScale.covered * 2,

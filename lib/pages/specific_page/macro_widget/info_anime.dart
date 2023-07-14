@@ -11,7 +11,7 @@ class InfoAnime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme.caption!.copyWith(color: Theme.of(context).colorScheme.onBackground);
+    final theme = Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onBackground);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -86,7 +86,7 @@ class _RowInfo extends StatelessWidget {
       children: [
         Text(
           '$name: ',
-          style: Theme.of(context).textTheme.caption!.copyWith(
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
             color: Theme.of(context).colorScheme.onBackground
           ),
         ),
@@ -102,7 +102,7 @@ class _RowInfo extends StatelessWidget {
           )),
           child: Text(
             value,
-            style: Theme.of(context).textTheme.caption!.copyWith(
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
               color: Theme.of(context).colorScheme.secondary,
             ),
           )

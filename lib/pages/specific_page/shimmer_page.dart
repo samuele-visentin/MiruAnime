@@ -43,9 +43,9 @@ class ShimmerAnimePage extends StatelessWidget {
           ],
         ),
         const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             ShimmerBox(height: 22, width: 110),
             ShimmerBox(height: 22, width: 110),
             ShimmerBox(height: 22, width: 110)
@@ -64,9 +64,9 @@ class ShimmerAnimePage extends StatelessWidget {
         const Expanded(
           child: SizedBox()
         ),
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
+          children: [
             ShimmerBox(height: 15, width: 200),
           ],
         ),

@@ -5,8 +5,10 @@ class NoScrollBehavior extends ScrollBehavior {
   const NoScrollBehavior();
 
   @override
-  Widget buildViewportChrome(
-      final BuildContext context, final Widget child, final AxisDirection axisDirection) {
+  Widget buildOverscrollIndicator(
+      final BuildContext context,
+      final Widget child,
+      final ScrollableDetails details) {
     return child;
   }
 }

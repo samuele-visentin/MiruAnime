@@ -135,8 +135,8 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
   }
 
   Widget _loading() {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         Padding(
           padding: EdgeInsets.only(top: 100),
           child: SizedBox(

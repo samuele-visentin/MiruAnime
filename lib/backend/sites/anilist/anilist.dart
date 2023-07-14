@@ -3,12 +3,13 @@ import 'package:miru_anime/backend/database/app_settings.dart';
 import 'package:miru_anime/backend/models/anime_cast.dart';
 import 'package:miru_anime/backend/sites/anilist/anilist_client.dart';
 import 'package:miru_anime/backend/sites/anilist/anilist_status.dart';
+import 'package:miru_anime/secrets.dart';
 import 'package:oauth2_client/oauth2_helper.dart';
 
 class Anilist {
   static var isLogged = false;
-  static const _secret = '';
-  static const _id = '';
+  static const _secret = ani_secrets;
+  static const _id = ani_id;
   static const _url = 'https://graphql.anilist.co/';
   final _dio = Dio();
 
@@ -43,17 +44,21 @@ class Anilist {
     return OAuth2Helper(
       client,
       clientId: _id,
-      grantType: OAuth2Helper.IMPLICIT_GRANT,
+      grantType: OAuth2Helper.implicitGrant,
       clientSecret: _secret,
       enablePKCE: false,
       enableState: true,
+      accessTokenHeaders: {
+        Headers.acceptHeader : 'application/json',
+        Headers.contentTypeHeader : 'application/json'
+      }
     );
   }
 
   Future<void> logIn() async {
     final helper = await getHelper();
     final token = await helper.getToken();
-    if (token?.accessToken == null)
+    if (token == null || token.accessToken == null)
       throw Exception('Failed to get token');
     Anilist.isLogged = true;
     AppSettings.saveBool(AppSettings.anilistSetting, true);

@@ -8,6 +8,8 @@
 .buildlog/
 .history
 .svn/
+lib/secrets.dart
+/MiruAnime/
 
 # IntelliJ related
 *.iml

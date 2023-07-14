@@ -18,10 +18,10 @@ class UpdaterWidget {
         letterSpacing: double.minPositive,
       ),
     ),
-    content: CupertinoScrollbar(
+    content: const CupertinoScrollbar(
       child: SingleChildScrollView(
         child: Column(
-          children: const [
+          children: [
             Text('Scarica la nuova versione da GitHub e installala senza cancellare la versione corrente',
               style: TextStyle(color: Colors.black),
             ),
@@ -53,10 +53,10 @@ class UpdaterWidget {
         letterSpacing: double.minPositive,
       ),
     ),
-    content: CupertinoScrollbar(
+    content: const CupertinoScrollbar(
       child: SingleChildScrollView(
         child: Column(
-          children: const [
+          children: [
             Text('Scarica la nuova versione da GitHub e installala senza cancellare la versione corrente',
             ),
           ],

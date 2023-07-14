@@ -3,11 +3,12 @@ import 'package:miru_anime/backend/database/app_settings.dart';
 import 'package:miru_anime/backend/sites/myanimelist/mal_status.dart';
 import 'package:miru_anime/backend/sites/myanimelist/myanimelist_client.dart';
 import 'package:oauth2_client/oauth2_helper.dart';
+import 'package:miru_anime/secrets.dart';
 
 class MyAnimeList {
   final _dio = Dio();
   static var isLogged = false;
-  static const _clientID = '';
+  static const _clientID = mal_id;
 
   static Future<void> getSetting() async {
     isLogged = await AppSettings.readBool(AppSettings.malSetting);
@@ -21,7 +22,8 @@ class MyAnimeList {
     return OAuth2Helper(
       client,
       clientId: _clientID,
-      grantType: OAuth2Helper.AUTHORIZATION_CODE,
+      grantType: OAuth2Helper.authorizationCode,
+      enablePKCE: true,
       authCodeParams: {
         'code_challenge_method' : 'plain'
       }
@@ -31,7 +33,7 @@ class MyAnimeList {
   Future<void> logIn() async {
     final helper = await getHelper();
     final token = await helper.getToken();
-    if (token?.accessToken == null)
+    if (token == null || token.accessToken == null)
       throw Exception('Failed to get token');
     AppSettings.saveBool(AppSettings.malSetting, true);
     MyAnimeList.isLogged = true;
