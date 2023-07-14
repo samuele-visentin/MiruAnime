@@ -464,11 +464,11 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                             children: [
                               title,
                               const SizedBox(
-                                width: 10,
+                                width: 40,
                               ),
                               playButton,
                               const SizedBox(
-                                width: 40,
+                                width: 20,
                               ),
                               playBrowser,
                               const SizedBox(
