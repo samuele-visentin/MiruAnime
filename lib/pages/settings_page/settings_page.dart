@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:miru_anime/app_theme/theme.dart';
 import 'package:miru_anime/backend/database/custom_player.dart';
@@ -155,10 +154,6 @@ class _SettingsPageState extends State<SettingsPage> {
               padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
               child: _selectTheme(),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
-              child: _cancelAllTask(),
-            ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 6)),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -173,28 +168,6 @@ class _SettingsPageState extends State<SettingsPage> {
             anilistButton,
             malButton
           ],
-        ),
-      ),
-    );
-  }
-
-
-  Widget _cancelAllTask() {
-    return GestureDetector(
-      onTap: () {
-        FlutterDownloader.cancelAll();
-        Fluttertoast.showToast(
-          msg: 'Tutti i download sono stati cancellati',
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM
-        );
-      },
-      behavior: HitTestBehavior.translucent,
-      child: SizedBox(
-        height: 30,
-        child: Text(
-          'Cancella tutti i download in corso',
-          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
     );

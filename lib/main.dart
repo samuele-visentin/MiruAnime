@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:miru_anime/app_theme/theme.dart';
 import 'package:miru_anime/backend/database/app_settings.dart';
 import 'package:miru_anime/backend/database/custom_player.dart';
@@ -26,22 +25,14 @@ import 'package:miru_anime/utils/transition.dart';
 import 'package:provider/provider.dart';
 import 'package:resize/resize.dart';
 
-@pragma('vm:entry-point')
-void downloadCallback(String id, int status, int progress) {
-  final send = IsolateNameServer.lookupPortByName('downloader_send_port');
-  if (send != null) send.send([id, status, progress]);
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Future.wait([
-    FlutterDownloader.initialize(),
     ObjectBox.init(),
     Anilist.getSetting(),
     MyAnimeList.getSetting(),
     CustomPlayer.getSetting()
   ]);
-  FlutterDownloader.registerCallback(downloadCallback);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   final theme = await AppSettings.initializeTheme();

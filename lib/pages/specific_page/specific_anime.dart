@@ -1,11 +1,7 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:isolate';
-import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:miru_anime/app_theme/app_colors.dart';
@@ -35,8 +31,6 @@ import 'package:miru_anime/widgets/default_error_page.dart';
 import 'package:miru_anime/widgets/gallery/fullscreen_image.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_anime.dart';
 import 'package:miru_anime/widgets/refresh_indicator.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:resize/resize.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -63,8 +57,6 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
   late final StreamSubscription _sub;
   int _currentServer = 0;
   ServerName _nameServer = ServerName.none;
-  final _port = ReceivePort();
-  late final List<AppDownloadTask> downloadTask;
   final commentMap = <String, Future<List<UserComment>>>{};
   Future<List<AnimeCast>>? animeCast;
 
@@ -93,12 +85,6 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           });
         }
       });
-      if (value.servers.isNotEmpty) {
-        downloadTask = [
-          for (int i = 0; i < value.servers[0].listEpisode.length; i++)
-            AppDownloadTask('', DownloadTaskStatus.undefined, 0)
-        ];
-      }
       return value;
     });
   }
@@ -120,19 +106,6 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
       _anime = getFuture();
     }
     _box = ObjectBox.store.box<AnimeDatabase>();
-    IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      final String id = data[0];
-      final DownloadTaskStatus status = data[1];
-      final int progress = data[2];
-      final index = downloadTask.indexWhere((element) => element.id == id);
-      if (!mounted) return;
-      setState(() {
-        downloadTask[index].status = status;
-        downloadTask[index].progress = progress;
-      });
-    });
   }
 
   @override
@@ -140,7 +113,6 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     _anime.whenComplete(() {
       _sub.cancel();
     });
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
     super.dispose();
   }
 
@@ -418,7 +390,6 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                 key: const PageStorageKey('EpsiodeWidget'),
                 itemBuilder: (final context, final index) {
                   final episode = data[_currentServer].listEpisode[index];
-                  final task = downloadTask[index];
                   final title = SizedBox(
                     width: 125,
                     height: 20,
@@ -465,64 +436,6 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                     ),
                   );
 
-                  final download = Visibility(
-                    replacement: const SizedBox(
-                      width: 27,
-                    ),
-                    visible: data[_currentServer].canDownload,
-                    child: Visibility(
-                      visible: task.status == DownloadTaskStatus.enqueued ||
-                          task.status == DownloadTaskStatus.running,
-                      replacement: SizedBox(
-                        width: 27,
-                        height: 20,
-                        child: IconButton(
-                          iconSize: 17,
-                          splashRadius: 20,
-                          padding: EdgeInsets.zero,
-                          onPressed: () =>
-                              _downloadEpisode(episode, anime, task),
-                          icon: Icon(
-                            FontAwesomeIcons.download,
-                            color: buttonColor,
-                            //size: 17,
-                          ),
-                        ),
-                      ),
-                      child: SizedBox(
-                        width: 27,
-                        height: 20,
-                        child: IconButton(
-                          iconSize: 17,
-                          splashRadius: 20,
-                          padding: EdgeInsets.zero,
-                          onPressed: () => _removeEpisode(episode, task),
-                          icon: Icon(
-                            FontAwesomeIcons.solidCircleXmark,
-                            color: buttonColor,
-                            //size: 17,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-
-                  final progress = Visibility(
-                    visible: task.status == DownloadTaskStatus.enqueued ||
-                        task.status == DownloadTaskStatus.running,
-                    replacement: const SizedBox(
-                      width: 27,
-                      height: 20,
-                    ),
-                    child: SizedBox(
-                        width: 27,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          value: task.progress / 100,
-                          color: buttonColor,
-                        )),
-                  );
-
                   final openComment = SizedBox(
                     width: 27,
                     height: 20,
@@ -558,14 +471,6 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                                 width: 20,
                               ),
                               playBrowser,
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              download,
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              progress,
                               const SizedBox(
                                 width: 20,
                               ),
@@ -672,93 +577,6 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
       _updateDB(episode, anime);
     }
     _updateEpisodeOnlineDB(anime, episode);
-  }
-
-  Future<void> _downloadEpisode(final AnimeWorldEpisode episode,
-      final AnimeWorldSpecificAnime anime, final AppDownloadTask task) async {
-    if (task.status == DownloadTaskStatus.enqueued ||
-        task.status == DownloadTaskStatus.running) {
-      Fluttertoast.showToast(
-        msg: 'Download dell\'episodio ${episode.title} in corso',
-        toastLength: Toast.LENGTH_LONG,
-      );
-      return;
-    } else if (task.status == DownloadTaskStatus.complete) {
-      Fluttertoast.showToast(
-        msg: 'Episodio ${episode.title} già scaricato',
-        toastLength: Toast.LENGTH_LONG,
-      );
-      return;
-    }
-    if (await Permission.storage.request() == PermissionStatus.denied) {
-      Fluttertoast.showToast(
-        msg: 'Permessi negati, download cancellato',
-        toastLength: Toast.LENGTH_LONG,
-      );
-      return;
-    }
-    late final DirectUrlVideo url;
-    try {
-      url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
-    } catch (e) {
-      Fluttertoast.showToast(
-          msg: 'Errore: ${e.toString()}', toastLength: Toast.LENGTH_LONG);
-      return;
-    }
-    if (Uri.tryParse(url.urlVideo) == null) {
-      Fluttertoast.showToast(
-          msg: 'Errore nell\'ottenimento del link',
-          toastLength: Toast.LENGTH_LONG);
-      return;
-    } else if (url.urlVideo.contains('.m3u8')) {
-      Fluttertoast.showToast(
-          msg: 'Questo tipo di video non può essere scaricato',
-          toastLength: Toast.LENGTH_LONG);
-      return;
-    }
-    if (await Permission.notification.request() == PermissionStatus.denied) {
-      Fluttertoast.showToast(
-          msg: 'Episodio ${episode.title} in download',
-          toastLength: Toast.LENGTH_LONG);
-    }
-    String? id;
-    final name =
-        '${anime.title}_episodio_${episode.title}.mp4'.replaceAll(' ', '_');
-    if (!Platform.isIOS) {
-      final saveDir = (await getExternalStorageDirectories(
-              type: StorageDirectory.downloads))!
-          .first;
-      id = await FlutterDownloader.enqueue(
-          url: url.urlVideo,
-          savedDir: saveDir.path,
-          saveInPublicStorage: true,
-          headers: url.headers,
-          fileName: name);
-    } else {
-      final saveDir = await getApplicationDocumentsDirectory();
-      id = await FlutterDownloader.enqueue(
-          url: url.urlVideo,
-          savedDir: saveDir.path,
-          saveInPublicStorage: false,
-          headers: url.headers,
-          fileName: name);
-    }
-    if (id == null) {
-      Fluttertoast.showToast(msg: 'Errore', toastLength: Toast.LENGTH_LONG);
-      return;
-    }
-    setState(() {
-      task.id = id!;
-      task.status = DownloadTaskStatus.enqueued;
-    });
-  }
-
-  void _removeEpisode(
-      final AnimeWorldEpisode episode, final AppDownloadTask task) {
-    FlutterDownloader.remove(taskId: task.id, shouldDeleteContent: true);
-    setState(() {
-      task.status = DownloadTaskStatus.undefined;
-    });
   }
 
   void _updateDB(
