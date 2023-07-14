@@ -468,7 +468,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                               ),
                               playButton,
                               const SizedBox(
-                                width: 20,
+                                width: 40,
                               ),
                               playBrowser,
                               const SizedBox(
