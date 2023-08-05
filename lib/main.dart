@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,8 +32,7 @@ void main() async {
     MyAnimeList.getSetting(),
     CustomPlayer.getSetting()
   ]);
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   final theme = await AppSettings.initializeTheme();
   if(theme == TypeTheme.light)
     SystemChrome.setSystemUIOverlayStyle(statusBarLight);
