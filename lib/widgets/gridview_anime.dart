@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:resize/resize.dart';
 import '../app_theme/app_colors.dart';
 import '../backend/models/anime.dart';
 import '../pages/specific_page/specific_anime.dart';
@@ -17,14 +16,14 @@ class GridViewAnime extends StatelessWidget {
   final ScrollPhysics? scrollPhysics;
 
   const GridViewAnime({
-    Key? key,
+    super.key,
     required this.animeList,
     this.controller,
     this.width = 155,
     this.height = 225,
     this.shinkWrap = false,
     this.scrollPhysics = const BouncingScrollPhysics()
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +92,7 @@ class GridViewAnime extends StatelessWidget {
                         anime.title,
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.w800,
-                          fontSize: 11.sp,
+                          fontSize: 11,
                           letterSpacing: 0.4,
                           color: AppColors.white
                         ),

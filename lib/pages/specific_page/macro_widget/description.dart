@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Description extends StatelessWidget {
   final String description;
-  const Description({Key? key, required this.description}) : super(key: key);
+  const Description({super.key, required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class Description extends StatelessWidget {
               child: SizedBox(
                 child: Text(
                   description,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onBackground),
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                 )
               ),
             ),

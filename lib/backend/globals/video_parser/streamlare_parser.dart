@@ -34,10 +34,11 @@ class StreamlareParser {
       )
     )).data as Map<String, dynamic>;
     String link;
-    if(json['result']!.containsKey('Original'))
+    if(json['result']!.containsKey('Original')) {
       link = json['result']!['Original']['file'];
-    else
+    } else {
       link = json['result']!['file'];
+    }
     return DirectUrlVideo(link, {
       'Accept' : 'video/webm,video/ogg,video/*;q=0.9,application/ogg;q=0.7,audio/*;q=0.6,*/*;q=0.5',
       'User-Agent' : userAgent,

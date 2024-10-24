@@ -24,7 +24,7 @@ import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   static const route = '/';
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -55,16 +55,16 @@ class _HomePageState extends State<HomePage> {
       });
     });
     AppUpdater().checkNewVersions().then((final value) {
-      if(value) {
+      if(value && mounted) {
         if(Platform.isIOS) {
           showCupertinoDialog(
             context: context,
-            builder: (_) => UpdaterWidget.iosAlertDialog(context)
+            builder: (context) => UpdaterWidget.iosAlertDialog(context)
           );
         } else {
           showDialog(
             context: context,
-            builder: (_) => UpdaterWidget.androidAlertDialog(context)
+            builder: (context) => UpdaterWidget.androidAlertDialog(context)
           );
         }
       }
@@ -158,8 +158,8 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Theme.of(context).colorScheme.background,
-                    Theme.of(context).colorScheme.background.withOpacity(0.1),
+                    Theme.of(context).colorScheme.surface,
+                    Theme.of(context).colorScheme.surface.withOpacity(0.1),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _selectTop(){
-    Widget _tab(final String label, final int tabNum){
+    Widget tab(final String label, final int tabNum){
       final bool isDisable = _activeTab != tabNum;
       return GestureDetector(
         onTap: () async => await _pageController.animateToPage(
@@ -212,8 +212,8 @@ class _HomePageState extends State<HomePage> {
             label,
             style: TextStyle(
               color: isDisable
-                  ? Theme.of(context).colorScheme.onBackground.withOpacity(0.65)
-                  : Theme.of(context).colorScheme.onBackground,
+                  ? Theme.of(context).colorScheme.onSurface.withOpacity(0.65)
+                  : Theme.of(context).colorScheme.onSurface,
               fontWeight: FontWeight.w500,
               fontSize: 16,
               fontFamily: 'Montserrat',
@@ -228,11 +228,11 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _tab('Today',0),
+          tab('Today',0),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10.0),),
-          _tab('Week',1),
+          tab('Week',1),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10.0),),
-          _tab('Month',2),
+          tab('Month',2),
         ],
       ),
     );
@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> {
 
 class _Swiper extends StatelessWidget {
   final List<Anime> list;
-  const _Swiper({Key? key, required this.list}) : super(key: key);
+  const _Swiper({required this.list});
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +269,7 @@ class _Swiper extends StatelessWidget {
 
 class _RankedAnime extends StatelessWidget {
   final List<Anime> list;
-  const _RankedAnime({Key? key, required this.list}) : super(key: key);
+  const _RankedAnime({super.key, required this.list});
 
   @override
   Widget build(BuildContext context) {
@@ -316,7 +316,7 @@ class _RankedAnime extends StatelessWidget {
 
 class _AnimeListView extends StatelessWidget {
   final List<Anime> list;
-  const _AnimeListView({Key? key, required this.list}) : super(key: key);
+  const _AnimeListView({required this.list});
 
   @override
   Widget build(BuildContext context) {
@@ -348,7 +348,7 @@ class _AnimeListView extends StatelessWidget {
 class _AnimeListViewWithBadge extends StatelessWidget {
   final String prefixBadge;
   final List<Anime> list;
-  const _AnimeListViewWithBadge({Key? key, required this.list, this.prefixBadge = ''}) : super(key: key);
+  const _AnimeListViewWithBadge({required this.list, this.prefixBadge = ''});
 
   @override
   Widget build(BuildContext context) {
@@ -380,7 +380,7 @@ class _AnimeListViewWithBadge extends StatelessWidget {
 
 class _CustomTitle extends StatelessWidget {
   final String title;
-  const _CustomTitle({Key? key, required this.title}) : super(key: key);
+  const _CustomTitle({required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -395,7 +395,7 @@ class _CustomTitle extends StatelessWidget {
 }
 
 class _ShimmerWidget extends StatelessWidget {
-  const _ShimmerWidget({Key? key}) : super(key: key);
+  const _ShimmerWidget();
 
   @override
   Widget build(BuildContext context) {

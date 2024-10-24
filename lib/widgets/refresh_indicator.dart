@@ -11,8 +11,8 @@ class AppRefreshIndicator extends StatelessWidget {
     required this.child,
     required this.onRefresh,
     this.triggerMode = RefreshIndicatorTriggerMode.onEdge,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {

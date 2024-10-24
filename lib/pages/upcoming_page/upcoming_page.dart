@@ -14,7 +14,7 @@ import '../../utils/transition.dart';
 class UpcomingPage extends StatefulWidget {
   static const route = '/upcoming';
 
-  const UpcomingPage({Key? key}) : super(key: key);
+  const UpcomingPage({super.key});
 
   @override
   State<UpcomingPage> createState() => _UpcomingPageState();
@@ -86,7 +86,7 @@ class _UpcomingPageState extends State<UpcomingPage> {
 }
 
 class _ShimmerPage extends StatelessWidget {
-  const _ShimmerPage({Key? key}) : super(key: key);
+  const _ShimmerPage();
 
   @override
   Widget build(BuildContext context) {

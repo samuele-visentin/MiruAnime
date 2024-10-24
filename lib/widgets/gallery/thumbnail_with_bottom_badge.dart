@@ -11,14 +11,14 @@ class ThumbnailBottomBadge extends StatelessWidget {
   final double height;
 
   const ThumbnailBottomBadge({
-    Key? key,
+    super.key,
     required this.badge,
     required this.link,
     required this.thumbnail,
     required this.title,
     this.width = 125,
     this.height = 185
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

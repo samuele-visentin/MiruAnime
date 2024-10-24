@@ -9,11 +9,11 @@ import '../../widgets/underline_title_close_button.dart';
 
 class CategoriesPage extends StatelessWidget {
   static const route = '/categories';
-  const CategoriesPage({Key? key}) : super(key: key);
+  const CategoriesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Widget _section(final String name, final String url) {
+    Widget section(final String name, final String url) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: GestureDetector(
@@ -39,12 +39,12 @@ class CategoriesPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _section('Anime', AnimeWorldEndPoints.anime),
-                  _section('Movie', AnimeWorldEndPoints.movies),
-                  _section('OVA', AnimeWorldEndPoints.ova),
-                  _section('ONA', AnimeWorldEndPoints.ona),
-                  _section('Special', AnimeWorldEndPoints.special),
-                  _section('Music', AnimeWorldEndPoints.music),
+                  section('Anime', AnimeWorldEndPoints.anime),
+                  section('Movie', AnimeWorldEndPoints.movies),
+                  section('OVA', AnimeWorldEndPoints.ova),
+                  section('ONA', AnimeWorldEndPoints.ona),
+                  section('Special', AnimeWorldEndPoints.special),
+                  section('Music', AnimeWorldEndPoints.music),
                   const Padding(padding: EdgeInsets.symmetric(vertical: 20))
                 ],
               ),

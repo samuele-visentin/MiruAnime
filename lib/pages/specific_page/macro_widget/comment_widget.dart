@@ -11,8 +11,7 @@ import 'package:miru_anime/widgets/underline_title_close_button.dart';
 class CommentWidget extends StatelessWidget {
   final Future<List<UserComment>> comments;
   final String name;
-  const CommentWidget({Key? key, required this.comments, required this.name})
-      : super(key: key);
+  const CommentWidget({super.key, required this.comments, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +74,7 @@ class CommentWidget extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6.0),
               ),
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).colorScheme.onSurface,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minHeight: 45),
                 child: Padding(
@@ -96,7 +95,7 @@ class CommentWidget extends StatelessWidget {
                               comment.time,
                               style: TextStyle(
                                   fontSize: 13.5,
-                                  color: Theme.of(context).colorScheme.onSurface.withAlpha(100),
+                                  color: Theme.of(context).colorScheme.primary.withAlpha(100),
                                   fontWeight: FontWeight.w400),
                             ),
                           ),
@@ -132,7 +131,7 @@ class CommentWidget extends StatelessWidget {
                                     fontFamily: 'Montserrat',
                                       letterSpacing: -0.25,
                                       fontSize: 18,
-                                      color: Theme.of(context).colorScheme.onSurface,
+                                      color: Theme.of(context).colorScheme.primary,
                                       fontWeight: FontWeight.w600),
                                 ),
                               ),
@@ -152,7 +151,7 @@ class CommentWidget extends StatelessWidget {
                                   fontFamily: 'Montserrat',
                                     letterSpacing: -0.25,
                                     fontSize: 16,
-                                    color: Theme.of(context).colorScheme.onSurface,
+                                    color: Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.w500),
                               )),
                         ],

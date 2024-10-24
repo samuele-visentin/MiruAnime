@@ -31,7 +31,6 @@ import 'package:miru_anime/widgets/default_error_page.dart';
 import 'package:miru_anime/widgets/gallery/fullscreen_image.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_anime.dart';
 import 'package:miru_anime/widgets/refresh_indicator.dart';
-import 'package:resize/resize.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -41,8 +40,7 @@ class SpecificAnimePage extends StatefulWidget {
   static const route = '/specific';
   final String? url;
   final bool isRandom;
-  const SpecificAnimePage({Key? key, this.url, this.isRandom = false})
-      : super(key: key);
+  const SpecificAnimePage({super.key, this.url, this.isRandom = false});
 
   @override
   State<SpecificAnimePage> createState() => _SpecificAnimePageState();
@@ -165,8 +163,8 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     );
 
     final addRemoveButton = IconButton(
-        iconSize: 18,
-        splashRadius: 18,
+        iconSize: 20,
+        splashRadius: 20,
         onPressed: () => _manageStorage(data),
         icon: Icon(
           _isAdded ? FontAwesomeIcons.circleMinus : FontAwesomeIcons.circlePlus,
@@ -175,8 +173,8 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         ));
 
     final shareButton = IconButton(
-      splashRadius: 18,
-      iconSize: 18,
+      splashRadius: 20,
+      iconSize: 20,
       icon: Icon(
         FontAwesomeIcons.share,
         color: buttonColor,
@@ -314,7 +312,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     final List<AnimeWorldServer> data = anime.servers;
     final buttonColor = Theme.of(context).colorScheme.secondary;
 
-    Widget _selectServer() {
+    Widget selectServer() {
       final leftArrow = GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
@@ -329,7 +327,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             padding: const EdgeInsets.all(16.0),
             child: FaIcon(
               FontAwesomeIcons.backward,
-              size: 16,
+              size: 20,
               color: _currentServer > 0
                   ? buttonColor
                   : AppColors.grey.withOpacity(0.35),
@@ -357,7 +355,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             padding: const EdgeInsets.all(16.0),
             child: FaIcon(
               FontAwesomeIcons.forward,
-              size: 16,
+              size: 20,
               color: _currentServer < data.length - 1
                   ? buttonColor
                   : AppColors.grey.withOpacity(0.35),
@@ -408,7 +406,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                       width: 27,
                       height: 20,
                       child: IconButton(
-                        iconSize: 18,
+                        iconSize: 20,
                         splashRadius: 20,
                         padding: EdgeInsets.zero,
                         onPressed: () => _playEpisode(episode, anime),
@@ -440,7 +438,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                     width: 27,
                     height: 20,
                     child: IconButton(
-                      iconSize: 17,
+                      iconSize: 20,
                       splashRadius: 20,
                       padding: EdgeInsets.zero,
                       onPressed: () => _openComment(anime, episode),
@@ -494,7 +492,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           thickness: 1,
           color: Theme.of(context).colorScheme.secondary.withAlpha(80),
         ),
-        _selectServer(),
+        selectServer(),
       ],
     );
   }
@@ -663,7 +661,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
 
 class _Badge extends StatelessWidget {
   final String voto;
-  const _Badge({Key? key, required this.voto}) : super(key: key);
+  const _Badge({required this.voto});
 
   @override
   Widget build(BuildContext context) {
@@ -687,7 +685,7 @@ class _Badge extends StatelessWidget {
         rating,
         style: Theme.of(context).textTheme.titleSmall!.copyWith(
             color: AppColors.white,
-            fontSize: 12.sp,
+            fontSize: 12,
             fontWeight: FontWeight.w800),
         textAlign: TextAlign.center,
       )),

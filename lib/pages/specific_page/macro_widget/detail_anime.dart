@@ -11,7 +11,6 @@ import 'package:miru_anime/widgets/gallery/fullscreen_image.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_anime.dart';
 import 'package:miru_anime/widgets/shimmer_box.dart';
 import 'package:miru_anime/widgets/underline_title_close_button.dart';
-import 'package:resize/resize.dart';
 
 
 class DetailWidget extends StatelessWidget {
@@ -21,12 +20,12 @@ class DetailWidget extends StatelessWidget {
   final Future<List<AnimeCast>> cast;
 
   const DetailWidget({
-    Key? key,
+    super.key,
     required this.description,
     required this.detail,
     required this.nextEpisode,
     required this.cast,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +92,7 @@ class DetailWidget extends StatelessWidget {
 }
 
 class _ShimmerCast extends StatelessWidget {
-  const _ShimmerCast({Key? key}) : super(key: key);
+  const _ShimmerCast();
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +113,7 @@ class _ShimmerCast extends StatelessWidget {
 
 class _Cast extends StatelessWidget {
   final List<AnimeCast> cast;
-  const _Cast({Key? key, required this.cast}) : super(key: key);
+  const _Cast({required this.cast});
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +149,7 @@ class _CastAvatar extends StatelessWidget {
   final String url;
   final String name;
   final String role;
-  const _CastAvatar({Key? key, required this.url, required this.name, required this.role}) : super(key: key);
+  const _CastAvatar({required this.url, required this.name, required this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +195,7 @@ class _CastAvatar extends StatelessWidget {
                       maxLines: 2,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Colors.white,
-                        fontSize: 10.sp
+                        fontSize: 10
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -207,7 +206,7 @@ class _CastAvatar extends StatelessWidget {
                   child: Text(role,
                     maxLines: 2,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: 7.sp,
+                      fontSize: 7,
                       color: Colors.white.withAlpha(130)
                     ),
                   ),

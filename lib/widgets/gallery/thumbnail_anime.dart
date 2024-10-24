@@ -7,11 +7,11 @@ class ThumbnailAnime extends StatelessWidget {
   final double height;
   final double width;
   const ThumbnailAnime({
-    Key? key,
+    super.key,
     required this.image,
     this.height = 225,
     this.width = 155
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

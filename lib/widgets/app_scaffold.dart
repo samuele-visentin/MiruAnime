@@ -10,12 +10,12 @@ class AppScaffold extends StatelessWidget {
   final ScrollController? scrollController;
   final bool paddingTop;
   const AppScaffold({
-    Key? key,
+    super.key,
     this.paddingTop = true,
     required this.route,
     required this.child,
     this.scrollController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class AppScaffold extends StatelessWidget {
 }
 
 class _AppBottomBar extends StatelessWidget {
-  const _AppBottomBar({Key? key}) : super(key: key);
+  const _AppBottomBar();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class _AppBottomBar extends StatelessWidget {
             child: Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
+                color: Theme.of(context).colorScheme.onSurface,
                 borderRadius: const BorderRadius.all(Radius.circular(16))
               ),
               height: 45,
@@ -85,7 +85,7 @@ class _AppBottomBar extends StatelessWidget {
                   Text(
                     'Cerca un titolo...',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface
+                      color: Theme.of(context).colorScheme.primary
                     ),
                     textAlign: TextAlign.center,
                   ),

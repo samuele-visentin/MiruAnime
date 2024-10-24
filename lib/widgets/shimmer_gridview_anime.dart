@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:miru_anime/widgets/shimmer_box.dart';
 
 class ShimmerGridAnime extends StatelessWidget {
-  const ShimmerGridAnime({Key? key}) : super(key: key);
+  const ShimmerGridAnime({super.key});
 
   @override
   Widget build(BuildContext context) {

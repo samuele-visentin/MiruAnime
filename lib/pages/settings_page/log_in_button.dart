@@ -5,11 +5,11 @@ class LogInButton extends StatelessWidget {
   final void Function() onTap;
   final String imageAsset;
 
-  const LogInButton({Key? key,
+  const LogInButton({super.key,
     required this.text,
     required this.onTap,
     required this.imageAsset
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

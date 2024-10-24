@@ -8,7 +8,7 @@ class ViewImage extends StatelessWidget {
   final String url;
   final bool useCache;
   final String title;
-  const ViewImage({Key? key, required this.url, this.useCache = true, this.title = 'Fullscreen Image'}) : super(key: key);
+  const ViewImage({super.key, required this.url, this.useCache = true, this.title = 'Fullscreen Image'});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ViewImage extends StatelessWidget {
                 child: PhotoView(
                   filterQuality: FilterQuality.high,
                   backgroundDecoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background
+                    color: Theme.of(context).colorScheme.surface
                   ),
                   imageProvider: (useCache ? CachedNetworkImageProvider(url) : NetworkImage(url)) as ImageProvider<Object>,
                   maxScale: PhotoViewComputedScale.covered * 2,

@@ -11,7 +11,6 @@ import 'package:miru_anime/widgets/dropdown_alert.dart';
 import 'package:miru_anime/widgets/gallery/fullscreen_image.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_anime.dart';
 import 'package:miru_anime/widgets/title_close_button.dart';
-import 'package:resize/resize.dart';
 
 import '../../backend/database/anime_saved.dart';
 import '../../objectbox.g.dart';
@@ -19,7 +18,7 @@ import '../../utils/transition.dart';
 
 class UserAnimeListPage extends StatefulWidget {
   static const route = '/userlist';
-  const UserAnimeListPage({Key? key}) : super(key: key);
+  const UserAnimeListPage({super.key});
 
   @override
   State<UserAnimeListPage> createState() => _UserAnimeListPageState();
@@ -92,9 +91,9 @@ class _UserAnimeListPageState extends State<UserAnimeListPage> {
             const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
             TabBar(
               indicatorColor: Theme.of(context).colorScheme.onPrimary,
-              labelColor: Theme.of(context).colorScheme.onBackground,
+              labelColor: Theme.of(context).colorScheme.onSurface,
               labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontSize: 12.sp
+                fontSize: 12
               ),
               tabs: const [
                 Tab(text: 'In corso',),
@@ -154,7 +153,7 @@ class _UserAnimeListPageState extends State<UserAnimeListPage> {
 
 class _GridViewAnime extends StatelessWidget {
   final List<AnimeDatabase> list;
-  const _GridViewAnime({Key? key, required this.list}) : super(key: key);
+  const _GridViewAnime({super.key, required this.list});
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +172,7 @@ class _GridViewAnime extends StatelessWidget {
           return Container(
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
-              border: Border.all(color: Theme.of(context).colorScheme.onBackground),
+              border: Border.all(color: Theme.of(context).colorScheme.onSurface),
               borderRadius: BorderRadius.circular(9)
             ),
             child: GestureDetector(
@@ -203,8 +202,8 @@ class _GridViewAnime extends StatelessWidget {
                     child: Text(
                       anime.title,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: 11.sp,
-                        color: Theme.of(context).colorScheme.onBackground
+                        fontSize: 11,
+                        color: Theme.of(context).colorScheme.onSurface
                       ),
                       textAlign: TextAlign.center,
                       maxLines: 3,
@@ -216,8 +215,8 @@ class _GridViewAnime extends StatelessWidget {
                     child: Text(
                       'Ep: ${anime.currentEpisode}',
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: 9.sp,
-                        color: Theme.of(context).colorScheme.onBackground
+                        fontSize: 9,
+                        color: Theme.of(context).colorScheme.onSurface
                       ),
                       textAlign: TextAlign.center,
                     ),

@@ -12,13 +12,13 @@ class ThumbnailWithTitle extends StatelessWidget {
   final double width;
 
   const ThumbnailWithTitle({
-    Key? key,
+    super.key,
     required this.title,
     required this.image,
     required this.urlAnime,
     this.height = 185,
     this.width = 125
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ import '../../widgets/title_close_button.dart';
 class SpecificUpcomingPage extends StatefulWidget {
   final String name;
   final String url;
-  const SpecificUpcomingPage({Key? key, required this.name, required this.url}) : super(key: key);
+  const SpecificUpcomingPage({super.key, required this.name, required this.url});
 
   @override
   State<SpecificUpcomingPage> createState() => _SpecificUpcomingPageState();
@@ -52,11 +52,11 @@ class _SpecificUpcomingPageState extends State<SpecificUpcomingPage> {
                       Tab(text: 'Movie'),
                     ],
                     indicatorColor: Theme.of(context).colorScheme.onPrimary,
-                    labelColor: Theme.of(context).colorScheme.onBackground,
+                    labelColor: Theme.of(context).colorScheme.onSurface,
                     labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontWeight: FontWeight.w700
                     ),
-                    unselectedLabelColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.65),
+                    unselectedLabelColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.65),
                   ),
                   Expanded(
                     child: FutureBuilder<UpComingAnime>(

@@ -6,11 +6,11 @@ class UnderlineTitleWithCloseButton extends StatelessWidget {
   final double indent;
   final double endIndent;
   const UnderlineTitleWithCloseButton({
-    Key? key,
+    super.key,
     required this.text,
     this.endIndent = 20,
     this.indent = 20
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

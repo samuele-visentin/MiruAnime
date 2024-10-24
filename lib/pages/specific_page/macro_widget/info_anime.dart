@@ -7,11 +7,11 @@ import 'package:miru_anime/utils/transition.dart';
 class InfoAnime extends StatelessWidget {
   final DetailAnime info;
   final String nextEpisode;
-  const InfoAnime({Key? key, required this.info, required this.nextEpisode}) : super(key: key);
+  const InfoAnime({super.key, required this.info, required this.nextEpisode});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onBackground);
+    final theme = Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onSurface);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -78,7 +78,7 @@ class _RowInfo extends StatelessWidget {
   final String url;
   final String name;
   final String value;
-  const _RowInfo({Key? key, required this.url, required this.name, required this.value}) : super(key: key);
+  const _RowInfo({required this.url, required this.name, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class _RowInfo extends StatelessWidget {
         Text(
           '$name: ',
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
-            color: Theme.of(context).colorScheme.onBackground
+            color: Theme.of(context).colorScheme.onSurface
           ),
         ),
         GestureDetector(
@@ -115,11 +115,11 @@ class _RowInfo extends StatelessWidget {
 class _WrapContent extends StatelessWidget {
   final List<Href> list;
   final String name;
-  const _WrapContent({Key? key, required this.list, required this.name}) : super(key: key);
+  const _WrapContent({required this.list, required this.name});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onBackground);
+    final theme = Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onSurface);
     return Wrap(
       direction: Axis.horizontal,
       spacing: 2,

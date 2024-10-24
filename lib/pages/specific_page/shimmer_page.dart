@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:miru_anime/widgets/shimmer_box.dart';
 
 class ShimmerAnimePage extends StatelessWidget {
-  const ShimmerAnimePage({ Key? key }) : super(key: key);
+  const ShimmerAnimePage({ super.key });
 
   @override
   Widget build(final BuildContext context) {

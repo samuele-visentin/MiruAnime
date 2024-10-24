@@ -35,8 +35,9 @@ class UserloadParser {
         ));
     //we brute force the real url by test all the cases (couse the name and the position of morocco's value can change)
     for (final url in regexParam.allMatches(infoUrl)) {
-      if(url.group(1)!.isEmpty || url.group(1)!.contains('.mp4'))
+      if(url.group(1)!.isEmpty || url.group(1)!.contains('.mp4')) {
         continue;
+      }
       final response = (await _dio.post('https://userload.co/api/request/',
           data: FormData.fromMap({
             'morocco' : url.group(1),

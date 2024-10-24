@@ -10,14 +10,14 @@ class ThumbnailWithBadge extends StatelessWidget {
   final double width;
   final double height;
   const ThumbnailWithBadge({
-    Key? key,
+    super.key,
     required this.rank,
     required this.link,
     required this.thumbnail,
     required this.title,
     this.width = 125,
     this.height = 185
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

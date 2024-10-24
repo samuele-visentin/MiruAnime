@@ -14,7 +14,7 @@ import 'package:miru_anime/widgets/dropdown_alert.dart';
 
 class AdvanceSearch extends StatefulWidget {
   static const route = '/advanceSearch';
-  const AdvanceSearch({Key? key}) : super(key: key);
+  const AdvanceSearch({super.key});
 
   @override
   State<AdvanceSearch> createState() => _AdvanceSearchState();

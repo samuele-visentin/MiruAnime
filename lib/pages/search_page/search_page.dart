@@ -12,7 +12,7 @@ import 'package:miru_anime/widgets/shimmer_gridview_anime.dart';
 
 class SearchPage extends StatefulWidget {
   static const route = '/search';
-  const SearchPage({Key? key}) : super(key: key);
+  const SearchPage({super.key});
 
   @override
   State<SearchPage> createState() => _SearchPageState();

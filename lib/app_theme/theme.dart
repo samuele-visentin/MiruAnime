@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:miru_anime/backend/database/app_settings.dart';
-import 'package:resize/resize.dart';
 import 'app_colors.dart';
 
 const statusBarLight = SystemUiOverlayStyle(
@@ -23,31 +22,31 @@ enum TypeTheme {
 }
 
 class AppTheme extends ChangeNotifier {
-  late ThemeData _theme;
   late TypeTheme _type;
+  late ThemeMode _mode;
   AppTheme(final TypeTheme type) {
     _type = type;
-    _theme = _getType(type);
+    _mode = _getMode(type);
   }
 
-  ThemeData get theme => _theme;
   TypeTheme get type => _type;
+  ThemeMode get mode => _mode;
 
   set setTheme(final TypeTheme themeType) {
     AppSettings.saveInt(AppSettings.themeSetting, themeType.index);
-    _theme = _getType(themeType);
+    _mode = _getMode(themeType);
     _type = themeType;
     notifyListeners();
   }
 
-  ThemeData _getType(final TypeTheme themeType) {
+  ThemeMode _getMode(final TypeTheme themeType) {
     switch (themeType) {
       case TypeTheme.purple:
-        return _themeAppPurple;
+        return ThemeMode.light;
       case TypeTheme.amoled:
-        return _themeAppAmoled;
+        return ThemeMode.dark;
       case TypeTheme.light:
-        return _themeAppLight;
+        return ThemeMode.light;
     }
   }
 }
@@ -55,20 +54,20 @@ class AppTheme extends ChangeNotifier {
 final _textTheme = TextTheme(
     headlineLarge: TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 16.sp,
+        fontSize: 16,
         fontWeight: FontWeight.w600,
         //color: AppColors.white
       //height: 29
     ),
     headlineMedium: TextStyle(
       fontFamily: 'Montserrat',
-      fontSize: 15.sp,
+      fontSize: 15,
       fontWeight: FontWeight.w600,
       //color: AppColors.white,
     ),
     headlineSmall: TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 14.sp,
+        fontSize: 14,
         fontWeight: FontWeight.w400,
         //color: AppColors.white
       //height: 24,
@@ -78,95 +77,89 @@ final _textTheme = TextTheme(
         fontFamily: 'Montserrat',
         letterSpacing: 0.15,
         //color: AppColors.white,
-        fontSize: 13.sp
+        fontSize: 13
     ),
     bodyMedium: TextStyle(
         fontWeight: FontWeight.w600,
         fontFamily: 'Montserrat',
         letterSpacing: 0.15,
         //color: AppColors.white,
-        fontSize: 12.sp
+        fontSize: 12
     ),
     bodySmall: TextStyle(
         fontWeight: FontWeight.w600,
         fontFamily: 'Montserrat',
         letterSpacing: 0.15,
         //color: AppColors.white,
-        fontSize: 11.sp
+        fontSize: 11
     ),
     titleLarge: TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 15.sp,
+        fontSize: 15,
         fontWeight: FontWeight.w700,
         letterSpacing: 0.15,
         //color: AppColors.white
     ),
     titleMedium: TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 13.sp,
+        fontSize: 14,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.15,
         //color: AppColors.white
     ),
     titleSmall: TextStyle(
         fontFamily: 'Montserrat',
-        fontSize: 10.sp,
+        fontSize: 13,
         fontWeight: FontWeight.w700,
         letterSpacing: 0.4,
         //color: AppColors.white
     )
 );
 
-final _themeAppPurple = ThemeData.from(
+final themeAppPurple = ThemeData.from(
   colorScheme: const ColorScheme(
-      primary: AppColors.background,
+      primary: Colors.black,
       secondary: AppColors.purple,
       secondaryContainer: AppColors.darkBlue,
-      surface: AppColors.white,
-      background: AppColors.background,
+      surface: AppColors.background,
       error: AppColors.functionalred,
       onPrimary: AppColors.purple,
       onSecondary: AppColors.blue,
-      onSurface: Colors.black,
-      onBackground: Colors.white,
+      onSurface: Colors.white,
       onError: AppColors.background,
       brightness: Brightness.dark
     ),
   textTheme: _textTheme
 );
 
-final _themeAppAmoled = ThemeData.from(
+final themeAppAmoled = ThemeData.from(
     colorScheme: const ColorScheme(
         primary: Colors.black,
         secondary: AppColors.ocean8,
         secondaryContainer: AppColors.background,
-        surface: AppColors.white,
-        background: Colors.black,
+        surface: Colors.black,
         error: AppColors.functionalred,
         onPrimary: AppColors.white,
         onSecondary: AppColors.darkBlue,
-        onSurface: Colors.black,
-        onBackground: Colors.white,
+        onSurface: Colors.white,
         onError: AppColors.background,
         brightness: Brightness.dark
     ),
     textTheme: _textTheme
 );
 
-final _themeAppLight = ThemeData.from(
+/*final _themeAppLight = ThemeData.from(
     colorScheme: const ColorScheme(
         primary: AppColors.white,
         secondary: AppColors.purple,
         secondaryContainer: AppColors.ocean4,
         surface: AppColors.functionalDarkGrey,
-        background: AppColors.white,
         error: AppColors.functionalred,
         onPrimary: Colors.black,
         onSecondary: AppColors.white,
         onSurface: AppColors.white,
-        onBackground: Colors.black,
         onError: AppColors.background,
         brightness: Brightness.light
     ),
     textTheme: _textTheme
-);
+);*/

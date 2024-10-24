@@ -15,7 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class NewsPage extends StatefulWidget {
   static const route = '/news';
-  const NewsPage({Key? key}) : super(key: key);
+  const NewsPage({super.key});
 
   @override
   State<NewsPage> createState() => _NewsPageState();
@@ -117,7 +117,7 @@ class _NewsPageState extends State<NewsPage> {
                 clipBehavior: Clip.antiAlias,
                 height: 170,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Theme.of(context).colorScheme.onBackground),
+                  border: Border.all(color: Theme.of(context).colorScheme.onSurface),
                   borderRadius: BorderRadius.circular(9)
                 ),
                 child: Row(
@@ -190,7 +190,7 @@ class _NewsPageState extends State<NewsPage> {
 }
 
 class _ShimmerNewsPage extends StatelessWidget {
-  const _ShimmerNewsPage({Key? key}) : super(key: key);
+  const _ShimmerNewsPage();
 
   @override
   Widget build(BuildContext context) {

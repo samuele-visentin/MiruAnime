@@ -7,18 +7,17 @@ import 'package:miru_anime/backend/models/server.dart';
 import 'package:miru_anime/backend/sites/animeworld/scraper.dart';
 import 'package:miru_anime/backend/globals/server_types.dart';
 import 'package:miru_anime/widgets/title_close_button.dart';
-import 'package:wakelock/wakelock.dart';
 
 class AppVideoPlayer extends StatefulWidget {
   static const route = '/videoplayer';
   final AnimeWorldEpisode episode;
   final ServerName nameServer;
   final String animeName;
-  const AppVideoPlayer({Key? key,
+  const AppVideoPlayer({super.key,
     required this.episode,
     required this.nameServer,
     required this.animeName
-  }) : super(key: key);
+  });
 
   @override
   State<AppVideoPlayer> createState() => _AppVideoPlayerState();
@@ -36,7 +35,6 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
   @override
   void initState() {
     super.initState();
-    Wakelock.enable();
     _controller = BetterPlayerController(
       BetterPlayerConfiguration(
         fit: BoxFit.contain,
@@ -88,7 +86,6 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
 
   @override
   void dispose() {
-    Wakelock.disable();
     //_controller.removeEventsListener(changeAspectRatio); We disposing the controller the next line so the listener should be removed with that function
     _controller.dispose();
     super.dispose();

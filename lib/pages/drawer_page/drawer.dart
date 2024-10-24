@@ -16,7 +16,7 @@ import '../search_page/search_page.dart';
 class AppDrawerMenu extends StatefulWidget {
   final String route;
   final ScrollController? scrollController;
-  const AppDrawerMenu({Key? key, required this.route, this.scrollController}) : super(key: key);
+  const AppDrawerMenu({super.key, required this.route, this.scrollController});
 
   @override
   State<AppDrawerMenu> createState() => _AppDrawerMenuState();

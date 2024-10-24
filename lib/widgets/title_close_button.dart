@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TitleWithCloseButton extends StatelessWidget {
   final String text;
-  const TitleWithCloseButton({Key? key, required this.text}) : super(key: key);
+  const TitleWithCloseButton({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

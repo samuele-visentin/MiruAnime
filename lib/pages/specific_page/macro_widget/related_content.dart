@@ -7,7 +7,7 @@ import 'package:miru_anime/widgets/title_close_button.dart';
 class RelatedContent extends StatelessWidget {
   final List<Anime> correlati;
   final List<Anime> simili;
-  const RelatedContent({Key? key, required this.simili, required this.correlati}) : super(key: key);
+  const RelatedContent({super.key, required this.simili, required this.correlati});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class RelatedContent extends StatelessWidget {
               const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
               TabBar(
                 indicatorColor: Theme.of(context).colorScheme.onPrimary,
-                labelColor: Theme.of(context).colorScheme.onBackground,
+                labelColor: Theme.of(context).colorScheme.onSurface,
                 labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 16
                 ),

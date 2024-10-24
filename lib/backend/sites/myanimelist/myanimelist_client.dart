@@ -7,13 +7,11 @@ import '../../globals/utils/random_string.dart';
 
 class MyAnimeListClient extends OAuth2Client {
 
-  MyAnimeListClient({required String redirectUri, required String customUriScheme})
+  MyAnimeListClient({required super.redirectUri, required super.customUriScheme})
       : super(
       authorizeUrl: 'https://myanimelist.net/v1/oauth2/authorize',
       tokenUrl: 'https://myanimelist.net/v1/oauth2/token',
       refreshUrl: 'https://myanimelist.net/v1/oauth2/token',
-      redirectUri: redirectUri,
-      customUriScheme: customUriScheme,
   );
 
   @override

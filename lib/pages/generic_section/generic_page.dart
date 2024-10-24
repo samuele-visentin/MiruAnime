@@ -15,11 +15,11 @@ class GenericPage extends StatefulWidget {
   final String route;
 
   const GenericPage({
-    Key? key,
+    super.key,
     required this.url,
     required this.name,
     required this.route
-  }) : super(key: key);
+  });
 
   @override
   State<GenericPage> createState() => _GenericPageState();
