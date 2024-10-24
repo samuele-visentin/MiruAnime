@@ -11,7 +11,6 @@ import 'package:miru_anime/widgets/dropdown_alert.dart';
 import 'package:miru_anime/widgets/gallery/fullscreen_image.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_anime.dart';
 import 'package:miru_anime/widgets/title_close_button.dart';
-import 'package:resize/resize.dart';
 
 import '../../backend/database/anime_saved.dart';
 import '../../objectbox.g.dart';
@@ -94,7 +93,7 @@ class _UserAnimeListPageState extends State<UserAnimeListPage> {
               indicatorColor: Theme.of(context).colorScheme.onPrimary,
               labelColor: Theme.of(context).colorScheme.onSurface,
               labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontSize: 12.sp
+                fontSize: 12
               ),
               tabs: const [
                 Tab(text: 'In corso',),
@@ -203,7 +202,7 @@ class _GridViewAnime extends StatelessWidget {
                     child: Text(
                       anime.title,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: 11.sp,
+                        fontSize: 11,
                         color: Theme.of(context).colorScheme.onSurface
                       ),
                       textAlign: TextAlign.center,
@@ -216,7 +215,7 @@ class _GridViewAnime extends StatelessWidget {
                     child: Text(
                       'Ep: ${anime.currentEpisode}',
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: 9.sp,
+                        fontSize: 9,
                         color: Theme.of(context).colorScheme.onSurface
                       ),
                       textAlign: TextAlign.center,

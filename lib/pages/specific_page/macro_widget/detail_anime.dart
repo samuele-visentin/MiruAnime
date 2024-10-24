@@ -11,7 +11,6 @@ import 'package:miru_anime/widgets/gallery/fullscreen_image.dart';
 import 'package:miru_anime/widgets/gallery/thumbnail_anime.dart';
 import 'package:miru_anime/widgets/shimmer_box.dart';
 import 'package:miru_anime/widgets/underline_title_close_button.dart';
-import 'package:resize/resize.dart';
 
 
 class DetailWidget extends StatelessWidget {
@@ -196,7 +195,7 @@ class _CastAvatar extends StatelessWidget {
                       maxLines: 2,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Colors.white,
-                        fontSize: 10.sp
+                        fontSize: 10
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -207,7 +206,7 @@ class _CastAvatar extends StatelessWidget {
                   child: Text(role,
                     maxLines: 2,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: 7.sp,
+                      fontSize: 7,
                       color: Colors.white.withAlpha(130)
                     ),
                   ),

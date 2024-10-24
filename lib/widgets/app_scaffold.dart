@@ -66,7 +66,7 @@ class _AppBottomBar extends StatelessWidget {
             child: Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
+                color: Theme.of(context).colorScheme.onSurface,
                 borderRadius: const BorderRadius.all(Radius.circular(16))
               ),
               height: 45,
@@ -85,7 +85,7 @@ class _AppBottomBar extends StatelessWidget {
                   Text(
                     'Cerca un titolo...',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface
+                      color: Theme.of(context).colorScheme.primary
                     ),
                     textAlign: TextAlign.center,
                   ),

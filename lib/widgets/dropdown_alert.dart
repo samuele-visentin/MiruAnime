@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:miru_anime/app_theme/app_colors.dart';
-import 'package:resize/resize.dart';
 
 enum DropdownAlertType { checkbox, radio }
 
@@ -74,7 +73,7 @@ class _DropdownAlertState extends State<DropdownAlert> {
             fontWeight: FontWeight.w700,
             fontFamily: 'Montserrat',
             letterSpacing: double.minPositive,
-            fontSize: 16.sp
+            fontSize: 16
           ),
         ),
         content: Theme(

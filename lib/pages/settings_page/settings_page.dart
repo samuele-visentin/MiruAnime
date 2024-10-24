@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:miru_anime/app_theme/theme.dart';
 import 'package:miru_anime/backend/database/custom_player.dart';
@@ -38,6 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     final selectPlayer = DropdownButton<Player>(
         value: _player,
+        dropdownColor: Theme.of(context).colorScheme.secondary,
         items: [
           DropdownMenuItem(
               value: Player.browser,
@@ -174,43 +174,26 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _selectTheme() {
-    return DropdownButton<TypeTheme>(
-        value: _typeTheme,
-        items: [
-          DropdownMenuItem(
-              value: TypeTheme.amoled,
-              child: Text('OLED theme', style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyMedium)
-          ),
-          DropdownMenuItem(
-              value: TypeTheme.purple,
-              child: Text('Purple theme', style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyMedium)
-          ),
-          DropdownMenuItem(
-              value: TypeTheme.light,
-              child: Text('Light theme', style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyMedium)
-          ),
-        ],
-        onChanged: (final value) {
-          if (value == null) return;
-          _typeTheme = value;
-          if(value == TypeTheme.light) {
-            SystemChrome.setSystemUIOverlayStyle(statusBarLight);
-          } else {
-            SystemChrome.setSystemUIOverlayStyle(statusBarDark);
-          }
-          Provider
-              .of<AppTheme>(context, listen: false)
-              .setTheme = value;
-        }
+    return SwitchListTile(
+      activeColor: Theme.of(context).colorScheme.secondary,
+      inactiveThumbColor: Theme.of(context).colorScheme.secondary,
+      title: Text(
+       'Dark Theme',
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      value: _typeTheme == TypeTheme.amoled, // `true` per il tema scuro
+      onChanged: (bool isDarkMode) {
+        // Cambia il tipo di tema in base al valore dello slider
+        _typeTheme = isDarkMode ? TypeTheme.amoled : TypeTheme.purple;
+
+        // Imposta il nuovo tema usando il Provider
+        Provider.of<AppTheme>(context, listen: false).setTheme = _typeTheme;
+      },
+      secondary: Icon(
+        Icons.nightlight_round,
+        color: Theme.of(context).colorScheme.secondary,
+      ),
     );
   }
+
 }

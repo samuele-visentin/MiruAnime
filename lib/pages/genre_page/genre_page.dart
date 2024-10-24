@@ -7,8 +7,6 @@ import 'package:miru_anime/utils/transition.dart';
 import 'package:miru_anime/widgets/app_scaffold.dart';
 import 'package:miru_anime/widgets/underline_title_close_button.dart';
 
-
-
 class GenrePage extends StatefulWidget {
   static const route = '/genres';
 
@@ -197,11 +195,9 @@ class GenrePage extends StatefulWidget {
       'url': '${_baseUrl}yaoi',
     },
   };
-
 }
 
 class _GenrePageState extends State<GenrePage> {
-
   final scrollController = ScrollController();
 
   @override
@@ -213,35 +209,34 @@ class _GenrePageState extends State<GenrePage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      route: GenrePage.route,
-      scrollController: scrollController,
-      child: Column(
-        children: [
-          const UnderlineTitleWithCloseButton(text: 'Generi'),
-          Expanded(
-            child: CupertinoScrollbar(
-              controller: scrollController,
-              child: GridView.builder(
+        route: GenrePage.route,
+        scrollController: scrollController,
+        child: Column(
+          children: [
+            const UnderlineTitleWithCloseButton(text: 'Generi'),
+            Expanded(
+              child: CupertinoScrollbar(
                 controller: scrollController,
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                child: GridView.builder(
+                  controller: scrollController,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                  ),
+                  itemBuilder: (_, index) {
+                    final genere = GenrePage._data.entries.elementAt(index);
+                    return genreCard(
+                        genreTitle: genere.key,
+                        url: genere.value['url']!,
+                        svgAssetPath: genere.value['svgAssetPath']!);
+                  },
+                  itemCount: GenrePage._data.length,
                 ),
-                itemBuilder: (_, index){
-                  final genere = GenrePage._data.entries.elementAt(index);
-                  return genreCard(
-                      genreTitle: genere.key,
-                      url: genere.value['url']!,
-                      svgAssetPath: genere.value['svgAssetPath']!
-                  );
-                },
-                itemCount: GenrePage._data.length,
               ),
-            ),
-          )
-        ],
-      )
-    );
+            )
+          ],
+        ));
   }
 
   Widget genreCard({
@@ -251,33 +246,28 @@ class _GenrePageState extends State<GenrePage> {
   }) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          PageRouteBuilder(
-            pageBuilder: (_,__,___) => GenericPage(
-              url: '$url?page=',
-              name: genreTitle,
-              route: '',
-            ),
-            transitionsBuilder: transitionBuilder
-          )
-        );
+        Navigator.of(context).push(PageRouteBuilder(
+            pageBuilder: (_, __, ___) => GenericPage(
+                  url: '$url?page=',
+                  name: genreTitle,
+                  route: '',
+                ),
+            transitionsBuilder: transitionBuilder));
       },
       child: Column(
         children: <Widget>[
           SvgPicture.asset(
             svgAssetPath,
             alignment: Alignment.center,
-            color: Theme.of(context).colorScheme.secondary,
+            colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.secondary, BlendMode.srcIn),
             height: 80,
             semanticsLabel: genreTitle,
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: Text(
-              genreTitle,
-              softWrap: false,
-              style: Theme.of(context).textTheme.bodyMedium
-            ),
+            child: Text(genreTitle,
+                softWrap: false, style: Theme.of(context).textTheme.bodyMedium),
           ),
         ],
       ),
