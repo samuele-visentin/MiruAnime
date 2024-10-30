@@ -51,7 +51,7 @@ class AppTheme extends ChangeNotifier {
   }
 }
 
-final _textTheme = TextTheme(
+const _textTheme = TextTheme(
     headlineLarge: TextStyle(
         fontFamily: 'Montserrat',
         fontSize: 16,

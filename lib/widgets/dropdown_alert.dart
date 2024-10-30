@@ -68,7 +68,7 @@ class _DropdownAlertState extends State<DropdownAlert> {
         contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 20),
         title: Text(
           _dropDownLabel,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w700,
             fontFamily: 'Montserrat',
