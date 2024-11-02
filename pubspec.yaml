@@ -60,7 +60,6 @@ dependencies:
   flutter_dotenv: ^5.2.1
   flutter_screenutil: ^5.9.3
 
-  resize: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -78,7 +77,7 @@ dev_dependencies:
 
 flutter_icons:
   android: false
-  ios: false
+  ios: true
   image_path:  "assets/ic_launcher_square.png"
 
 # For information on the generic Dart part of this file, see the
