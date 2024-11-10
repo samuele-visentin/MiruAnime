@@ -541,32 +541,44 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     }
     switch (CustomPlayer.player) {
       case Player.browser:
-        launchUrl(uri,
+        final launched = await launchUrl(
+          uri,
           webViewConfiguration: WebViewConfiguration(headers: url.headers),
           mode: LaunchMode.externalApplication,
         );
+        if (!launched) {
+          Fluttertoast.showToast(
+              msg: 'Errore nell\'apertura del browser',
+              toastLength: Toast.LENGTH_LONG);
+          return;
+        }
         break;
       case Player.vlc:
-        if(await canLaunchUrl(Uri(scheme: 'vlc'))) {
-          launchUrlString(
-            'vlc://${uri.toString()}',
+        final vlcUrl = Uri.parse('vlc://${uri.toString()}');
+        final launched = await launchUrl(vlcUrl,
             webViewConfiguration: WebViewConfiguration(headers: url.headers),
-            mode: LaunchMode.externalApplication
-          );
-        } else {
-          Fluttertoast.showToast(msg: 'VLC non installato');
+            mode: LaunchMode.externalApplication);
+        if (!launched) {
+          Fluttertoast.showToast(
+              msg:
+                  'Errore nell\'apertura di VLC (verifica di averlo installato)',
+              toastLength: Toast.LENGTH_LONG);
           return;
         }
         break;
       case Player.infuse:
-        if(await canLaunchUrl(Uri(scheme: 'infuse'))) {
-          launchUrlString(
-            'infuse://x-callback-url/play?x-success=miruanime://&url=${uri.toString()}',
-            webViewConfiguration: WebViewConfiguration(headers: url.headers),
-            mode: LaunchMode.externalApplication
-          );
-        } else {
-          Fluttertoast.showToast(msg: 'Infuse non installato');
+        final infuseUri = Uri.parse(
+            'infuse://x-callback-url/play?x-success=miruanime://&url=${uri.toString()}');
+        final launched = await launchUrl(
+          infuseUri,
+          webViewConfiguration: WebViewConfiguration(headers: url.headers),
+          mode: LaunchMode.externalApplication,
+        );
+        if (!launched) {
+          Fluttertoast.showToast(
+              msg:
+                  'Errore nell\'apertura di Infuse (verifica di averlo installato)',
+              toastLength: Toast.LENGTH_LONG);
           return;
         }
         break;
@@ -684,9 +696,7 @@ class _Badge extends StatelessWidget {
           child: Text(
         rating,
         style: Theme.of(context).textTheme.titleSmall!.copyWith(
-            color: AppColors.white,
-            fontSize: 12,
-            fontWeight: FontWeight.w800),
+            color: AppColors.white, fontSize: 12, fontWeight: FontWeight.w800),
         textAlign: TextAlign.center,
       )),
     );

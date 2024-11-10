@@ -46,6 +46,8 @@
 	</array>
 	<key>LSApllicationQueriesSchemes</key>
 	<array>
+		<string>http</string>
+		<string>https</string>
 		<string>vlc</string>
 		<string>infuse</string>
 		<string>youtube</string>
