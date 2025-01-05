@@ -28,70 +28,23 @@ class AnimeWorldScraper {
   static final _customHeaders = {HttpHeaders.userAgentHeader: userAgent};
   static bool _saveCookie = true;
 
-  /*String _getAwCookiw(final String script) {
-    final values = <String>[];
-
-    String atob(final String string) {
-      final stringToBase64 = utf8.fuse(base64);
-      return stringToBase64.decode(string);
-    }
-
-    List<int> toNumbers(final String codes) {
-      final nums = <int>[];
-      codes.replaceAllMapped(RegExp('(..)'), (final match) {
-        nums.add(int.parse(match.group(1)!, radix: 16));
-        return '';
-      });
-      return nums;
-    }
-
-    String toHex(List<int> bytes) {
-      var charCode = '0'; //FIXME is '0' or ''
-      for (final byte in bytes) {
-        charCode += (16 > byte ? '0' : '') + byte.toRadixString(16);
-      }
-      return charCode.toLowerCase();
-    }
-
-    String hexToString(final String string) {
-      final regex = RegExp('/x([0-9]*)');
-      return String.fromCharCodes(
-          regex.allMatches(string).map((e) => int.parse(e.group(1)!)));
-    }
-
-    for (final string in script.split('[')[1].split('];')[0].split(',')) {
-      values.add(string.replaceAll('"', ''));
-    }
-    //TODO: check if this work with the new token type
-    final b1 = toNumbers(atob('YjM2MTQxYjhkNGEzMDg1Y2ZhNDFiZDhkMjYzZjkxMTg='));
-    final c1 = script.split('c1=atob("')[1].split('"')[0];
-    final c2 = toNumbers(atob(c1));
-    final a3 = toNumbers(script.split('a3=toNumbers("')[1].split('"')[0]);
-    final encrypter = Encrypter(AES(
-        Key(Uint8List.fromList(b1)),
-        mode: AESMode.cbc
-    ));
-    final encrypted = toHex(encrypter.decryptBytes(
-        Encrypted(Uint8List.fromList(a3)), iv: IV(Uint8List.fromList(c2))));
-    return 'SecurityAW=$encrypted';
-  }*/
-
   Future<AnimeWorldHomePage> getHomePage() async {
     Response<String> response = await _dio.get(
         AnimeWorldEndPoints.sitePrefixNoS,
         options: Options(headers: _customHeaders));
     if (response.data!.length < 1500) {
       //Sometimes the site returns one dummy page with some javascript to redirect the page with new cookied
-      final regex =  RegExp(r'document\.cookie="[^=]+=([^;"]+);');
+      final regex = RegExp(r'document\.cookie="([^=]+)=([^;]+)\s*;.*?";.*?location\.href="([^"]+)"');
+
       final match = regex.firstMatch(response.data!);
-      if (match != null) {
-        _customHeaders['cookie'] = 'SecurityAW=${match.group(1)!} ; '; //FIXME: check if works
-        //print(match.group(1));
+      if(match != null) {
+        final cookieName = match.group(1) ?? '';
+        final cookieValue = match.group(2) ?? '';
+        final url = match.group(3) ?? '';
+        _customHeaders['cookie'] = '$cookieName=$cookieValue';
+        final uri = Uri.parse(url).replace(scheme: 'https');
+        response = await _dio.get(uri.toString(), options: Options(headers: _customHeaders));
       }
-      final uri = Uri.parse(response.data!.split('location.href="')[1].split('"')[0]);
-      final url = uri.replace(scheme: 'https');
-      //print(url);
-      response = await _dio.getUri(url, options: Options(headers: _customHeaders));
       if (response.headers['set-cookie'] != null) {
         _customHeaders['cookie'] = (_customHeaders['cookie'] ?? '') + response.headers['set-cookie']!
                 .map((final cookie) => cookie.split(';')[0])
