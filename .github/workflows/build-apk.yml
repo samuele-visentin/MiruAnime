@@ -36,7 +36,8 @@ jobs:
       - name: Upload APK to Releases
         uses: ncipollo/release-action@v1
         with:
-          tag: "release-${{ github.run_number }}"
+          tag: "v1.7"
+          release-name: "MiruAnime v1.7"
           artifacts: |
             build/app/outputs/flutter-apk/miruanime-arm64-v8a-release.apk,
             build/app/outputs/flutter-apk/miruanime-armeabi-v7a-release.apk,

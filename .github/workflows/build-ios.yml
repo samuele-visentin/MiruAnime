@@ -39,6 +39,7 @@ jobs:
       - name: Upload IPA to Releases
         uses: ncipollo/release-action@v1
         with:
-          tag: "release-${{ github.run_number }}"
+          tag: "v1.7"
+          release-name: "MiruAnime v1.7"
           artifacts: "build/ios/iphoneos/app.ipa@miruanime-ios.ipa"
           token: ${{ secrets.GITHUB_TOKEN }}
