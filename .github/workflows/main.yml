@@ -1,0 +1,83 @@
+# name: Build and Release
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build-apk:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       - name: Setup Flutter
+#         uses: subosito/flutter-action@v2
+#         with:
+#           flutter-version: '3.24.3'
+#           channel: 'stable'
+
+#       - name: Install dependencies
+#         run: flutter pub get
+
+#       - name: Add .env
+#         run: |
+#           echo "ANILIST_ID={{ secrets.ANILIST_ID }}" >> .env
+#           echo "ANILIST_SECRET={{ secrets.ANILIST_SECRET }}" >> .env
+#           echo "MAL_ID={{ secrets.MAL_ID }}" >> .env
+
+#       - name: Build APK (split per ABI + offuscazione)
+#         run: |
+#           flutter build apk --release --split-per-abi --obfuscate --split-debug-info=build/debug-info
+#           flutter build apk --release --obfuscate --split-debug-info=build/debug-info
+
+#       - name: Upload APK to Releases
+#         uses: ncipollo/release-action@v1
+#         with:
+#           tag: "v1.7"
+#           release-name: "MiruAnime v1.7"
+#           artifacts: |
+#             build/app/outputs/flutter-apk/miruanime-arm64-v8a-release.apk,
+#             build/app/outputs/flutter-apk/miruanime-armeabi-v7a-release.apk,
+#             build/app/outputs/flutter-apk/miruanime-x86_64-release.apk
+#             build/app/outputs/flutter-apk/app-release.apk@miruanime-universal.apk
+#           token: ${{ secrets.GITHUB_TOKEN }}
+
+#   build-ipa:
+#     runs-on: macos-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       - name: Setup Flutter
+#         uses: subosito/flutter-action@v2
+#         with:
+#           flutter-version: '3.24.3'  # Sostituisci con la versione che usi
+#           channel: 'stable'
+
+#       - name: Install dependencies
+#         run: flutter pub get
+
+#       - name: Add .env
+#         run: |
+#           echo "ANILIST_ID={{ secrets.ANILIST_ID }}" >> .env
+#           echo "ANILIST_SECRET={{ secrets.ANILIST_SECRET }}" >> .env
+#           echo "MAL_ID={{ secrets.MAL_ID }}" >> .env
+
+#       - name: Build IPA (offuscazione automatica con Flutter)
+#         run: |
+#           flutter build ios --release --no-codesign --obfuscate --split-debug-info=build/debug-info
+#           cd build/ios/iphoneos
+#           mkdir Payload
+#           cp -r Runner.app Payload/
+#           zip -r app.ipa Payload
+
+#       - name: Upload IPA to Releases
+#         uses: ncipollo/release-action@v1
+#         with:
+#           tag: "v1.7"
+#           release-name: "MiruAnime v1.7"
+#           artifacts: "build/ios/iphoneos/app.ipa@miruanime-ios.ipa"
+#           token: ${{ secrets.GITHUB_TOKEN }}
