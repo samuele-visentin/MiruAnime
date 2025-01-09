@@ -19,6 +19,8 @@ import 'package:miru_anime/backend/sites/animeworld/anime_section.dart';
 import 'package:miru_anime/backend/sites/animeworld/endpoints.dart';
 import 'package:miru_anime/backend/globals/video_url.dart';
 import 'package:miru_anime/backend/globals/server_types.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 
 const userAgent =
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0';
@@ -26,37 +28,50 @@ const userAgent =
 class AnimeWorldScraper {
   final _dio = Dio();
   static final _customHeaders = {HttpHeaders.userAgentHeader: userAgent};
-  static bool _saveCookie = true;
+  static final cookieJar = CookieJar();
 
-  Future<AnimeWorldHomePage> getHomePage() async {
-    Response<String> response = await _dio.get(
-        AnimeWorldEndPoints.sitePrefixNoS,
-        options: Options(headers: _customHeaders));
-    if (response.data!.length < 1500) {
+  AnimeWorldScraper() {
+    _dio
+        ..interceptors.add(CookieManager(cookieJar))
+        ..options.followRedirects = false
+        ..options.validateStatus = (status) => status != null && status >= 200 && status < 400;
+  }
+
+  Future<Response<String>> getPage(final String url, final Map<String, String> header) async {
+    Response<String> response = await _dio.get(url, options: Options(headers: header));
+    if(response.statusCode! >= 300 && response.statusCode! < 400){
+      if (response.headers[HttpHeaders.locationHeader] != null) {
+        String new_url = response.headers[HttpHeaders.locationHeader]![0];
+        if(!new_url.contains(AnimeWorldEndPoints.hostname)) {
+          new_url = AnimeWorldEndPoints.sitePrefixNoS + new_url;
+        }
+        final uri = Uri.parse(new_url).replace(scheme: 'https');
+        response = await _dio.get(uri.toString(), options: Options(headers: header));
+      }
+    }
+    if (response.data!.length < 200) {
       //Sometimes the site returns one dummy page with some javascript to redirect the page with new cookied
-      final regex = RegExp(r'document\.cookie="([^=]+)=([^;]+)\s*;.*?";.*?location\.href="([^"]+)"');
-
+      final regex = RegExp(
+          r'document\.cookie="([^=]+)=([^;]+)\s*;.*?";.*?location\.href="([^"]+)";');
       final match = regex.firstMatch(response.data!);
-      if(match != null) {
+      if (match != null) {
         final cookieName = match.group(1) ?? '';
         final cookieValue = match.group(2) ?? '';
         final url = match.group(3) ?? '';
-        _customHeaders['cookie'] = '$cookieName=$cookieValue';
+        final cookie = Cookie(cookieName, cookieValue)
+          ..domain = AnimeWorldEndPoints.hostname
+          ..path = '/';
+        _customHeaders[HttpHeaders.cookieHeader] = '$cookieName=$cookieValue';
+        await cookieJar.saveFromResponse(Uri.parse(AnimeWorldEndPoints.hostname), [cookie]);
         final uri = Uri.parse(url).replace(scheme: 'https');
-        response = await _dio.get(uri.toString(), options: Options(headers: _customHeaders));
+        response = await _dio.get(uri.toString(), options: Options(headers: header));
       }
-      if (response.headers['set-cookie'] != null) {
-        _customHeaders['cookie'] = (_customHeaders['cookie'] ?? '') + response.headers['set-cookie']!
-                .map((final cookie) => cookie.split(';')[0])
-                .join('; ');
-        _saveCookie = false;
-      }
-    } else if (_saveCookie && response.headers['set-cookie'] != null) {
-      _customHeaders['cookie'] = response.headers['set-cookie']!
-          .map((final cookie) => cookie.split(';')[0])
-          .join('; ');
-      _saveCookie = false;
     }
+    return response;
+  }
+
+  Future<AnimeWorldHomePage> getHomePage() async {
+    final response = await getPage(AnimeWorldEndPoints.sitePrefixNoS, _customHeaders);
     final page = parse(response.data);
     final mainContent = page
         .querySelectorAll('.hotnew > div.widget-body > div.content')
@@ -157,14 +172,12 @@ class AnimeWorldScraper {
     return Anime(
         thumbnail: div.querySelector('img')!.attributes['src']!,
         title: name.text.trim(),
-        link: AnimeWorldEndPoints.sitePrefixNoS +
-            name.attributes['href']!);
+        link: AnimeWorldEndPoints.sitePrefixNoS + name.attributes['href']!);
   }
 
   Future<List<Anime>> getSearchList(final String title) async {
-    final document = parse((await _dio.get(
-            AnimeWorldEndPoints.searchPageUrl + title,
-            options: Options(headers: _customHeaders)))
+    final document = parse((await getPage(
+            AnimeWorldEndPoints.searchPageUrl + title, _customHeaders))
         .data);
     return document
         .querySelectorAll('div.film-list > div.item')
@@ -173,8 +186,7 @@ class AnimeWorldScraper {
   }
 
   Future<String> getRandomAnime() async {
-    return (await _dio.get(AnimeWorldEndPoints.random,
-            options: Options(headers: _customHeaders)))
+    return (await getPage(AnimeWorldEndPoints.random, _customHeaders))
         .redirects
         .first
         .location
@@ -223,13 +235,12 @@ class AnimeWorldScraper {
 
     final head = {
       HttpHeaders.userAgentHeader: userAgent,
-      HttpHeaders.refererHeader: 'https://www.animeworld.tv/',
+      HttpHeaders.refererHeader: AnimeWorldEndPoints.sitePrefixS,
       HttpHeaders.upgradeHeader: '?1',
       'DNT': '1',
       HttpHeaders.connectionHeader: 'keep-alive',
-      'cookie': _customHeaders['cookie']
     };
-    final response = await _dio.get(url, options: Options(headers: head));
+    final response = await getPage(url, head);
     final animePage = parse(response.data);
     final infoDd = animePage
         .querySelector(
@@ -312,9 +323,10 @@ class AnimeWorldScraper {
         nextEpisode: nextEp != null
             ? '${nextEp.attributes['data-calendar-date']!} ${nextEp.attributes['data-calendar-time']}'
             : '',
-        anilistLink: animePage.querySelector('#anilist-button')?.attributes['href'],
-        myanimelistLink: animePage.querySelector('#mal-button')?.attributes['href']
-    );
+        anilistLink:
+            animePage.querySelector('#anilist-button')?.attributes['href'],
+        myanimelistLink:
+            animePage.querySelector('#mal-button')?.attributes['href']);
   }
 
   Future<List<UserComment>> getComment(final AnimeWorldComment info,
@@ -322,11 +334,10 @@ class AnimeWorldScraper {
     final regexEmoji = RegExp(r'<img.*alt="([^"]+)".*>');
     final head = {
       'user-agent': userAgent,
-      'cookie': _customHeaders['cookie']!,
       'CSRF-Token': info.token,
       'Referer': referer ?? info.referer,
       'X-Requested-With': 'XMLHttpRequest',
-      'Origin': 'https://www.animeworld.tv/',
+      'Origin': AnimeWorldEndPoints.sitePrefixS,
       'Connection': 'keep-alive',
       'Sec-Fetch-Dest': 'empty',
       'Sec-Fetch-Mode': 'cors',
@@ -398,18 +409,15 @@ class AnimeWorldScraper {
 
   Future<AnimeGenericData> getGenericPageInfo(final String url) async {
     final data =
-        (await _dio.get(url, options: Options(headers: _customHeaders))).data
-            as String;
+        (await getPage(url, _customHeaders)).data;
     final page = parse(data);
-    return AnimeGenericData(
-      _getGenericAnimeList(page),
-      int.parse(page.querySelector('.total')?.text ?? '1'));
+    return AnimeGenericData(_getGenericAnimeList(page),
+        int.parse(page.querySelector('.total')?.text ?? '1'));
   }
 
   Future<List<Anime>> getGenericPage(final String url) async {
     final data =
-        (await _dio.get(url, options: Options(headers: _customHeaders))).data
-            as String;
+        (await getPage(url, _customHeaders)).data;
     final page = parse(data);
     return _getGenericAnimeList(page);
   }
@@ -419,14 +427,12 @@ class AnimeWorldScraper {
     final setName = <String>{};
     for (final div in page.querySelectorAll('.film-list > .item > .inner')) {
       final name = div.querySelector('a.name')!;
-      if(setName.contains(name.text)) continue;
+      if (setName.contains(name.text)) continue;
       setName.add(name.text);
       animeList.add(Anime(
           thumbnail: div.querySelector('img')!.attributes['src']!,
           title: name.text.trim(),
-          link: AnimeWorldEndPoints.sitePrefixNoS +
-              name.attributes['href']!)
-      );
+          link: AnimeWorldEndPoints.sitePrefixNoS + name.attributes['href']!));
     }
     return animeList;
   }
@@ -459,8 +465,7 @@ class AnimeWorldScraper {
 
   Future<NewsData> getNewsWithPage(final String url) async {
     final data =
-        (await _dio.get(url, options: Options(headers: _customHeaders))).data
-            as String;
+        (await getPage(url, _customHeaders)).data;
     final page = parse(data);
     return NewsData(
         _getListNews(page.querySelectorAll('div.post-list > div.item.row')),
@@ -469,16 +474,13 @@ class AnimeWorldScraper {
 
   Future<List<News>> getNews(final String url) async {
     final data =
-        (await _dio.get(url, options: Options(headers: _customHeaders))).data
-            as String;
+        (await getPage(url, _customHeaders)).data;
     final page = parse(data);
     return _getListNews(page.querySelectorAll('div.post-list > div.item.row'));
   }
 
   Future<List<Href>> getUpcomingSections() async {
-    final data = (await _dio.get(AnimeWorldEndPoints.upcoming,
-            options: Options(headers: _customHeaders)))
-        .data as String;
+    final data = (await getPage(AnimeWorldEndPoints.upcoming,_customHeaders)).data;
     final page = parse(data);
     return page
         .querySelectorAll('.horiznav_nav > ul > li > a')
@@ -502,9 +504,7 @@ class AnimeWorldScraper {
           .toList();
     }
 
-    final data =
-        (await _dio.get(url, options: Options(headers: _customHeaders))).data
-            as String;
+    final data = (await getPage(url, _customHeaders)).data;
     final page = parse(data);
     final list = page.querySelectorAll('.film-listnext');
     return UpComingAnime(

@@ -19,4 +19,5 @@ class AnimeWorldEndPoints {
   static const advanceSearch = '${sitePrefixS}filter?';
   static const news = '${sitePrefixS}news?page=';
   static const upcoming = '${sitePrefixS}upcoming/';
+  static const hostname = 'www.animeworld.so';
 }
