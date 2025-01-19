@@ -14,6 +14,7 @@ import 'package:miru_anime/backend/models/server.dart';
 import 'package:miru_anime/backend/models/specific_page.dart';
 import 'package:miru_anime/backend/sites/anilist/anilist.dart';
 import 'package:miru_anime/backend/sites/anilist/anilist_status.dart';
+import 'package:miru_anime/backend/sites/animeworld/endpoints.dart';
 import 'package:miru_anime/backend/sites/myanimelist/mal_status.dart';
 import 'package:miru_anime/backend/sites/myanimelist/myanimelist.dart';
 import 'package:miru_anime/backend/sites/animeworld/scraper.dart';
@@ -33,7 +34,6 @@ import 'package:miru_anime/widgets/gallery/thumbnail_anime.dart';
 import 'package:miru_anime/widgets/refresh_indicator.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class SpecificAnimePage extends StatefulWidget {
   static const randomAnimeRoute = '/random';
@@ -58,11 +58,10 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
   final commentMap = <String, Future<List<UserComment>>>{};
   Future<List<AnimeCast>>? animeCast;
 
-  Future<AnimeWorldSpecificAnime> getFuture() {
-    return AnimeWorldScraper().getSpecificAnimePage(_url).then((value) {
+  Future<AnimeWorldSpecificAnime> getFuture(final url) async {
+    return await AnimeWorldScraper().getSpecificAnimePage(url).then((value) async {
       if (value.servers.isNotEmpty) {
-        final index = value.servers
-            .indexWhere((element) => element.name == ServerName.animeworld);
+        final index = value.servers.indexWhere((element) => element.name == ServerName.animeworld);
         if (index != -1) {
           final animeworldServer = value.servers[index];
           value.servers.removeAt(index);
@@ -70,10 +69,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         }
         _nameServer = value.servers.first.name;
       }
-      _sub = _box
-          .query(AnimeDatabase_.animeID.equals(value.animeID))
-          .watch(triggerImmediately: true)
-          .listen((event) {
+      _sub = _box.query(AnimeDatabase_.animeID.equals(value.animeID)).watch(triggerImmediately: true).listen((event) {
         final anime = event.findUnique();
         if (!mounted) return;
         if (anime != null) {
@@ -87,21 +83,17 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     });
   }
 
-  Future<void> getRandom() async {
-    final url = await AnimeWorldScraper().getRandomAnime();
-    _url = url;
-  }
-
   @override
   void initState() {
     super.initState();
     if (widget.isRandom) {
-      _anime = getRandom().then((_) {
-        return getFuture();
+      _anime = AnimeWorldScraper().getRandomAnime().then((value) async {
+        _url = value;
+        return await getFuture(_url);
       });
     } else {
       _url = widget.url!;
-      _anime = getFuture();
+      _anime = getFuture(_url);
     }
     _box = ObjectBox.store.box<AnimeDatabase>();
   }
@@ -127,7 +119,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             return AppRefreshIndicator(
                 triggerMode: RefreshIndicatorTriggerMode.anywhere,
                 onRefresh: () async {
-                  _anime = getFuture();
+                  _anime = getFuture(_url);
                   setState(() {});
                 },
                 child: DefaultErrorPage(error: snap.error.toString()));
@@ -149,8 +141,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => Navigator.of(context).push(PageRouteBuilder(
-                pageBuilder: (_, __, ___) => ViewImage(url: data.image),
-                transitionsBuilder: transitionBuilder)),
+                pageBuilder: (_, __, ___) => ViewImage(url: data.image), transitionsBuilder: transitionBuilder)),
             child: ThumbnailAnime(
               width: 145,
               height: 200,
@@ -235,11 +226,9 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             )),
         GestureDetector(
             onTap: () {
-              commentMap['animeComment'] ??=
-                  AnimeWorldScraper().getComment(data.comment);
+              commentMap['animeComment'] ??= AnimeWorldScraper().getComment(data.comment);
               Navigator.of(context).push(PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => CommentWidget(
-                      comments: commentMap['animeComment']!, name: 'Commenti'),
+                  pageBuilder: (_, __, ___) => CommentWidget(comments: commentMap['animeComment']!, name: 'Commenti'),
                   transitionsBuilder: transitionBuilder));
             },
             child: Text(
@@ -249,8 +238,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         GestureDetector(
             onTap: () {
               Navigator.of(context).push(PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => RelatedContent(
-                      simili: data.simili, correlati: data.correlati),
+                  pageBuilder: (_, __, ___) => RelatedContent(simili: data.simili, correlati: data.correlati),
                   transitionsBuilder: transitionBuilder));
             },
             child: Text(
@@ -328,17 +316,13 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             child: FaIcon(
               FontAwesomeIcons.backward,
               size: 20,
-              color: _currentServer > 0
-                  ? buttonColor
-                  : AppColors.grey.withOpacity(0.35),
+              color: _currentServer > 0 ? buttonColor : AppColors.grey.withOpacity(0.35),
             )),
       );
 
       final serverName = SizedBox(
         width: 175,
-        child: Text(_nameServer.toString(),
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyLarge),
+        child: Text(_nameServer.toString(), textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyLarge),
       );
 
       final rightArrow = GestureDetector(
@@ -356,9 +340,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
             child: FaIcon(
               FontAwesomeIcons.forward,
               size: 20,
-              color: _currentServer < data.length - 1
-                  ? buttonColor
-                  : AppColors.grey.withOpacity(0.35),
+              color: _currentServer < data.length - 1 ? buttonColor : AppColors.grey.withOpacity(0.35),
             )),
       );
 
@@ -392,8 +374,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
                     width: 125,
                     height: 20,
                     child: Center(
-                      child: Text('Episodio: ${episode.title}',
-                          style: Theme.of(context).textTheme.bodyMedium),
+                      child: Text('Episodio: ${episode.title}', style: Theme.of(context).textTheme.bodyMedium),
                     ),
                   );
 
@@ -497,18 +478,14 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     );
   }
 
-  void _openComment(
-      final AnimeWorldSpecificAnime anime, final AnimeWorldEpisode episode) {
-    commentMap[episode.title] ??= AnimeWorldScraper()
-        .getComment(anime.comment, episode.commentID, episode.referer);
+  void _openComment(final AnimeWorldSpecificAnime anime, final AnimeWorldEpisode episode) {
+    commentMap[episode.title] ??= AnimeWorldScraper().getComment(anime.comment, episode.commentID, episode.referer);
     Navigator.of(context).push(PageRouteBuilder(
-        pageBuilder: (_, __, ___) => CommentWidget(
-            comments: commentMap[episode.title]!, name: anime.title),
+        pageBuilder: (_, __, ___) => CommentWidget(comments: commentMap[episode.title]!, name: anime.title),
         transitionsBuilder: transitionBuilder));
   }
 
-  void _playEpisode(
-      final AnimeWorldEpisode episode, final AnimeWorldSpecificAnime anime) {
+  void _playEpisode(final AnimeWorldEpisode episode, final AnimeWorldSpecificAnime anime) {
     Navigator.of(context).push(PageRouteBuilder(
         pageBuilder: (_, __, ___) => AppVideoPlayer(
               episode: episode,
@@ -522,21 +499,17 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     _updateEpisodeOnlineDB(anime, episode);
   }
 
-  void _playBrowserVideo(final AnimeWorldEpisode episode,
-      final AnimeWorldSpecificAnime anime) async {
+  void _playBrowserVideo(final AnimeWorldEpisode episode, final AnimeWorldSpecificAnime anime) async {
     late final DirectUrlVideo url;
     try {
       url = await AnimeWorldScraper().getUrlVideo(episode, _nameServer);
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: 'Errore: ${e.toString()}', toastLength: Toast.LENGTH_LONG);
+      Fluttertoast.showToast(msg: 'Errore: ${e.toString()}', toastLength: Toast.LENGTH_LONG);
       return;
     }
     var uri = Uri.tryParse(url.urlVideo);
     if (uri == null) {
-      Fluttertoast.showToast(
-          msg: 'Errore nell\'ottenimento del link',
-          toastLength: Toast.LENGTH_LONG);
+      Fluttertoast.showToast(msg: 'Errore nell\'ottenimento del link', toastLength: Toast.LENGTH_LONG);
       return;
     }
     switch (CustomPlayer.player) {
@@ -547,28 +520,22 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
           mode: LaunchMode.externalApplication,
         );
         if (!launched) {
-          Fluttertoast.showToast(
-              msg: 'Errore nell\'apertura del browser',
-              toastLength: Toast.LENGTH_LONG);
+          Fluttertoast.showToast(msg: 'Errore nell\'apertura del browser', toastLength: Toast.LENGTH_LONG);
           return;
         }
         break;
       case Player.vlc:
         final vlcUrl = Uri.parse('vlc://${uri.toString()}');
         final launched = await launchUrl(vlcUrl,
-            webViewConfiguration: WebViewConfiguration(headers: url.headers),
-            mode: LaunchMode.externalApplication);
+            webViewConfiguration: WebViewConfiguration(headers: url.headers), mode: LaunchMode.externalApplication);
         if (!launched) {
           Fluttertoast.showToast(
-              msg:
-                  'Errore nell\'apertura di VLC (verifica di averlo installato)',
-              toastLength: Toast.LENGTH_LONG);
+              msg: 'Errore nell\'apertura di VLC (verifica di averlo installato)', toastLength: Toast.LENGTH_LONG);
           return;
         }
         break;
       case Player.infuse:
-        final infuseUri = Uri.parse(
-            'infuse://x-callback-url/play?x-success=miruanime://&url=${uri.toString()}');
+        final infuseUri = Uri.parse('infuse://x-callback-url/play?x-success=miruanime://&url=${uri.toString()}');
         final launched = await launchUrl(
           infuseUri,
           webViewConfiguration: WebViewConfiguration(headers: url.headers),
@@ -576,9 +543,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         );
         if (!launched) {
           Fluttertoast.showToast(
-              msg:
-                  'Errore nell\'apertura di Infuse (verifica di averlo installato)',
-              toastLength: Toast.LENGTH_LONG);
+              msg: 'Errore nell\'apertura di Infuse (verifica di averlo installato)', toastLength: Toast.LENGTH_LONG);
           return;
         }
         break;
@@ -589,8 +554,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     _updateEpisodeOnlineDB(anime, episode);
   }
 
-  void _updateDB(
-      final AnimeWorldEpisode episode, final AnimeWorldSpecificAnime data) {
+  void _updateDB(final AnimeWorldEpisode episode, final AnimeWorldSpecificAnime data) {
     _animeSaved = AnimeDatabase(
         id: _animeSaved.id,
         animeID: data.animeID,
@@ -600,8 +564,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         imgUrl: data.image,
         currentEpisode: episode.title,
         time: DateTime.now().toString(),
-        userFinishedToWatch:
-            episode.isFinal && data.state == AnimeState.finish);
+        userFinishedToWatch: episode.isFinal && data.state == AnimeState.finish);
     _box.put(_animeSaved, mode: PutMode.update);
   }
 
@@ -638,8 +601,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
     }
   }
 
-  void _updateEpisodeOnlineDB(
-      final AnimeWorldSpecificAnime data, final AnimeWorldEpisode episode) {
+  void _updateEpisodeOnlineDB(final AnimeWorldSpecificAnime data, final AnimeWorldEpisode episode) {
     var progress = int.tryParse(episode.title);
     progress ??= int.tryParse(episode.title.split('-').last);
     final isFinal = episode.isFinal && data.state == AnimeState.finish;
@@ -647,8 +609,7 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
         anilistId: data.anilistLink,
         myanimelistId: data.myanimelistLink,
         progress: progress,
-        anilistStatus:
-            isFinal ? AnilistStatus.completed : AnilistStatus.current,
+        anilistStatus: isFinal ? AnilistStatus.completed : AnilistStatus.current,
         malStatus: isFinal ? MalStatus.completed : MalStatus.current);
   }
 
@@ -660,13 +621,11 @@ class _SpecificAnimePageState extends State<SpecificAnimePage> {
       required final MalStatus malStatus}) async {
     if (Anilist.isLogged && anilistId != null) {
       final id = Uri.parse(anilistId).pathSegments.last;
-      Anilist().updateUserDataAnimeStatus(
-          id: id, status: anilistStatus, progress: progress);
+      Anilist().updateUserDataAnimeStatus(id: id, status: anilistStatus, progress: progress);
     }
     if (MyAnimeList.isLogged && myanimelistId != null) {
       final id = Uri.parse(myanimelistId).pathSegments.last;
-      MyAnimeList()
-          .updateUserList(id: id, status: malStatus, progress: progress);
+      MyAnimeList().updateUserList(id: id, status: malStatus, progress: progress);
     }
   }
 }
@@ -695,8 +654,10 @@ class _Badge extends StatelessWidget {
       child: Center(
           child: Text(
         rating,
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-            color: AppColors.white, fontSize: 12, fontWeight: FontWeight.w800),
+        style: Theme.of(context)
+            .textTheme
+            .titleSmall!
+            .copyWith(color: AppColors.white, fontSize: 12, fontWeight: FontWeight.w800),
         textAlign: TextAlign.center,
       )),
     );
