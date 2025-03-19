@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 class AppUpdater {
   //TODO change for all version
-  static const _version = 'v1.8';
+  static const _version = 'v1.9';
   final _dio = Dio();
 
   Future<bool> checkNewVersions() async {
