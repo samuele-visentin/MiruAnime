@@ -14,7 +14,6 @@ import 'package:miru_anime/backend/models/server.dart';
 import 'package:miru_anime/backend/models/specific_page.dart';
 import 'package:miru_anime/backend/sites/anilist/anilist.dart';
 import 'package:miru_anime/backend/sites/anilist/anilist_status.dart';
-import 'package:miru_anime/backend/sites/animeworld/endpoints.dart';
 import 'package:miru_anime/backend/sites/myanimelist/mal_status.dart';
 import 'package:miru_anime/backend/sites/myanimelist/myanimelist.dart';
 import 'package:miru_anime/backend/sites/animeworld/scraper.dart';

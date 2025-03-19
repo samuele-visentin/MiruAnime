@@ -28,12 +28,14 @@ class AnimeWorldScraper {
   final _dio = Dio();
   static final _customHeaders = {HttpHeaders.userAgentHeader: userAgent};
   static final cookieJar = CookieJar();
+  static var isFirst = true;
 
   AnimeWorldScraper() {
-    _dio
-      ..interceptors.add(CookieManager(cookieJar))
-      ..options.followRedirects = false
+    _dio..interceptors.add(CookieManager(cookieJar))
       ..options.validateStatus = (status) => status != null && status >= 200 && status < 400;
+    if (isFirst) {
+      _dio.options.followRedirects = false;
+    }
   }
 
   Future<Response<String>> getPage(final String url, final Map<String, String> header) async {
@@ -53,10 +55,10 @@ class AnimeWorldScraper {
       final regex = RegExp(r'document\.cookie="([^=]+)=([^;\s]+)\s*;.*?";.*?location\.href="([^"]+)";');
       final match = regex.firstMatch(response.data!);
       if (match != null) {
-        final cookieName = match.group(1)!;
-        final cookieValue = match.group(2)!;
+        final cookieName = match.group(1)!.trim();
+        final cookieValue = match.group(2)!.trim();
         final url = match.group(3)!;
-        final cookie = Cookie(cookieName.trim(), cookieValue.trim())
+        final cookie = Cookie(cookieName, cookieValue)
           ..domain = AnimeWorldEndPoints.hostname
           ..path = '/';
         _customHeaders[HttpHeaders.cookieHeader] = '$cookieName=$cookieValue';
@@ -64,6 +66,10 @@ class AnimeWorldScraper {
         final uri = Uri.parse(url).replace(scheme: 'https');
         response = await _dio.get(uri.toString(), options: Options(headers: header));
       }
+    }
+    if(isFirst){
+      isFirst = false;
+      _dio.options.followRedirects = true;
     }
     return response;
   }
@@ -102,7 +108,7 @@ class AnimeWorldScraper {
       return list;
     }).toList(growable: false);
     final RegExp regex = RegExp(
-        r'(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])',
+        r'(?:(?:https?|ftp|file)://|www\.|ftp\.)(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])',
         caseSensitive: false,
         multiLine: true);
     final sliders = page
@@ -161,13 +167,13 @@ class AnimeWorldScraper {
   }
 
   Future<String> getRandomAnime() async {
-    var response = await getPage(AnimeWorldEndPoints.random, _customHeaders);
-    Uri uri;
-    if (response.isRedirect) {
-      uri = Uri.parse(AnimeWorldEndPoints.sitePrefixNoS + response.headers[HttpHeaders.locationHeader]![0]);
-    } else {
-      uri = response.realUri;
+    //var response = await getPage(AnimeWorldEndPoints.random, _customHeaders);
+    final response = await _dio.get(AnimeWorldEndPoints.random, options: Options(headers: _customHeaders, followRedirects: false));
+    String url = response.headers[HttpHeaders.locationHeader]![0];
+    if (!url.contains(AnimeWorldEndPoints.hostname)) {
+      url = AnimeWorldEndPoints.sitePrefixNoS + url;
     }
+    final uri = Uri.parse(url);
     return uri.replace(scheme: 'https').toString();
   }
 
