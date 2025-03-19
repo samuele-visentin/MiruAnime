@@ -1,8 +1,9 @@
 
 
 class AnimeWorldEndPoints {
-  static const sitePrefixS = 'https://www.animeworld.so/';
-  static const sitePrefixNoS = 'https://www.animeworld.so';
+  static const endfix = 'ac';
+  static const sitePrefixS = 'https://www.animeworld.$endfix/';
+  static const sitePrefixNoS = 'https://www.animeworld.$endfix';
   static const searchPageUrl = '${sitePrefixS}search?keyword=';
   static const apiComment = '${sitePrefixS}api/comments/anime/get/';
   static const apiEpisode = '${sitePrefixS}api/episode/info?id=';
@@ -19,5 +20,5 @@ class AnimeWorldEndPoints {
   static const advanceSearch = '${sitePrefixS}filter?';
   static const news = '${sitePrefixS}news?page=';
   static const upcoming = '${sitePrefixS}upcoming/';
-  static const hostname = 'www.animeworld.so';
+  static const hostname = 'www.animeworld.$endfix';
 }
