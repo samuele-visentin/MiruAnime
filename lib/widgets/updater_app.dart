@@ -68,7 +68,7 @@ class UpdaterWidget {
         isDefaultAction: true,
         child: const Text(
           'Apri GitHub',
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: AppColors.white),
         ),
         onPressed: () {
           launchUrlString('https://github.com/samuele-visentin/Flutter_MiruAnime/releases', mode: LaunchMode.externalApplication);

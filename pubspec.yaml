@@ -48,13 +48,12 @@ dependencies:
   permission_handler: ^11.3.1
   shimmer: ^3.0.0
   share_plus: ^10.1.0
-  better_player: ^0.0.84
   flutter_svg: ^2.0.4
   url_launcher: ^6.0.20
   path_provider: ^2.0.9
   provider: ^6.0.2
   shared_preferences: ^2.0.13
-  oauth2_client: ^3.2.1
+  oauth2_client: ^4.1.0
   http: ^1.2.2
   encrypt: ^5.0.1
   flutter_dotenv: ^5.2.1
@@ -62,6 +61,7 @@ dependencies:
   resize: any
   dio_cookie_manager: ^3.1.1
   cookie_jar: ^4.0.8
+  better_player_plus: ^1.0.8
 
 dev_dependencies:
   flutter_test:

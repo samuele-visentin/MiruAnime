@@ -1,5 +1,5 @@
 PODS:
-  - better_player (0.0.1):
+  - better_player_plus (1.0.0):
     - Cache (~> 6.0.0)
     - Flutter
     - GCDWebServer
@@ -7,23 +7,23 @@ PODS:
     - PINCache
   - Cache (6.0.0)
   - Flutter (1.0.0)
-  - flutter_secure_storage (6.0.0):
+  - flutter_secure_storage_darwin (10.0.0):
     - Flutter
+    - FlutterMacOS
   - flutter_web_auth_2 (3.0.0):
     - Flutter
   - fluttertoast (0.0.2):
     - Flutter
-    - Toast
   - GCDWebServer (3.5.4):
     - GCDWebServer/Core (= 3.5.4)
   - GCDWebServer/Core (3.5.4)
   - HLSCachingReverseProxyServer (0.1.0):
     - GCDWebServer (~> 3.5)
     - PINCache (>= 3.0.1-beta.3)
-  - ObjectBox (4.0.1)
+  - ObjectBox (4.1.0)
   - objectbox_flutter_libs (0.0.1):
     - Flutter
-    - ObjectBox (= 4.0.1)
+    - ObjectBox (= 4.1.0)
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -47,16 +47,15 @@ PODS:
   - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
-  - Toast (4.1.1)
   - url_launcher_ios (0.0.1):
     - Flutter
   - wakelock_plus (0.0.1):
     - Flutter
 
 DEPENDENCIES:
-  - better_player (from `.symlinks/plugins/better_player/ios`)
+  - better_player_plus (from `.symlinks/plugins/better_player_plus/ios`)
   - Flutter (from `Flutter`)
-  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_secure_storage_darwin (from `.symlinks/plugins/flutter_secure_storage_darwin/darwin`)
   - flutter_web_auth_2 (from `.symlinks/plugins/flutter_web_auth_2/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - objectbox_flutter_libs (from `.symlinks/plugins/objectbox_flutter_libs/ios`)
@@ -77,15 +76,14 @@ SPEC REPOS:
     - ObjectBox
     - PINCache
     - PINOperation
-    - Toast
 
 EXTERNAL SOURCES:
-  better_player:
-    :path: ".symlinks/plugins/better_player/ios"
+  better_player_plus:
+    :path: ".symlinks/plugins/better_player_plus/ios"
   Flutter:
     :path: Flutter
-  flutter_secure_storage:
-    :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_secure_storage_darwin:
+    :path: ".symlinks/plugins/flutter_secure_storage_darwin/darwin"
   flutter_web_auth_2:
     :path: ".symlinks/plugins/flutter_web_auth_2/ios"
   fluttertoast:
@@ -110,28 +108,27 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/wakelock_plus/ios"
 
 SPEC CHECKSUMS:
-  better_player: 2406bfe8175203c7a46fa15f9d778d73b12e1646
+  better_player_plus: 10794c0ed1b3b4ae058939e22a6172f850a2039b
   Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
-  flutter_web_auth_2: 051cf9f5dc366f31b5dcc4e2952c2b954767be8a
-  fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
+  flutter_secure_storage_darwin: ce237a8775b39723566dc72571190a3769d70468
+  flutter_web_auth_2: 5c8d9dcd7848b5a9efb086d24e7a9adcae979c80
+  fluttertoast: 2c67e14dce98bbdb200df9e1acf610d7a6264ea1
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   HLSCachingReverseProxyServer: 59935e1e0244ad7f3375d75b5ef46e8eb26ab181
-  ObjectBox: 0bc4bb75eea85f6af06b369148b334c2056bbc29
-  objectbox_flutter_libs: 2ce0da386c780878687c736b528ceaf371573efb
-  package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
+  ObjectBox: bf3d4b51075d52868422d5d1f2f2141b1d630d30
+  objectbox_flutter_libs: e912f15beff5699f1e184dbd2ff6aa5657464e73
+  package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
   PINCache: d9a87a0ff397acffe9e2f0db972ac14680441158
   PINOperation: fb563bcc9c32c26d6c78aaff967d405aa2ee74a7
-  share_plus: 8b6f8b3447e494cca5317c8c3073de39b3600d1f
-  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
-  sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
-  Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
-  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
-  wakelock_plus: 78ec7c5b202cab7761af8e2b2b3d0671be6c4ae1
+  share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
+  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
+  url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
+  wakelock_plus: 04623e3f525556020ebd4034310f20fe7fda8b49
 
-PODFILE CHECKSUM: 7937d6832f731f6ad526c1e3fb7e82a6877a897b
+PODFILE CHECKSUM: d59c5489e2bcc5023e2a1a4d24a6d56f4c9dc947
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
